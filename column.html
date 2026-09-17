@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>감성한의원 건강 칼럼 | 경기 남양주</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --bg: #F6F2E9;
+    --bg-raised: #EFE9DA;
+    --ink: #23261F;
+    --ink-soft: #55584D;
+    --teal: #1F4A3F;
+    --teal-deep: #14332B;
+    --amber: #A9762F;
+    --sage: #7C9683;
+    --line: #DAD2BE;
+    --cream-on-teal: #F1ECDD;
+    --focus: #A9762F;
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg: #171812;
+      --bg-raised: #1F2119;
+      --ink: #EDE8DA;
+      --ink-soft: #B7B2A2;
+      --teal: #6FA592;
+      --teal-deep: #0F211C;
+      --amber: #D6A75C;
+      --sage: #7C9683;
+      --line: #3A3A30;
+      --cream-on-teal: #F1ECDD;
+      --focus: #D6A75C;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #171812;
+    --bg-raised: #1F2119;
+    --ink: #EDE8DA;
+    --ink-soft: #B7B2A2;
+    --teal: #6FA592;
+    --teal-deep: #0F211C;
+    --amber: #D6A75C;
+    --sage: #7C9683;
+    --line: #3A3A30;
+    --cream-on-teal: #F1ECDD;
+    --focus: #D6A75C;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Noto Sans KR", -apple-system, sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, .serif{
+    font-family: "Noto Serif KR", serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  a{ color: inherit; }
+  :focus-visible{ outline: 2px solid var(--focus); outline-offset: 3px; }
+  img{ max-width: 100%; }
+
+  .wrap{
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* header */
+  .site-header{
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+  }
+  .site-header .wrap{
+    display: flex; align-items: center; justify-content: space-between;
+    height: 76px;
+    position: relative;
+  }
+  .wordmark{
+    font-family: "Noto Serif KR", serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--teal);
+  }
+  .site-nav ul{
+    display: flex; gap: 34px; list-style: none; margin: 0; padding: 0;
+  }
+  .site-nav a{
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    position: relative;
+    padding-bottom: 4px;
+  }
+  .site-nav a::after{
+    content: "";
+    position: absolute; left: 0; right: 100%; bottom: 0;
+    height: 1px; background: var(--teal);
+    transition: right .25s ease;
+  }
+  .site-nav a:hover::after, .site-nav a:focus-visible::after{ right: 0; }
+  .nav-toggle{
+    display: block;
+    background: none; border: none;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 0.95rem;
+    color: var(--ink);
+    cursor: pointer;
+    padding: 8px 0;
+  }
+  .site-nav{
+    display: none;
+    position: absolute; left: 0; right: 0; top: 76px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    padding: 8px 28px 20px;
+  }
+  .site-nav.open{ display: block; }
+  .site-nav.open ul{ flex-direction: column; gap: 18px; }
+  @media (min-width: 760px){
+    .site-header .wrap{ display: grid; grid-template-columns: 1fr auto 1fr; }
+    .wordmark{ justify-self: start; }
+    .nav-toggle{ display: none; }
+    .site-nav{
+      display: block;
+      position: static;
+      justify-self: center;
+      background: none;
+      border-bottom: none;
+      padding: 0;
+    }
+  }
+
+  /* hero */
+  .hero{
+    padding: 96px 0 84px;
+    opacity: 0;
+    transform: translateY(14px);
+    animation: rise .8s ease forwards .1s;
+  }
+  @keyframes rise{ to{ opacity: 1; transform: none; } }
+  .hero-grid{
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  @media (max-width: 760px){
+    .hero-grid{ grid-template-columns: 1fr; }
+    .hero-photo{ order: -1; margin: 0 0 12px; max-width: 260px; }
+  }
+  .hero h1{
+    font-size: clamp(2.1rem, 4.4vw, 3.4rem);
+    line-height: 1.35;
+    color: var(--ink);
+  }
+  .hero .sub{
+    margin-top: 22px;
+    font-size: 1.15rem;
+    color: var(--ink-soft);
+  }
+  .hero-photo{
+    border: 1px solid var(--line);
+    background: #FFFFFF;
+    padding: 20px;
+    max-width: 340px;
+    margin: 0 0 0 auto;
+  }
+  .hero-photo img{
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .hero-photo figcaption{
+    margin-top: 18px;
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+  }
+  .hero-photo figcaption strong{
+    display: block;
+    margin-bottom: 4px;
+    font-family: "Noto Serif KR", serif;
+    font-size: 1.08rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .hero-note{
+    margin-top: 22px;
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+  }
+  .cta-row{
+    margin-top: 34px;
+    display: flex; gap: 14px; flex-wrap: wrap;
+  }
+  .btn{
+    display: inline-block;
+    padding: 13px 26px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    border-radius: 3px;
+    border: 1px solid var(--teal);
+  }
+  .btn-solid{ background: var(--teal); color: var(--cream-on-teal); }
+  .btn-solid:hover{ background: var(--teal-deep); border-color: var(--teal-deep); }
+  .btn-line{ color: var(--teal); }
+  .btn-line:hover{ background: color-mix(in srgb, var(--teal) 8%, transparent); }
+
+  /* category quick nav */
+  .cat-nav{
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--bg-raised);
+  }
+  .cat-nav ul{
+    display: flex;
+    list-style: none;
+    margin: 0; padding: 0;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .cat-nav ul::-webkit-scrollbar{ display: none; }
+  .cat-nav li{ flex: none; }
+  .cat-nav a{
+    display: block;
+    padding: 18px 22px;
+    text-decoration: none;
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    border-right: 1px solid var(--line);
+  }
+  .cat-nav li:last-child a{ border-right: none; }
+  .cat-nav a:hover, .cat-nav a:focus-visible{ color: var(--teal); }
+
+  /* process */
+  .process{ padding: 96px 0; }
+  .process h2{ font-size: 1.9rem; }
+  .process p.lead{ color: var(--ink-soft); margin-top: 18px; max-width: 640px; }
+  .process-steps{
+    margin-top: 52px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  .process-step{
+    padding: 0 24px 0 0;
+    border-left: 1px solid var(--line);
+    padding-left: 24px;
+  }
+  .process-step:first-child{ border-left: none; padding-left: 0; }
+  .process-step .num{
+    font-family: "Noto Serif KR", serif;
+    font-size: 1.4rem;
+    color: var(--sage);
+  }
+  .process-step h3{ margin-top: 10px; font-size: 1.05rem; }
+  .process-step p{ margin: 10px 0 0; color: var(--ink-soft); font-size: 0.94rem; }
+  @media (max-width: 760px){
+    .process-steps{ grid-template-columns: 1fr; gap: 28px; }
+    .process-step{ border-left: none; padding-left: 0; border-top: 1px solid var(--line); padding-top: 24px; }
+    .process-step:first-child{ border-top: none; padding-top: 0; }
+  }
+
+  /* philosophy */
+  .philosophy{
+    background: var(--teal-deep);
+    color: var(--cream-on-teal);
+    padding: 90px 0;
+    text-align: center;
+  }
+  .philosophy blockquote{
+    margin: 0 auto;
+    max-width: 620px;
+    font-family: "Noto Serif KR", serif;
+    font-size: clamp(1.35rem, 2.6vw, 1.8rem);
+    line-height: 1.7;
+    font-weight: 500;
+  }
+  .philosophy cite{
+    display: block;
+    margin-top: 28px;
+    font-style: normal;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 0.9rem;
+    color: color-mix(in srgb, var(--cream-on-teal) 70%, transparent);
+  }
+
+  /* system */
+  .system{ padding: 96px 0; }
+  .system-top{
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 48px;
+  }
+  .system h2{ font-size: 1.9rem; }
+  .system-top p{ color: var(--ink-soft); font-size: 1.02rem; margin-top: 18px; }
+  .system-note{
+    margin-top: 18px;
+    font-size: 0.92rem;
+    color: var(--sage);
+  }
+  .body-map{
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .body-map-item{
+    text-align: center;
+    padding: 28px 12px;
+    border: 1px solid var(--line);
+  }
+  .body-map-item svg{ width: 40px; height: 40px; stroke: var(--teal); }
+  .body-map-item h3{
+    margin-top: 14px;
+    font-size: 1.05rem;
+  }
+  @media (max-width: 760px){
+    .system-top{ grid-template-columns: 1fr; }
+    .body-map{ grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* subjects */
+  .subjects{ padding: 20px 0 100px; }
+  .subjects h2{ font-size: 1.9rem; margin-bottom: 44px; }
+  .subject-row{
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 28px;
+    padding: 26px 0;
+    border-top: 1px solid var(--line);
+  }
+  .subjects .subject-row:last-child{ border-bottom: 1px solid var(--line); }
+  .subject-row h3{
+    font-size: 1.08rem;
+    color: var(--teal);
+  }
+  .subject-row p{
+    margin: 0;
+    color: var(--ink-soft);
+  }
+  @media (max-width: 640px){
+    .subject-row{ grid-template-columns: 1fr; gap: 8px; }
+  }
+
+  /* columns */
+  .columns{ padding: 20px 0 100px; }
+  .columns h2{ font-size: 1.9rem; margin-bottom: 10px; }
+  .columns .lead{ color: var(--ink-soft); margin: 0 0 44px; max-width: 560px; }
+  .column-row{
+    padding: 30px 0;
+    border-top: 1px solid var(--line);
+  }
+  .columns .column-row:last-child{ border-bottom: 1px solid var(--line); }
+  .column-row summary{
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .column-row summary::-webkit-details-marker{ display: none; }
+  .column-row summary h3{
+    font-size: 1.2rem;
+    margin: 0;
+    color: var(--ink);
+  }
+  .column-row summary:hover h3{ color: var(--teal); }
+  .column-row summary .toggle-label{
+    flex: none;
+    margin-top: 4px;
+    font-size: 0.88rem;
+    color: var(--teal);
+    border-bottom: 1px solid currentColor;
+    white-space: nowrap;
+  }
+  .column-row[open] summary .toggle-label::after{ content: "접기"; }
+  .column-row:not([open]) summary .toggle-label::after{ content: "전체 글 보기"; }
+  .column-row .teaser{
+    margin: 12px 0 0;
+    color: var(--ink-soft);
+    max-width: 640px;
+  }
+  .column-row[open] .teaser{ display: none; }
+  .column-body{
+    margin-top: 26px;
+    max-width: 680px;
+    color: var(--ink-soft);
+  }
+  .column-body h4{
+    font-family: "Noto Serif KR", serif;
+    font-weight: 600;
+    color: var(--ink);
+    font-size: 1.05rem;
+    margin: 28px 0 10px;
+  }
+  .column-body h4:first-child{ margin-top: 0; }
+  .column-body p{ margin: 0 0 16px; }
+  .column-body ul{ margin: 0 0 16px; padding-left: 20px; }
+  .column-body li{ margin-bottom: 8px; }
+  .column-body .qa{ margin-bottom: 16px; }
+  .column-body .qa .q{ color: var(--ink); font-weight: 500; margin-bottom: 4px; }
+  .column-body .fine-print{
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+
+  /* visit */
+  .visit{
+    background: var(--bg-raised);
+    padding: 96px 0;
+  }
+  .visit h2{ font-size: 1.9rem; margin-bottom: 32px; }
+  .visit-grid{
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 48px;
+    align-items: stretch;
+  }
+  .visit-info{
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+  }
+  .info-row{
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+  }
+  .info-row .info-icon{
+    flex: none;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--teal) 12%, transparent);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .info-row .info-icon svg{ width: 19px; height: 19px; }
+  .info-row .label{
+    display: block;
+    font-size: 0.82rem;
+    color: var(--sage);
+    margin-bottom: 4px;
+  }
+  .info-row .value{
+    font-size: 1.05rem;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .info-row .value a{ text-decoration: none; color: var(--ink); }
+  .info-row .value a:hover{ color: var(--teal); }
+  .map-embed{
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+    min-height: 280px;
+  }
+  .map-embed iframe{
+    width: 100%; height: 100%;
+    min-height: 280px;
+    border: 0; display: block;
+  }
+  .map-embed .map-link{
+    position: absolute;
+    left: 14px; bottom: 14px;
+    background: var(--teal-deep);
+    color: #F1ECDD;
+    padding: 9px 16px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+  }
+  .map-embed .map-link:hover{ background: var(--teal); }
+  @media (max-width: 760px){
+    .visit-grid{ grid-template-columns: 1fr; }
+  }
+
+  footer{
+    padding: 20px 0 90px;
+  }
+
+  /* fixed bottom bar */
+  .quick-bar{
+    position: fixed;
+    left: 0; right: 0; bottom: 18px;
+    z-index: 80;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 0 16px;
+    pointer-events: none;
+  }
+  .quick-bar a, .quick-bar span{
+    pointer-events: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 12px 20px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 700;
+    white-space: nowrap;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.14);
+  }
+  .quick-bar .icon{ display: inline-flex; width: 18px; height: 18px; flex: none; font-size: 16px; align-items: center; justify-content: center; }
+  .quick-bar .icon svg{ display: block; width: 100%; height: 100%; }
+  .quick-bar .phone{ background: var(--teal-deep); color: #F1ECDD; }
+  .quick-bar .phone:hover{ background: var(--teal); }
+  .quick-bar .kakao{ background: #FEE500; color: #3C1E1E; }
+  .quick-bar .naver{ background: #03C75A; color: #FFFFFF; }
+  .quick-bar .naver:hover{ background: #02b350; }
+  .quick-bar .location{ background: var(--bg); color: var(--teal-deep); border: 1px solid var(--line); }
+  .quick-bar .youtube{ background: #FF0000; color: #FFFFFF; }
+  @media (max-width: 520px){
+    .quick-bar a, .quick-bar span{ padding: 10px 14px; font-size: 0.82rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .hero{ animation: none; opacity: 1; transform: none; }
+    html{ scroll-behavior: auto; }
+  }
+
+  /* column page */
+  .page-hero{
+    padding: 70px 0 40px;
+    border-bottom: 1px solid var(--line);
+  }
+  .page-hero .eyebrow{
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--sage);
+    margin-bottom: 10px;
+  }
+  .page-hero h1{
+    font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+    color: var(--ink);
+  }
+  .page-hero p{
+    margin-top: 16px;
+    color: var(--ink-soft);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  @media (max-width: 640px){
+    .page-hero p{ white-space: normal; }
+  }
+  .cat-tabs{
+    display: flex;
+    gap: 10px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 22px 0 0;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .cat-tabs::-webkit-scrollbar{ display: none; }
+  .cat-tabs button{
+    flex: none;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    padding: 9px 18px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    color: var(--ink-soft);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .cat-tabs button.active{
+    background: var(--teal-deep);
+    border-color: var(--teal-deep);
+    color: #F1ECDD;
+  }
+  .column-list{ padding: 20px 0 100px; }
+  .column-list .column-row[hidden]{ display: none; }
+  .column-row .cat-tag{
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--teal);
+    background: color-mix(in srgb, var(--teal) 10%, transparent);
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+  }
+  .column-row .col-date{
+    font-size: 0.78rem;
+    color: var(--sage);
+    margin-left: 8px;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="wordmark">감성한의원</a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="mainNav" id="navToggle">메뉴</button>
+    <nav class="site-nav" id="mainNav">
+      <ul>
+        <li><a href="index.html#philosophy">한의원 소개</a></li>
+        <li><a href="index.html#process">진료 과정</a></li>
+        <li><a href="index.html#subjects">진료과목</a></li>
+        <li><a href="column.html">원장칼럼</a></li>
+        <li><a href="index.html#visit">오시는 길</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <p class="eyebrow">권오경 원장 진료 칼럼 &amp; 건강 정보</p>
+      <h1>감성한의원 건강 칼럼</h1>
+      <p>13년 임상 경험을 바탕으로 쓴 증상별 치료 이야기입니다. 나와 비슷한 증상을 찾아 읽어보세요.</p>
+
+      <div class="cat-tabs" id="catTabs">
+        <button type="button" class="active" data-filter="all">전체 칼럼</button>
+        <button type="button" data-filter="philosophy">원장 이야기</button>
+        <button type="button" data-filter="headache">두통·어지러움</button>
+        <button type="button" data-filter="jaw">턱관절·감각기관</button>
+        <button type="button" data-filter="spine">척추·근골격</button>
+        <button type="button" data-filter="internal">내과·대사질환</button>
+        <button type="button" data-filter="special">회복·성장</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="column-list">
+    <div class="wrap">
+
+      <details class="column-row" data-category="philosophy">
+        <summary>
+          <div>
+            <span class="cat-tag">원장 이야기</span>
+            <h3>13년 차 한의사가 매일 진료실 문을 열며 품는 생각</h3>
+          </div>
+          <span class="toggle-label"></span>
+        </summary>
+        <p class="teaser">같은 증상도 사람마다 낫는 속도가 다른 이유를 고민하며, 몸이 아니라 삶 전체를 들여다보게 된 과정을 담은 원장의 진료 철학 이야기.</p>
+        <div class="column-body">
+          <p>한의사로서 오랜 시간 진료를 해오면서, 자연스럽게 한 가지 질문이 마음에 자리 잡게 되었습니다. '나는 어떤 마음으로 환자를 대하고 있는가.' 시간이 지나고 수많은 환자분들을 만나며, 그 질문은 제게 하나의 '진료 철학'으로 자리 잡았습니다. 이 글은 저의 진료 철학에 대해 처음으로 차분히 풀어내고자 하는 마음에서 시작되었습니다.</p>
+          <p>2013년부터 김홍기 스승님 밑에서 공부를 시작해, 2016~2022년 몸바로한의원 김포점 대표원장, 2022~2023년 몸바로한의원 송도본점 수석원장을 거쳐, 현재는 남양주 감성한의원에서 수많은 만성통증 환자분들과 마주하고 있습니다.</p>
+          <p>그동안 저는 늘 고민했습니다. "왜 어떤 환자는 빠르게 낫고, 어떤 환자는 시간이 더 걸릴까?" "같은 증상이라도 사람마다 치료하는 방법이 달라야 하지 않을까?" 그 답은 점점 분명해졌습니다. 단순히 '몸'만 치료해서는 안 되고, 그 사람의 '삶'을 들여다보아야 한다는 것이었습니다.</p>
+
+          <h4>진료 경험의 회상 — 시간을 아끼지 않았던 젊은 시절의 나</h4>
+          <p>가끔 예전 진료 경험을 떠올리면 열정 하나로 몰입했던 시절이 생각납니다. 추나요법을 중점적으로 진료하던 2019년의 어느 날, 한 후배가 저에게 물었습니다. "선배님은 어떻게 한 환자분을 그렇게 오래 보세요?"</p>
+          <p>지금 생각하면 저 스스로에게도 묻고 싶어집니다. '그때 난 왜 그랬을까?' 그 시절에는 짧게는 20분, 길게는 30분씩 한 분에게 온전히 집중하며 진료했습니다. 그것이 당연하다고 여겼고, 환자에 대한 궁금증과 진료에 대한 열정으로 가득했던 때였습니다.</p>
+          <p>지금은 임상 경험과 노하우가 쌓여 예전보다 짧은 시간 안에도 명확한 치료 효과를 이끌어낼 수 있게 되었습니다. 하지만 그 당시에는 도대체 무엇이 그리 궁금하고 흥미로웠는지, 환자분의 A부터 Z까지를 파고들었습니다. (물론 지금도 환자분의 삶을 꼼꼼히 살피는 본질은 변하지 않았습니다.)</p>
+          <p>자세 하나하나, 수면 패턴, 식습관, 생활 리듬까지 모두 체크하며, "이분의 통증은 어디서부터 시작되었을까?" "어떤 방식이 이분에게 가장 적합할까?"를 끝없이 고민했습니다. 돌이켜 보면 그 집요할 정도의 꼼꼼함 덕분에 당시에도 많은 분들께 도움을 드릴 수 있었고, 특히 수십 년 된 만성 두통 환자분들과의 기억은 지금도 또렷하게 남아 있습니다.</p>
+
+          <h4>치료를 넘어, '삶 전체'를 바라보는 진료</h4>
+          <p>최근 진료 중인 50대 환자분 역시 이러한 관점에서 치료를 이어가고 있는 케이스입니다. 몸이 늘 붓고 무거우며 무기력하고, 머리에 안개가 낀 듯 멍한 만성 피로감으로 오랜 시간 고생해오신 분이었습니다.</p>
+          <p>"원래 다들 이렇게 무겁게 살지 않나요?" "머리가 맑고 가벼운 느낌이 뭔지 모르겠어요. 그런 게 정말 있나요?" 예전 송도에서 뵈었던 환자분이 떠오를 정도로, 이분에게는 이 만성적인 불편함이 너무나 익숙하고 당연한 일상이 되어 있었습니다.</p>
+          <p>이런 경우 모든 증상을 한 번에 없앨 수는 없지만, 증상 하나하나의 원인을 짚어가며 양파껍질을 벗겨내듯 천천히 호전시켜 나갑니다.</p>
+          <ul>
+            <li>공진단으로 머리가 멍한 브레인포그 증상을 완화하고</li>
+            <li>추나치료로 허리 통증과 체형 균형을 개선하며</li>
+            <li>맞춤 한약을 통해 떨어진 기운과 면역력을 회복시켰습니다.</li>
+          </ul>
+          <p>얼마 전에는 아침마다 반복되던 붓기가 눈에 띄게 줄었다는 말씀을 들었습니다. 이 호전은 진료실 대화 속에서 찾아낸 '수면 자세 개선' 덕분이었습니다. 대화 도중 발견한 잘못된 수면 습관의 교정 필요성을 짚어드렸고, 환자분께서 이를 곧바로 실천하시면서 좋은 변화를 만들어낸 것입니다. 작은 생활 습관의 변화 하나가 온전한 회복의 시작점이 된다는 사실을 다시 한번 확인한 순간이었습니다.</p>
+
+          <h4>결국, 진료란 마음의 자세입니다</h4>
+          <p>만성통증은 결코 하나의 원인으로만 발생하지 않습니다. 환자분의 하루, 그리고 그 삶의 방식이 몸에 켜켜이 새겨져 나타난 결과입니다. 그렇기에 저는 오늘도 환자분의 이야기에 귀를 기울이고, 자세를 관찰하며, 생활 패턴을 꼼꼼히 묻습니다. 그저 겉으로 드러난 통증만을 진단하는 것이 아니라, 한 사람의 삶을 함께 들여다보는 것. 그 마음을 품고 오늘도 진료실 문을 엽니다.</p>
+        </div>
+      </details>
+
+      <details class="column-row" data-category="jaw">
+        <summary>
+          <div>
+            <span class="cat-tag">턱관절·감각기관</span>
+            <h3>삼차신경통, 왜 얼굴 한쪽만 아픈가요? 치료 정리</h3>
+          </div>
+          <span class="toggle-label"></span>
+        </summary>
+        <p class="teaser">세수나 양치 같은 가벼운 자극에도 얼굴 한쪽이 발작적으로 아픈 삼차신경통의 특징과, 턱관절·경추와의 연관성, 약침·추나·한약이 각각 맡는 역할을 정리했습니다.</p>
+        <div class="column-body">
+          <p>삼차신경통에 대해 증상 구분 기준, 턱관절·경추와의 연관성, 약침·추나·한약 치료의 역할을 정리했습니다. 삼차신경통은 얼굴 한쪽에 수 초에서 2분 이내의 전기 충격 같은 통증이 반복되는 신경병증성 통증이며, 세수·양치·씹기·찬바람 같은 가벼운 자극이 통증을 유발하는 점이 근육성 얼굴 통증과 구분되는 지점입니다. 한의학적 치료는 약침으로 신경 주변 환경을, 추나로 턱관절·경추 정렬을, 한약으로 재발 조건을 각각 다루는 구조로 진행됩니다.</p>
+
+          <h4>삼차신경통이란 무엇이며, 증상은 어떻게 나타날까요</h4>
+          <p>삼차신경통이란 얼굴 감각을 담당하는 삼차신경(5번 뇌신경)에 이상이 생겨, 한쪽 얼굴에 발작적인 통증이 반복되는 질환을 말합니다. 통증 한 번의 지속 시간은 대개 수 초에서 2분 이내로 짧습니다. 그러나 하루에도 수십 회 반복될 수 있어 식사와 대화 자체가 어려워집니다.</p>
+          <p>발생 빈도는 인구 10만 명당 연간 약 4~13명으로 보고됩니다. 50대 이후에서 비교적 흔하고, 여성이 남성보다 1.5~2배가량 많다고 알려져 있습니다.</p>
+          <p>가장 큰 특징은 유발점(trigger zone)입니다. 세수, 양치, 면도, 찬바람, 말하기처럼 통증을 일으킬 이유가 없는 자극이 발작을 촉발합니다. 또 하나는 통증의 성질입니다. 근육에서 오는 통증은 묵직하고 뻐근하지만, 신경성 통증은 칼로 베거나 전기가 흐르는 느낌으로 표현됩니다. 통증이 없는 시간에는 오히려 멀쩡하다는 점도 감별 지점입니다.</p>
+          <p>삼차신경은 눈 주위(안신경), 광대·윗잇몸(상악신경), 아래턱·아랫잇몸(하악신경) 세 갈래로 나뉩니다. 이 중 상악신경과 하악신경 영역의 통증이 전체의 상당수를 차지합니다. 약 95%는 한쪽 얼굴에서만 나타납니다. 양쪽이 동시에 아프거나, 감각 저하가 함께 있거나, 40세 이전에 시작된 경우에는 다른 원인을 함께 살펴야 합니다.</p>
+
+          <h4>삼차신경통과 턱관절·경추 문제는 어떤 관계일까요</h4>
+          <p>얼굴 통증을 호소하는 분들 중에는 삼차신경통과 턱관절 문제가 겹쳐 있는 경우가 적지 않습니다. 하악신경은 씹는 근육의 운동 신경도 함께 담당하기 때문입니다.</p>
+          <p>저작근(씹는 근육)이 장기간 긴장하면 근육 내 압력이 올라가고, 그 사이를 지나는 신경 가지가 지속적인 자극을 받습니다. 이 상태에서는 원래라면 아프지 않을 정도의 자극에도 통증 신호가 과하게 증폭됩니다. 이를 중추 감작(통증 신호에 대한 신경계의 과민 반응)이라고 부릅니다. 통증이 오래될수록 이 과정이 굳어져 치료 기간이 길어지는 원인이 됩니다.</p>
+          <p>상부 경추(1~3번 목뼈)의 감각 신호와 삼차신경의 감각 신호는 뇌간의 같은 영역에서 만납니다. 목의 긴장이 얼굴 통증으로 느껴지는 이유가 여기에 있습니다. 거북목 자세가 길어지면 후두하근이 지속적으로 수축하고, 이 신호가 얼굴 쪽 통증 회로를 함께 자극합니다. 얼굴만 보지 않고 목과 턱을 함께 확인하는 이유입니다.</p>
+
+          <h4>약침, 추나, 한약은 삼차신경통에서 각각 무엇을 하나요</h4>
+          <p>한의학에서는 삼차신경통을 면통(面痛)의 범주로 봅니다. 치료는 통증이 발생하는 국소 지점, 그 지점을 계속 자극하는 구조, 재발을 허용하는 몸 상태를 분리해서 접근합니다.</p>
+          <p>약침이란 한약재에서 추출·정제한 약물을 경혈과 압통점에 직접 주입하는 치료를 말합니다. 삼차신경통에서는 통증 분지의 주행 경로와 저작근의 긴장 지점을 함께 다룹니다. 목적은 국소 순환을 개선하고 신경 주변 조직의 긴장과 염증 환경을 줄이는 데 있으며, 일반적으로 주 2~3회 간격으로 4~8주 정도 경과를 관찰하며 조정합니다.</p>
+          <p>추나요법은 턱관절과 경추의 정렬, 저작근·후두하근의 긴장을 다룹니다. 약침이 통증 지점을 다룬다면, 추나는 그 지점이 계속 자극받는 구조적 조건을 바꾸는 쪽입니다. 한약은 통증 발작의 빈도와 회복 속도에 관여하는 전신 상태를 다룹니다. 수면의 질, 스트레스 반응, 소화 기능처럼 통증 역치를 낮추는 요소를 함께 조절하며, 대개 4~12주 단위로 처방을 조정합니다.</p>
+
+          <h4>자주 묻는 질문</h4>
+          <div class="qa">
+            <p class="q">Q. 삼차신경통은 얼마나 아픈가요?</p>
+            <p>A. 한 번에 수 초에서 2분 이내로 짧지만 강도가 매우 높습니다. 세수나 양치처럼 일상적인 동작조차 피하게 되는 경우가 많고, 발작이 지나가면 통증이 사라지는 간헐적 양상이 특징입니다.</p>
+          </div>
+          <div class="qa">
+            <p class="q">Q. 삼차신경통과 턱관절장애는 어떻게 구분하나요?</p>
+            <p>A. 삼차신경통은 짧고 날카로운 발작통이 가벼운 접촉으로 유발되는 반면, 턱관절장애는 씹거나 입을 크게 벌릴 때 묵직한 통증이 이어집니다. 관절 소리와 개구 제한이 있으면 턱관절 쪽 비중이 크며, 두 가지가 함께 있는 경우도 있어 촉진과 문진으로 확인합니다.</p>
+          </div>
+          <div class="qa">
+            <p class="q">Q. 약침 치료는 어떤 원리로 작용하나요?</p>
+            <p>A. 정제한 한약 성분을 통증 분지의 주행 경로와 근육 압통점에 직접 넣는 방식입니다. 국소 순환 개선과 근긴장 완화를 통해 신경이 받는 자극 조건을 줄이는 것이 목적이며, 자극 부위와 용량은 통증 분지와 반응 정도에 따라 조정합니다.</p>
+          </div>
+          <div class="qa">
+            <p class="q">Q. 추나요법이 얼굴 통증에 왜 필요한가요?</p>
+            <p>A. 상부 경추의 감각 신호와 삼차신경 신호가 뇌간에서 같은 영역으로 모이기 때문입니다. 목과 턱의 정렬이 어긋나 있으면 얼굴 통증 회로가 지속적으로 자극받으며, 추나는 이 구조적 조건을 다루는 단계에 해당합니다.</p>
+          </div>
+          <div class="qa">
+            <p class="q">Q. 한약은 얼마나 복용하나요?</p>
+            <p>A. 통증 기간과 동반 증상에 따라 다르지만, 일반적으로 4~12주 단위로 경과를 보며 처방을 조정합니다. 발작 빈도, 수면의 질, 소화 상태가 함께 지표가 되며, 3개월 이상 지속된 만성 통증은 관찰 기간을 더 길게 잡습니다.</p>
+          </div>
+          <div class="qa">
+            <p class="q">Q. 치료 기간은 얼마나 걸리나요?</p>
+            <p>A. 발병 3개월 이내의 경우 4~8주 범위에서 변화를 확인하는 경우가 많습니다. 통증 기간이 1년을 넘어가면 중추 감작이 진행되어 기간이 더 필요하며, 발작 횟수와 강도를 기록해두면 경과 판단이 정확해집니다.</p>
+          </div>
+          <div class="qa">
+            <p class="q">Q. 복용 중인 약이 있어도 한방 치료가 가능한가요?</p>
+            <p>A. 항경련제 등을 복용 중인 상태에서도 병행하는 경우가 있습니다. 다만 복용 중인 약의 종류와 용량을 진료 시 정확히 알려주셔야 하며, 약물 조정은 처방한 의료진과 상의해 결정하는 것이 원칙입니다.</p>
+          </div>
+          <div class="qa">
+            <p class="q">Q. 추나요법과 약침은 건강보험이 적용되나요?</p>
+            <p>A. 추나요법은 일정 조건에서 건강보험 급여 항목으로 분류되어 있고, 약침은 비급여 항목에 해당합니다. 적용 여부는 진단명과 치료 횟수 기준에 따라 달라지므로 세부 사항은 진료 시 확인이 필요합니다.</p>
+          </div>
+          <div class="qa">
+            <p class="q">Q. 찬바람만 스쳐도 아픈 이유는 무엇인가요?</p>
+            <p>A. 삼차신경이 과민해진 상태에서는 통증을 유발하지 않을 정도의 약한 자극도 통증 신호로 전환됩니다. 이를 이질통이라고 하며, 신경병증성 통증에서 흔히 나타납니다. 겨울철이나 에어컨 바람에 증상이 심해지는 것도 같은 이유입니다.</p>
+          </div>
+          <div class="qa">
+            <p class="q">Q. 삼차신경통은 재발하나요?</p>
+            <p>A. 통증이 줄어든 뒤에도 수면 부족, 스트레스, 이갈이, 장시간 거북목 자세가 이어지면 재발 가능성이 있습니다. 그래서 통증이 잡힌 뒤 자세와 저작 습관을 다루는 단계가 필요하며, 발작이 다시 시작될 때 초기에 대응하면 경과 관리가 수월합니다.</p>
+          </div>
+
+          <h4>오늘 내용 정리</h4>
+          <ul>
+            <li>삼차신경통은 얼굴 한쪽에 수 초에서 2분 이내의 발작적 통증이 반복되는 신경병증성 통증입니다.</li>
+            <li>세수·양치·찬바람 같은 가벼운 자극이 통증을 유발하는 점이 근육성 얼굴 통증과 구분되는 기준입니다.</li>
+            <li>하악 부위 통증은 저작근 긴장, 턱관절과 상부 경추 정렬 문제와 함께 나타나는 경우가 있습니다.</li>
+            <li>약침은 통증 지점의 국소 환경을, 추나는 그 지점을 자극하는 구조를, 한약은 재발 조건이 되는 전신 상태를 다룹니다.</li>
+            <li>통증 기간이 길수록 중추 감작이 진행되므로, 발작 빈도와 강도를 기록해 경과를 판단하는 것이 도움이 됩니다.</li>
+          </ul>
+
+          <p class="fine-print">이 글은 의료법과 보건복지부 의료광고 가이드라인을 준수하여 작성되었습니다. 구체적인 치료 계획이나 진단은 담당 의료진과 충분한 상담 후 결정하시기 바랍니다.</p>
+        </div>
+      </details>
+
+    </div>
+  </section>
+
+</main>
+
+<footer></footer>
+
+<nav class="quick-bar" aria-label="빠른 상담 메뉴">
+  <a class="phone" href="tel:031-566-1075">
+    <span class="icon"><svg viewBox="0 0 512 512" width="18" height="18"><path fill="#F1ECDD" d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64c0 247.4 200.6 448 448 448 18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6l-40.4 49.3c-70.4-33.3-127.4-90.3-160.7-160.7l49.3-40.4c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></svg></span> 031-566-1075
+  </a>
+  <a class="kakao" href="https://pf.kakao.com/_fPVDG/chat" target="_blank" rel="noopener">
+    <span class="icon"><svg viewBox="0 0 24 24" width="19" height="19"><path fill="#3C1E1E" d="M12 3.6C6.6 3.6 2.3 7.1 2.3 11.4c0 2.7 1.7 5.1 4.3 6.5-.2.7-.8 3-.9 3.4 0 0-.02.15.08.21.1.06.21.02.21.02.28-.04 3.2-2.12 3.7-2.48.7.1 1.5.16 2.3.16 5.4 0 9.7-3.5 9.7-7.85 0-4.3-4.3-7.79-9.7-7.79z"/></svg></span> 카톡 상담
+  </a>
+  <a class="naver" href="https://map.naver.com/p/entry/place/1017147051?lng=127.1599938&lat=37.6093987&placePath=%2F%3Fabt%3D%255B%257B%2522eid%2522%253A%2522N-RES-RANK-26%2522%252C%2522value%2522%253A%257B%2522bt%2522%253A%25222%2522%252C%2522t_modeling_quality_imp%2522%253A%25220.02%253B0%253B0%253B0%2522%252C%2522is_control%2522%253Atrue%257D%257D%252C%257B%2522eid%2522%253A%2522NS-SHP-RANK-26%2522%252C%2522value%2522%253A%257B%2522bt%2522%253A%25224%2522%252C%2522is_control%2522%253Afalse%257D%257D%255D%26abtExp%3DN-RES-RANK-26%253A2%253At_modeling_quality_imp%253D0.02%25253B0%25253B0%25253B0%26ac%3D0%26adm_lat%3D37.560361%26adm_long%3D127.188804%26bizId%3D1017147051%26bookingRedirectUrl%3Dhttps%25253A%25252F%25252Fm.booking.naver.com%25252Fbooking%25252F13%25252Fbizes%25252F705713%25253Ftheme%25253Dplace%252526lang%25253Dko%252526service-target%25253Dmap-pc%26debug%3D0%26deviceType%3Dpc%26lgl_lat%3D37.569608%26lgl_long%3D127.188062%26lgl_rcode%3D02450109%26ngn_country%3DKR%26nlu_query%3D%257B%2522qr%2522%253A%255B%257B%2522query%2522%253A%2522%25EA%25B0%2590%25EC%2584%25B1%2520%25ED%2595%259C%25EB%25B0%25A9%25EC%259D%2598%25EC%259B%2590%2522%252C%2522c_score%2522%253A0.0%252C%2522score%2522%253A2.0%252C%2522qr_category%2522%253A1%252C%2522qr_type%2522%253A2%257D%255D%252C%2522hospital%2522%253A%257B%2522q%2522%253A%2522%25EA%25B0%2590%25EC%2584%25B1%25ED%2595%259C%25EC%259D%2598%25EC%259B%2590%2522%252C%2522sid%2522%253A%25221017147051%2522%252C%2522source%2522%253A%2522placesearch%2522%257D%252C%2522nluQuery%2522%253A%2522%25EA%25B0%2590%25EC%2584%25B1%25ED%2595%259C%25EC%259D%2598%25EC%259B%2590%2522%257D%26nqx_theme%3D%257B%2522theme%2522%253A%257B%2522sub%2522%253A%255B%257B%2522name%2522%253A%2522location%2522%257D%252C%257B%2522name%2522%253A%2522hospital%2522%257D%255D%257D%257D%26r1%3D%25EA%25B2%25BD%25EA%25B8%25B0%25EB%258F%2584%26r2%3D%25ED%2595%2598%25EB%2582%25A8%25EC%258B%259C%26r3%3D%25EB%25AF%25B8%25EC%2582%25AC1%25EB%258F%2599%26rcode%3D02450610%26responseType%3Djson%26rev%3D45%26sm%3Dtop_hty%26spq%3D0%26ssc%3Dtab.nx.all%26target%3Dpc%26where%3Dnexearch%26x%3D127.188804%26y%3D37.560361&searchType=place&c=15.00,0,0,0,dh" target="_blank" rel="noopener">
+    <span class="icon"><svg viewBox="0 0 24 24" width="17" height="17"><rect x="3" y="5" width="18" height="15" rx="2.2" fill="#FFFFFF"/><rect x="7" y="2.3" width="2.2" height="4" rx="1.1" fill="#FFFFFF"/><rect x="14.8" y="2.3" width="2.2" height="4" rx="1.1" fill="#FFFFFF"/><path d="M8 13.4l2.4 2.4L16.2 10.2" stroke="#03C75A" stroke-width="2.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span> 네이버 예약
+  </a>
+  <a class="youtube" href="https://www.youtube.com/@pain_dr_kwon" target="_blank" rel="noopener">
+    <span class="icon">▶️</span> 유튜브
+  </a>
+</nav>
+
+<script>
+  var toggle = document.getElementById('navToggle');
+  var nav = document.getElementById('mainNav');
+  toggle.addEventListener('click', function(){
+    var open = nav.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  nav.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  var tabs = document.querySelectorAll('#catTabs button');
+  var rows = document.querySelectorAll('.column-row');
+  tabs.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      tabs.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      var filter = btn.getAttribute('data-filter');
+      rows.forEach(function(row){
+        if (filter === 'all' || row.getAttribute('data-category') === filter){
+          row.hidden = false;
+        } else {
+          row.hidden = true;
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
