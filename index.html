@@ -92,11 +92,27 @@
   }
 
   /* header */
+  .scroll-progress{
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    width: 0%;
+    background: var(--amber);
+    z-index: 100;
+    transition: width .1s linear;
+  }
+
   .site-header{
     position: sticky; top: 0; z-index: 50;
-    background: color-mix(in srgb, var(--bg) 92%, transparent);
-    backdrop-filter: blur(6px);
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    transition: background-color .25s ease, border-color .25s ease, box-shadow .25s ease;
+  }
+  .site-header.scrolled{
+    background: var(--bg);
     border-bottom: 1px solid var(--line);
+    box-shadow: 0 2px 14px rgba(0,0,0,0.05);
+    backdrop-filter: blur(6px);
   }
   .site-header .wrap{
     display: flex; align-items: center; justify-content: space-between;
@@ -696,45 +712,74 @@
   }
 
   footer{
-    padding: 20px 0 90px;
+    padding: 20px 0 40px;
   }
 
-  /* fixed bottom bar */
-  .quick-bar{
+  /* right-side floating icon rail */
+  .side-rail{
     position: fixed;
-    left: 0; right: 0; bottom: 18px;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
     z-index: 80;
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    padding: 0 16px;
-    pointer-events: none;
+    flex-direction: column;
+    gap: 12px;
   }
-  .quick-bar a, .quick-bar span{
-    pointer-events: auto;
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 12px 20px;
-    border-radius: 999px;
+  .side-rail a, .side-rail button{
+    position: relative;
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
     text-decoration: none;
-    font-size: 0.9rem;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.18);
+    transition: transform .15s ease;
+    border: none;
+    padding: 0;
+    font: inherit;
+  }
+  .side-rail .tooltip{
+    position: absolute;
+    right: calc(100% + 12px);
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--teal-deep);
+    color: #F1ECDD;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
     font-weight: 700;
     white-space: nowrap;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.14);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .15s ease;
   }
-  .quick-bar .icon{ display: inline-flex; width: 18px; height: 18px; flex: none; font-size: 16px; align-items: center; justify-content: center; }
-  .quick-bar .icon svg{ display: block; width: 100%; height: 100%; }
-  .quick-bar .phone{ background: var(--teal-deep); color: #F1ECDD; }
-  .quick-bar .phone:hover{ background: var(--teal); }
-  .quick-bar .kakao{ background: #FEE500; color: #3C1E1E; }
-  .quick-bar .naver{ background: #03C75A; color: #FFFFFF; }
-  .quick-bar .naver:hover{ background: #02b350; }
-  .quick-bar .location{ background: var(--bg); color: var(--teal-deep); border: 1px solid var(--line); }
-  .quick-bar .youtube{ background: #FF0000; color: #FFFFFF; }
-  @media (max-width: 520px){
-    .quick-bar a, .quick-bar span{ padding: 10px 14px; font-size: 0.82rem; }
+  .side-rail a:hover .tooltip,
+  .side-rail a:focus-visible .tooltip{ opacity: 1; }
+  .side-rail a:hover{ transform: scale(1.08); }
+  .side-rail .icon{ width: 20px; height: 20px; display: inline-flex; }
+  .side-rail .icon svg{ display: block; width: 100%; height: 100%; }
+  .side-rail .phone{ background: var(--teal-deep); color: #F1ECDD; }
+  .side-rail .kakao{ background: #FEE500; color: #3C1E1E; }
+  .side-rail .naver{ background: #03C75A; color: #FFFFFF; }
+  .side-rail .youtube{ background: #FF0000; color: #FFFFFF; }
+  .side-rail .back-to-top{
+    background: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease, transform .15s ease;
+  }
+  .side-rail .back-to-top.visible{
+    opacity: 1;
+    pointer-events: auto;
+  }
+  @media (max-width: 640px){
+    .side-rail{ right: 12px; top: auto; bottom: 24px; transform: none; gap: 10px; }
+    .side-rail a{ width: 42px; height: 42px; }
+    .side-rail .icon{ width: 18px; height: 18px; }
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -744,6 +789,8 @@
 </style>
 </head>
 <body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
 
 <header class="site-header">
   <div class="wrap">
@@ -1021,22 +1068,58 @@
 
 <footer></footer>
 
-<nav class="quick-bar" aria-label="빠른 상담 메뉴">
-  <a class="phone" href="tel:031-566-1075">
-    <span class="icon"><svg viewBox="0 0 512 512" width="18" height="18"><path fill="#F1ECDD" d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64c0 247.4 200.6 448 448 448 18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6l-40.4 49.3c-70.4-33.3-127.4-90.3-160.7-160.7l49.3-40.4c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></svg></span> 031-566-1075
+<nav class="side-rail" aria-label="빠른 상담 아이콘">
+  <a class="phone" href="tel:031-566-1075" aria-label="전화 문의">
+    <span class="tooltip">전화 상담</span>
+    <span class="icon"><svg viewBox="0 0 512 512" width="18" height="18"><path fill="#F1ECDD" d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64c0 247.4 200.6 448 448 448 18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6l-40.4 49.3c-70.4-33.3-127.4-90.3-160.7-160.7l49.3-40.4c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></svg></span>
   </a>
-  <a class="kakao" href="https://pf.kakao.com/_fPVDG/chat" target="_blank" rel="noopener">
-    <span class="icon"><svg viewBox="0 0 24 24" width="19" height="19"><path fill="#3C1E1E" d="M12 3.6C6.6 3.6 2.3 7.1 2.3 11.4c0 2.7 1.7 5.1 4.3 6.5-.2.7-.8 3-.9 3.4 0 0-.02.15.08.21.1.06.21.02.21.02.28-.04 3.2-2.12 3.7-2.48.7.1 1.5.16 2.3.16 5.4 0 9.7-3.5 9.7-7.85 0-4.3-4.3-7.79-9.7-7.79z"/></svg></span> 카톡 상담
+  <a class="kakao" href="https://pf.kakao.com/_fPVDG/chat" target="_blank" rel="noopener" aria-label="카톡 상담">
+    <span class="tooltip">카카오톡 상담</span>
+    <span class="icon"><svg viewBox="0 0 24 24" width="19" height="19"><path fill="#3C1E1E" d="M12 3.6C6.6 3.6 2.3 7.1 2.3 11.4c0 2.7 1.7 5.1 4.3 6.5-.2.7-.8 3-.9 3.4 0 0-.02.15.08.21.1.06.21.02.21.02.28-.04 3.2-2.12 3.7-2.48.7.1 1.5.16 2.3.16 5.4 0 9.7-3.5 9.7-7.85 0-4.3-4.3-7.79-9.7-7.79z"/></svg></span>
   </a>
-  <a class="naver" href="https://map.naver.com/p/entry/place/1017147051?lng=127.1599938&lat=37.6093987&placePath=%2F%3Fabt%3D%255B%257B%2522eid%2522%253A%2522N-RES-RANK-26%2522%252C%2522value%2522%253A%257B%2522bt%2522%253A%25222%2522%252C%2522t_modeling_quality_imp%2522%253A%25220.02%253B0%253B0%253B0%2522%252C%2522is_control%2522%253Atrue%257D%257D%252C%257B%2522eid%2522%253A%2522NS-SHP-RANK-26%2522%252C%2522value%2522%253A%257B%2522bt%2522%253A%25224%2522%252C%2522is_control%2522%253Afalse%257D%257D%255D%26abtExp%3DN-RES-RANK-26%253A2%253At_modeling_quality_imp%253D0.02%25253B0%25253B0%25253B0%26ac%3D0%26adm_lat%3D37.560361%26adm_long%3D127.188804%26bizId%3D1017147051%26bookingRedirectUrl%3Dhttps%25253A%25252F%25252Fm.booking.naver.com%25252Fbooking%25252F13%25252Fbizes%25252F705713%25253Ftheme%25253Dplace%252526lang%25253Dko%252526service-target%25253Dmap-pc%26debug%3D0%26deviceType%3Dpc%26lgl_lat%3D37.569608%26lgl_long%3D127.188062%26lgl_rcode%3D02450109%26ngn_country%3DKR%26nlu_query%3D%257B%2522qr%2522%253A%255B%257B%2522query%2522%253A%2522%25EA%25B0%2590%25EC%2584%25B1%2520%25ED%2595%259C%25EB%25B0%25A9%25EC%259D%2598%25EC%259B%2590%2522%252C%2522c_score%2522%253A0.0%252C%2522score%2522%253A2.0%252C%2522qr_category%2522%253A1%252C%2522qr_type%2522%253A2%257D%255D%252C%2522hospital%2522%253A%257B%2522q%2522%253A%2522%25EA%25B0%2590%25EC%2584%25B1%25ED%2595%259C%25EC%259D%2598%25EC%259B%2590%2522%252C%2522sid%2522%253A%25221017147051%2522%252C%2522source%2522%253A%2522placesearch%2522%257D%252C%2522nluQuery%2522%253A%2522%25EA%25B0%2590%25EC%2584%25B1%25ED%2595%259C%25EC%259D%2598%25EC%259B%2590%2522%257D%26nqx_theme%3D%257B%2522theme%2522%253A%257B%2522sub%2522%253A%255B%257B%2522name%2522%253A%2522location%2522%257D%252C%257B%2522name%2522%253A%2522hospital%2522%257D%255D%257D%257D%26r1%3D%25EA%25B2%25BD%25EA%25B8%25B0%25EB%258F%2584%26r2%3D%25ED%2595%2598%25EB%2582%25A8%25EC%258B%259C%26r3%3D%25EB%25AF%25B8%25EC%2582%25AC1%25EB%258F%2599%26rcode%3D02450610%26responseType%3Djson%26rev%3D45%26sm%3Dtop_hty%26spq%3D0%26ssc%3Dtab.nx.all%26target%3Dpc%26where%3Dnexearch%26x%3D127.188804%26y%3D37.560361&searchType=place&c=15.00,0,0,0,dh" target="_blank" rel="noopener">
-    <span class="icon"><svg viewBox="0 0 24 24" width="17" height="17"><rect x="3" y="5" width="18" height="15" rx="2.2" fill="#FFFFFF"/><rect x="7" y="2.3" width="2.2" height="4" rx="1.1" fill="#FFFFFF"/><rect x="14.8" y="2.3" width="2.2" height="4" rx="1.1" fill="#FFFFFF"/><path d="M8 13.4l2.4 2.4L16.2 10.2" stroke="#03C75A" stroke-width="2.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span> 네이버 예약
+  <a class="naver" href="https://map.naver.com/p/entry/place/1017147051?lng=127.1599938&lat=37.6093987&placePath=%2F%3Fabt%3D%255B%257B%2522eid%2522%253A%2522N-RES-RANK-26%2522%252C%2522value%2522%253A%257B%2522bt%2522%253A%25222%2522%252C%2522t_modeling_quality_imp%2522%253A%25220.02%253B0%253B0%253B0%2522%252C%2522is_control%2522%253Atrue%257D%257D%252C%257B%2522eid%2522%253A%2522NS-SHP-RANK-26%2522%252C%2522value%2522%253A%257B%2522bt%2522%253A%25224%2522%252C%2522is_control%2522%253Afalse%257D%257D%255D%26abtExp%3DN-RES-RANK-26%253A2%253At_modeling_quality_imp%253D0.02%25253B0%25253B0%25253B0%26ac%3D0%26adm_lat%3D37.560361%26adm_long%3D127.188804%26bizId%3D1017147051%26bookingRedirectUrl%3Dhttps%25253A%25252F%25252Fm.booking.naver.com%25252Fbooking%25252F13%25252Fbizes%25252F705713%25253Ftheme%25253Dplace%252526lang%25253Dko%252526service-target%25253Dmap-pc%26debug%3D0%26deviceType%3Dpc%26lgl_lat%3D37.569608%26lgl_long%3D127.188062%26lgl_rcode%3D02450109%26ngn_country%3DKR%26nlu_query%3D%257B%2522qr%2522%253A%255B%257B%2522query%2522%253A%2522%25EA%25B0%2590%25EC%2584%25B1%2520%25ED%2595%259C%25EB%25B0%25A9%25EC%259D%2598%25EC%259B%2590%2522%252C%2522c_score%2522%253A0.0%252C%2522score%2522%253A2.0%252C%2522qr_category%2522%253A1%252C%2522qr_type%2522%253A2%257D%255D%252C%2522hospital%2522%253A%257B%2522q%2522%253A%2522%25EA%25B0%2590%25EC%2584%25B1%25ED%2595%259C%25EC%259D%2598%25EC%259B%2590%2522%252C%2522sid%2522%253A%25221017147051%2522%252C%2522source%2522%253A%2522placesearch%2522%257D%252C%2522nluQuery%2522%253A%2522%25EA%25B0%2590%25EC%2584%25B1%25ED%2595%259C%25EC%259D%2598%25EC%259B%2590%2522%257D%26nqx_theme%3D%257B%2522theme%2522%253A%257B%2522sub%2522%253A%255B%257B%2522name%2522%253A%2522location%2522%257D%252C%257B%2522name%2522%253A%2522hospital%2522%257D%255D%257D%257D%26r1%3D%25EA%25B2%25BD%25EA%25B8%25B0%25EB%258F%2584%26r2%3D%25ED%2595%2598%25EB%2582%25A8%25EC%258B%259C%26r3%3D%25EB%25AF%25B8%25EC%2582%25AC1%25EB%258F%2599%26rcode%3D02450610%26responseType%3Djson%26rev%3D45%26sm%3Dtop_hty%26spq%3D0%26ssc%3Dtab.nx.all%26target%3Dpc%26where%3Dnexearch%26x%3D127.188804%26y%3D37.560361&searchType=place&c=15.00,0,0,0,dh" target="_blank" rel="noopener" aria-label="네이버 예약">
+    <span class="tooltip">네이버 예약</span>
+    <span class="icon"><svg viewBox="0 0 24 24" width="17" height="17"><rect x="3" y="5" width="18" height="15" rx="2.2" fill="#FFFFFF"/><rect x="7" y="2.3" width="2.2" height="4" rx="1.1" fill="#FFFFFF"/><rect x="14.8" y="2.3" width="2.2" height="4" rx="1.1" fill="#FFFFFF"/><path d="M8 13.4l2.4 2.4L16.2 10.2" stroke="#03C75A" stroke-width="2.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
   </a>
-  <a class="youtube" href="https://www.youtube.com/@pain_dr_kwon" target="_blank" rel="noopener">
-    <span class="icon">▶️</span> 유튜브
+  <a class="youtube" href="https://www.youtube.com/@pain_dr_kwon" target="_blank" rel="noopener" aria-label="유튜브">
+    <span class="tooltip">유튜브 채널</span>
+    <span class="icon"><svg viewBox="0 0 28 20" width="22" height="16"><rect x="0.5" y="0.5" width="27" height="19" rx="5" fill="#FFFFFF"/><path fill="#FF0000" d="M11.5 5.8v8.4l7.3-4.2z"/></svg></span>
   </a>
+  <button type="button" class="back-to-top" id="backToTop" aria-label="맨 위로 이동">
+    <span class="tooltip">맨 위로</span>
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+  </button>
 </nav>
 
 <script>
+  var siteHeader = document.querySelector('.site-header');
+  var scrollProgress = document.getElementById('scrollProgress');
+  var backToTop = document.getElementById('backToTop');
+
+  function updateOnScroll(){
+    if (window.scrollY > 20){
+      siteHeader.classList.add('scrolled');
+    } else {
+      siteHeader.classList.remove('scrolled');
+    }
+
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var pct = docHeight > 0 ? (window.scrollY / docHeight) * 100 : 0;
+    scrollProgress.style.width = pct + '%';
+
+    if (window.scrollY > 300){
+      backToTop.classList.add('visible');
+    } else {
+      backToTop.classList.remove('visible');
+    }
+  }
+  window.addEventListener('scroll', updateOnScroll);
+  updateOnScroll();
+
+  backToTop.addEventListener('click', function(){
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
   var toggle = document.getElementById('navToggle');
   var nav = document.getElementById('mainNav');
   toggle.addEventListener('click', function(){
