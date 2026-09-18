@@ -65,7 +65,7 @@
   }
 
   *{ box-sizing: border-box; }
-  html{ scroll-behavior: smooth; }
+  html{ scroll-behavior: smooth; overflow-x: hidden; }
   body{
     margin: 0;
     background: var(--bg);
@@ -89,6 +89,9 @@
     max-width: 1080px;
     margin: 0 auto;
     padding: 0 28px;
+  }
+  @media (max-width: 420px){
+    .wrap{ padding: 0 18px; }
   }
 
   /* header */
@@ -195,6 +198,17 @@
     color: var(--ink);
   }
   .search-hit{ outline: 2px solid var(--amber); outline-offset: 5px; border-radius: 4px; transition: outline-color .3s; }
+  @media (max-width: 480px){
+    .search-pop.open{
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      top: 70px;
+      transform: none;
+      margin-top: 0;
+    }
+    .search-pop input{ width: 100%; }
+  }
 
   .cursor-dot{
     position: fixed; top: 0; left: 0;
@@ -1289,6 +1303,17 @@
 
   renderColumns(COLUMN_DATA.items || []);
   initFilters();
+
+  // 관리자 페이지에서 새로 추가된 칼럼이 있으면 최신 데이터로 갱신
+  fetch('content/columns.json', { cache: 'no-store' })
+    .then(function(res){ return res.ok ? res.json() : null; })
+    .then(function(data){
+      if (data && Array.isArray(data.items) && data.items.length > COLUMN_DATA.items.length){
+        renderColumns(data.items);
+        initFilters();
+      }
+    })
+    .catch(function(){ /* 내장된 칼럼만 보여줘도 문제 없음 */ });
 
 </script>
 
