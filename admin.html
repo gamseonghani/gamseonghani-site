@@ -94,6 +94,25 @@
   .form-actions{ display: flex; gap: 10px; margin-top: 18px; }
   .hint{ font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; }
 
+  .editor-toolbar{ display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+  .editor-toolbar button{
+    padding: 6px 11px; font-size: 13px; border: 1px solid var(--line); background: #fff;
+    border-radius: 6px; cursor: pointer; font-family: inherit; color: var(--ink);
+  }
+  .editor-toolbar button:hover{ background: var(--bg-raised); }
+  .thumb-drop{
+    border: 1px dashed var(--line); border-radius: 8px; padding: 12px 14px;
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  }
+  .thumb-drop .thumb-preview-img{
+    width: 128px; height: 80px; object-fit: cover; border-radius: 6px;
+    border: 1px solid var(--line); background: var(--bg-raised);
+  }
+  .thumb-drop .thumb-empty{
+    width: 128px; height: 80px; border-radius: 6px; background: var(--bg-raised);
+    border: 1px solid var(--line); display: flex; align-items: center; justify-content: center;
+    font-size: 12px; color: var(--ink-soft); text-align: center;
+  }
   .preview{
     border: 1px dashed var(--line); border-radius: 10px; padding: 16px 18px;
     margin-top: 16px; background: var(--bg-raised); max-height: 320px; overflow-y: auto;
@@ -169,9 +188,28 @@
         <label for="tags">태그 (쉼표로 구분, 선택. 예: 허리디스크, 봉약침, 남양주한의원)</label>
         <input type="text" id="tags">
 
-        <label for="body">본문 (마크다운 사용 가능: ## 소제목, - 목록, **강조** 등)</label>
+        <label for="thumbnail">썸네일 이미지 (선택, 목록 페이지에 작게 표시됩니다)</label>
+        <div class="thumb-drop">
+          <div class="thumb-empty" id="thumbEmpty">이미지 없음</div>
+          <img class="thumb-preview-img" id="thumbPreviewImg" style="display:none;">
+          <div>
+            <input type="file" id="thumbnailInput" accept="image/*">
+            <div class="hint" style="margin-top:6px;">업로드하면 자동으로 크기를 줄이고 압축해서 저장합니다.</div>
+            <button type="button" class="btn secondary small" id="thumbRemoveBtn" style="margin-top:6px; display:none;">이미지 제거</button>
+          </div>
+        </div>
+
+        <label for="body" style="margin-top:18px;">본문 (마크다운 사용 가능: ## 소제목, - 목록, **강조** 등)</label>
+        <div class="editor-toolbar" id="editorToolbar">
+          <button type="button" data-cmd="bold" title="굵게"><b>B</b></button>
+          <button type="button" data-cmd="underline" title="밑줄"><u>U</u></button>
+          <button type="button" data-cmd="italic" title="기울임"><i>I</i></button>
+          <button type="button" data-cmd="h2" title="소제목">소제목</button>
+          <button type="button" data-cmd="list" title="목록">목록</button>
+          <button type="button" data-cmd="link" title="링크">링크</button>
+        </div>
         <textarea id="body" required></textarea>
-        <div class="hint">아래 미리보기에서 실제로 어떻게 보이는지 확인할 수 있습니다.</div>
+        <div class="hint">서식 버튼으로 선택한 글자를 꾸미거나, 직접 마크다운 문법을 입력해도 됩니다. 아래 미리보기에서 실제로 어떻게 보이는지 확인할 수 있습니다.</div>
 
         <div class="preview">
           <h3>미리보기</h3>
@@ -264,6 +302,11 @@
   var authorEl = document.getElementById('author');
   var teaserEl = document.getElementById('teaser');
   var tagsEl = document.getElementById('tags');
+  var thumbnailInput = document.getElementById('thumbnailInput');
+  var thumbPreviewImg = document.getElementById('thumbPreviewImg');
+  var thumbEmpty = document.getElementById('thumbEmpty');
+  var thumbRemoveBtn = document.getElementById('thumbRemoveBtn');
+  var currentThumbnail = null;
   var bodyEl = document.getElementById('body');
   var previewBody = document.getElementById('previewBody');
   var formTitle = document.getElementById('formTitle');
@@ -283,6 +326,20 @@
     return d.getFullYear() + '-' + mm + '-' + dd;
   }
 
+  function setThumbnailPreview(dataUrl){
+    currentThumbnail = dataUrl || null;
+    if (currentThumbnail){
+      thumbPreviewImg.src = currentThumbnail;
+      thumbPreviewImg.style.display = '';
+      thumbEmpty.style.display = 'none';
+      thumbRemoveBtn.style.display = '';
+    } else {
+      thumbPreviewImg.style.display = 'none';
+      thumbEmpty.style.display = '';
+      thumbRemoveBtn.style.display = 'none';
+    }
+  }
+
   function resetForm(){
     editingIndex = null;
     form.reset();
@@ -291,6 +348,8 @@
     formTitle.textContent = '새 칼럼 작성';
     submitBtn.textContent = '목록에 추가';
     cancelBtn.style.display = 'none';
+    thumbnailInput.value = '';
+    setThumbnailPreview(null);
     updatePreview();
   }
 
@@ -303,6 +362,8 @@
     authorEl.value = item.author || '권오경 원장';
     teaserEl.value = item.teaser || '';
     tagsEl.value = Array.isArray(item.tags) ? item.tags.join(', ') : '';
+    thumbnailInput.value = '';
+    setThumbnailPreview(item.thumbnail || null);
     bodyEl.value = item.body || '';
     formTitle.textContent = '칼럼 수정';
     submitBtn.textContent = '수정 저장';
@@ -322,6 +383,7 @@
       var div = document.createElement('div');
       div.className = 'list-item' + (editingIndex === i ? ' editing' : '');
       div.innerHTML =
+        (item.thumbnail ? '<img src="' + item.thumbnail + '" style="width:100%;height:80px;object-fit:cover;border-radius:6px;margin-bottom:8px;">' : '') +
         '<div class="title"></div>' +
         '<div class="meta"></div>' +
         '<div class="row">' +
@@ -362,6 +424,7 @@
       author: authorEl.value.trim() || '권오경 원장',
       teaser: teaserEl.value.trim(),
       tags: tagsEl.value.split(',').map(function(t){ return t.trim(); }).filter(Boolean),
+      thumbnail: currentThumbnail || null,
       body: bodyEl.value.trim()
     };
     if (!newItem.title || !newItem.body){
@@ -381,6 +444,83 @@
 
   cancelBtn.addEventListener('click', resetForm);
   document.getElementById('newBtn').addEventListener('click', resetForm);
+
+  function resizeImageFile(file, maxWidth, quality, callback){
+    var reader = new FileReader();
+    reader.onload = function(e){
+      var img = new Image();
+      img.onload = function(){
+        var scale = Math.min(1, maxWidth / img.width);
+        var w = Math.round(img.width * scale);
+        var h = Math.round(img.height * scale);
+        var canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        callback(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = function(){ setStatus('이미지를 읽는 중 오류가 발생했습니다.', 'err'); };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  thumbnailInput.addEventListener('change', function(e){
+    var file = e.target.files[0];
+    if (!file) return;
+    resizeImageFile(file, 640, 0.78, function(dataUrl){
+      setThumbnailPreview(dataUrl);
+      setStatus('썸네일 이미지를 불러와 압축했습니다.', 'ok');
+    });
+  });
+
+  thumbRemoveBtn.addEventListener('click', function(){
+    thumbnailInput.value = '';
+    setThumbnailPreview(null);
+  });
+
+  function wrapSelection(before, after){
+    after = after === undefined ? before : after;
+    var start = bodyEl.selectionStart;
+    var end = bodyEl.selectionEnd;
+    var val = bodyEl.value;
+    var selected = val.slice(start, end) || '텍스트';
+    bodyEl.value = val.slice(0, start) + before + selected + after + val.slice(end);
+    var cursorStart = start + before.length;
+    bodyEl.focus();
+    bodyEl.setSelectionRange(cursorStart, cursorStart + selected.length);
+    updatePreview();
+  }
+
+  function prefixLines(prefix){
+    var start = bodyEl.selectionStart;
+    var end = bodyEl.selectionEnd;
+    var val = bodyEl.value;
+    var lineStart = val.lastIndexOf('\n', start - 1) + 1;
+    var lineEnd = val.indexOf('\n', end);
+    if (lineEnd === -1) lineEnd = val.length;
+    var block = val.slice(lineStart, lineEnd);
+    var newBlock = block.split('\n').map(function(line){ return prefix + line; }).join('\n');
+    bodyEl.value = val.slice(0, lineStart) + newBlock + val.slice(lineEnd);
+    bodyEl.focus();
+    bodyEl.setSelectionRange(lineStart, lineStart + newBlock.length);
+    updatePreview();
+  }
+
+  document.querySelectorAll('#editorToolbar button').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var cmd = btn.getAttribute('data-cmd');
+      if (cmd === 'bold') wrapSelection('**');
+      else if (cmd === 'underline') wrapSelection('<u>', '</u>');
+      else if (cmd === 'italic') wrapSelection('*');
+      else if (cmd === 'h2') prefixLines('## ');
+      else if (cmd === 'list') prefixLines('- ');
+      else if (cmd === 'link'){
+        var url = prompt('연결할 주소를 입력하세요 (예: https://...)');
+        if (url) wrapSelection('[', '](' + url + ')');
+      }
+    });
+  });
 
   document.getElementById('downloadBtn').addEventListener('click', function(){
     var out = { title: '원장칼럼 목록', items: items };
