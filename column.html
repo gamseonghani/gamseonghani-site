@@ -841,8 +841,42 @@
   }
   .column-list{ padding: 20px 0 100px; }
   .loading-note{ color: var(--ink-soft); padding: 30px 0; }
-  .column-list .column-row[hidden]{ display: none; }
-  .column-row .cat-tag{
+
+  .column-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  .column-grid[hidden]{ display: none; }
+  @media (max-width: 900px){
+    .column-grid{ grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px){
+    .column-grid{ grid-template-columns: 1fr; }
+  }
+  .column-card{
+    display: block;
+    text-align: left;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    transition: border-color .2s ease, transform .15s ease;
+  }
+  .column-card[hidden]{ display: none; }
+  .column-card:hover{ border-color: var(--teal); transform: translateY(-2px); }
+  .column-card .thumb{
+    aspect-ratio: 16 / 10;
+    background: var(--bg-raised);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .column-card .thumb svg{ width: 56px; height: 56px; stroke: var(--teal); fill: none; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+  .column-card .card-body{ padding: 20px 22px 24px; }
+  .column-card .cat-tag{
     display: inline-block;
     font-size: 0.78rem;
     font-weight: 700;
@@ -850,13 +884,54 @@
     background: color-mix(in srgb, var(--teal) 10%, transparent);
     padding: 3px 10px;
     border-radius: 999px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
-  .column-row .col-date{
-    font-size: 0.78rem;
-    color: var(--sage);
-    margin-left: 8px;
+  .column-card h3{
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: var(--ink);
+    margin: 0 0 16px;
   }
+  .column-card .meta{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+  .column-card .meta .dot{ color: var(--line); }
+
+  .article-view{ max-width: 720px; margin: 0 auto; }
+  .article-view[hidden]{ display: none; }
+  .back-to-list{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--teal);
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: 32px;
+  }
+  .article-view h1{
+    font-family: "Noto Serif KR", serif;
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    line-height: 1.4;
+    color: var(--ink);
+    margin: 0 0 16px;
+  }
+  .article-view .meta{
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    margin-bottom: 40px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--line);
+  }
+  .article-view .column-body{ color: var(--ink-soft); line-height: 1.9; }
 
 </style>
 </head>
@@ -920,8 +995,17 @@
   </section>
 
   <section class="column-list">
-    <div class="wrap" id="columnListWrap">
-      <p class="loading-note" id="loadingNote">칼럼을 불러오는 중입니다...</p>
+    <div class="wrap">
+      <div class="column-grid" id="columnGrid">
+        <p class="loading-note" id="loadingNote">칼럼을 불러오는 중입니다...</p>
+      </div>
+      <div class="article-view" id="articleView" hidden>
+        <button type="button" class="back-to-list" id="backToList">← 목록으로</button>
+        <span class="cat-tag" id="articleCat"></span>
+        <h1 id="articleTitle"></h1>
+        <p class="meta" id="articleMeta"></p>
+        <div class="column-body" id="articleBody"></div>
+      </div>
     </div>
   </section>
 
@@ -1114,48 +1198,80 @@
     special: '다이어트 클리닉'
   };
 
+  var CATEGORY_ICONS = {
+    philosophy: '<path d="M4 19l3.5-1 10-10a2 2 0 0 0-3-3l-10 10L3 18l1 1z"/><path d="M14 6l3 3"/>',
+    headache: '<rect x="4" y="5" width="16" height="14" rx="7"/><path d="M12 5v14"/><path d="M7 9c1 1.2 2 1.2 3 0M14 9c1 1.2 2 1.2 3 0M7 14c1 1.2 2 1.2 3 0M14 14c1 1.2 2 1.2 3 0"/>',
+    jaw: '<circle cx="5" cy="6.5" r="1.3" fill="currentColor" stroke="none"/><circle cx="19" cy="6.5" r="1.3" fill="currentColor" stroke="none"/><path d="M5 6.5v2c0 6 3.5 10 7 10s7-4 7-10v-2"/>',
+    sensory: '<rect x="4" y="5" width="16" height="14" rx="7"/><path d="M12 5v14"/><path d="M7 9c1 1.2 2 1.2 3 0M14 9c1 1.2 2 1.2 3 0M7 14c1 1.2 2 1.2 3 0M14 14c1 1.2 2 1.2 3 0"/>',
+    spine: '<path d="M12 2.5v19"/><path d="M7.5 6h9M7.5 10h9M7.5 14h9M7.5 18h9"/>',
+    internal: '<circle cx="12" cy="12" r="8"/><path d="M9 10c0 3 1 5 3 5s3-2 3-5"/>',
+    pediatric: '<circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/>',
+    special: '<path d="M12 21c-5-4-8-7.5-8-11a5 5 0 0 1 8-4 5 5 0 0 1 8 4c0 3.5-3 7-8 11z"/>'
+  };
+
   function renderColumns(items){
-    var wrap = document.getElementById('columnListWrap');
-    wrap.innerHTML = '';
+    var grid = document.getElementById('columnGrid');
+    grid.innerHTML = '';
 
     var sorted = items.slice().sort(function(a, b){
       return (b.date || '').localeCompare(a.date || '');
     });
 
     sorted.forEach(function(item, i){
-      var details = document.createElement('details');
-      details.className = 'column-row';
-      details.setAttribute('data-category', item.category || '');
+      var card = document.createElement('button');
+      card.type = 'button';
+      card.className = 'column-card';
+      card.setAttribute('data-category', item.category || '');
 
-      var bodyHtml = (typeof marked !== 'undefined' && item.body)
-        ? marked.parse(item.body)
-        : '<p>' + (item.body || '') + '</p>';
+      var iconPath = CATEGORY_ICONS[item.category] || CATEGORY_ICONS.philosophy;
+      var author = item.author || '권오경 원장';
 
-      details.innerHTML =
-        '<summary>' +
-          '<div>' +
-            '<span class="cat-tag">' + (CATEGORY_LABELS[item.category] || item.category || '') + '</span>' +
-            '<h3>' + (item.title || '') + '</h3>' +
-          '</div>' +
-          '<span class="toggle-label"></span>' +
-        '</summary>' +
-        '<p class="teaser">' + (item.teaser || '') + '</p>' +
-        '<div class="column-body">' + bodyHtml + '</div>';
+      card.innerHTML =
+        '<div class="thumb"><svg viewBox="0 0 24 24">' + iconPath + '</svg></div>' +
+        '<div class="card-body">' +
+          '<span class="cat-tag">' + (CATEGORY_LABELS[item.category] || item.category || '') + '</span>' +
+          '<h3>' + (item.title || '') + '</h3>' +
+          '<p class="meta">' + author + '<span class="dot">·</span>' + (item.date || '') + '</p>' +
+        '</div>';
 
-      wrap.appendChild(details);
+      card.addEventListener('click', function(){ showArticle(item); });
+
+      grid.appendChild(card);
     });
   }
+
+  function showArticle(item){
+    var bodyHtml = (typeof marked !== 'undefined' && item.body)
+      ? marked.parse(item.body)
+      : '<p>' + (item.body || '') + '</p>';
+    document.getElementById('articleCat').textContent = CATEGORY_LABELS[item.category] || item.category || '';
+    document.getElementById('articleTitle').textContent = item.title || '';
+    document.getElementById('articleMeta').textContent = (item.author || '권오경 원장') + ' · ' + (item.date || '');
+    document.getElementById('articleBody').innerHTML = bodyHtml;
+
+    document.getElementById('columnGrid').hidden = true;
+    document.getElementById('catTabs').hidden = true;
+    document.getElementById('articleView').hidden = false;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function hideArticle(){
+    document.getElementById('articleView').hidden = true;
+    document.getElementById('columnGrid').hidden = false;
+    document.getElementById('catTabs').hidden = false;
+  }
+  document.getElementById('backToList').addEventListener('click', hideArticle);
 
   function initFilters(){
     var tabs = document.querySelectorAll('#catTabs button');
     tabs.forEach(function(btn){
       btn.addEventListener('click', function(){
-        var rows = document.querySelectorAll('.column-row');
+        var cards = document.querySelectorAll('.column-card');
         tabs.forEach(function(b){ b.classList.remove('active'); });
         btn.classList.add('active');
         var filter = btn.getAttribute('data-filter');
-        rows.forEach(function(row){
-          row.hidden = !(filter === 'all' || row.getAttribute('data-category') === filter);
+        cards.forEach(function(card){
+          card.hidden = !(filter === 'all' || card.getAttribute('data-category') === filter);
         });
       });
     });
