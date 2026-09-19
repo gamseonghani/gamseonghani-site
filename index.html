@@ -539,24 +539,48 @@
   /* subjects */
   .subjects{ padding: 20px 0 100px; }
   .subjects h2{ font-size: 1.9rem; margin-bottom: 44px; }
-  .subject-row{
+  .subject-grid{
     display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 28px;
-    padding: 26px 0;
-    border-top: 1px solid var(--line);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
   }
-  .subjects .subject-row:last-child{ border-bottom: 1px solid var(--line); }
-  .subject-row h3{
-    font-size: 1.08rem;
+  .subject-card{
+    display: block;
+    padding: 28px 24px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--bg);
+  }
+  .subject-card .cat-tag{
+    display: inline-block;
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: var(--teal);
+    background: color-mix(in srgb, var(--teal) 10%, transparent);
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+  .subject-card h3{ font-size: 1.08rem; color: var(--ink); margin: 0 0 10px; }
+  .subject-card p{ margin: 0; color: var(--ink-soft); font-size: 0.92rem; line-height: 1.65; }
+  a.subject-card{
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color .2s ease, transform .15s ease;
+  }
+  a.subject-card:hover{ border-color: var(--teal); transform: translateY(-2px); }
+  a.subject-card .card-more{
+    display: inline-block;
+    margin-top: 16px;
+    font-size: 0.85rem;
+    font-weight: 700;
     color: var(--teal);
   }
-  .subject-row p{
-    margin: 0;
-    color: var(--ink-soft);
+  @media (max-width: 900px){
+    .subject-grid{ grid-template-columns: repeat(2, 1fr); }
   }
-  @media (max-width: 640px){
-    .subject-row{ grid-template-columns: 1fr; gap: 8px; }
+  @media (max-width: 560px){
+    .subject-grid{ grid-template-columns: 1fr; }
   }
 
   /* columns */
@@ -877,6 +901,7 @@
         <li><a href="#cat-jaw">턱관절</a></li>
         <li><a href="#cat-sensory">감각기관 · 신경계</a></li>
         <li><a href="#cat-spine">척추 · 근골격</a></li>
+        <li><a href="#cat-accident">교통사고</a></li>
         <li><a href="#cat-internal">내과 질환</a></li>
         <li><a href="#cat-pediatric">소아 클리닉</a></li>
         <li><a href="#cat-special">다이어트 클리닉</a></li>
@@ -998,41 +1023,56 @@
     <div class="wrap">
       <h2>진료과목</h2>
 
-      <div class="subject-row" id="cat-headache">
-        <h3>두통 · 어지러움</h3>
-        <p>두통, 불면, 어지러움 · 공황장애, 불안장애, 자율신경실조증 · 기립성 저혈압, 미주신경성 실신, 두근거림, 답답함</p>
-      </div>
+      <div class="subject-grid">
+        <div class="subject-card" id="cat-headache">
+          <span class="cat-tag">신경</span>
+          <h3>두통 · 어지러움</h3>
+          <p>두통, 불면, 어지러움 · 공황장애, 불안장애, 자율신경실조증 · 기립성 저혈압, 미주신경성 실신, 두근거림, 답답함</p>
+        </div>
 
-      <div class="subject-row" id="cat-jaw">
-        <h3>턱관절</h3>
-        <p>턱관절 장애 (턱관절 소리, 통증, 개구장애)</p>
-      </div>
+        <div class="subject-card" id="cat-jaw">
+          <span class="cat-tag">통증</span>
+          <h3>턱관절</h3>
+          <p>턱관절 장애 (턱관절 소리, 통증, 개구장애)</p>
+        </div>
 
-      <div class="subject-row" id="cat-sensory">
-        <h3>감각기관 · 신경계</h3>
-        <p>미각장애, 후각장애, 청각장애, 시각장애, 연하장애 · 삼차신경통, 안면마비, 사경증 · 중풍 후유증</p>
-      </div>
+        <a class="subject-card" id="cat-accident" href="accident.html">
+          <span class="cat-tag">통증</span>
+          <h3>교통사고</h3>
+          <p>자동차보험 적용, 본인부담 없이 편안하게 치료받으세요.</p>
+          <span class="card-more">자세히 보기 →</span>
+        </a>
 
-      <div class="subject-row" id="cat-spine">
-        <h3>척추 · 근골격</h3>
-        <p>디스크, 협착, 만성통증 · 저림, 떨림, 감각이상 · 교통사고 후유증</p>
-      </div>
+        <div class="subject-card" id="cat-sensory">
+          <span class="cat-tag">신경</span>
+          <h3>감각기관 · 신경계</h3>
+          <p>미각장애, 후각장애, 청각장애, 시각장애, 연하장애 · 삼차신경통, 안면마비, 사경증 · 중풍 후유증</p>
+        </div>
 
-      <div class="subject-row" id="cat-internal">
-        <h3>내과 질환</h3>
-        <p>소화, 다한증, 생리불순, 성기능, 비염(가래, 기침), 갱년기, 산후풍, 피부질환</p>
-      </div>
+        <div class="subject-card" id="cat-spine">
+          <span class="cat-tag">통증</span>
+          <h3>척추 · 근골격</h3>
+          <p>디스크, 협착, 만성통증 · 저림, 떨림, 감각이상</p>
+        </div>
 
-      <div class="subject-row" id="cat-pediatric">
-        <h3>소아 클리닉</h3>
-        <p>소아 성장 · 집중력 향상(총명탕) · 소아 평발</p>
-      </div>
+        <div class="subject-card" id="cat-internal">
+          <span class="cat-tag">내과</span>
+          <h3>내과 질환</h3>
+          <p>소화, 다한증, 생리불순, 성기능, 비염(가래, 기침), 갱년기, 산후풍, 피부질환</p>
+        </div>
 
-      <div class="subject-row" id="cat-special">
-        <h3>다이어트 클리닉</h3>
-        <p>다이어트한약, 비만약침</p>
-      </div>
+        <div class="subject-card" id="cat-pediatric">
+          <span class="cat-tag">소아</span>
+          <h3>소아 클리닉</h3>
+          <p>소아 성장 · 집중력 향상(총명탕) · 소아 평발</p>
+        </div>
 
+        <div class="subject-card" id="cat-special">
+          <span class="cat-tag">대사</span>
+          <h3>다이어트 클리닉</h3>
+          <p>다이어트한약, 비만약침</p>
+        </div>
+      </div>
     </div>
   </section>
 
