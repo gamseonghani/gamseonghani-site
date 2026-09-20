@@ -222,20 +222,26 @@
         </div>
       </form>
 
-      <div class="export-bar">
-        <button type="button" class="btn" id="downloadBtn">columns.json 다운로드</button>
-        <label class="btn secondary" style="margin:0; cursor:pointer;">
-          기존 파일 불러오기
-          <input type="file" id="fileInput" accept="application/json" style="display:none;">
-        </label>
-        <span class="status" id="statusMsg"></span>
+      <div class="export-bar" style="flex-direction: column; align-items: stretch;">
+        <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+          <input type="password" id="ghToken" placeholder="GitHub 토큰 (최초 1회만 입력하면 이 브라우저에 저장됩니다)" style="flex:1; min-width:240px; padding:9px 12px; border:1px solid var(--line); border-radius:8px; font-size:13px; font-family:inherit;">
+          <button type="button" class="btn secondary small" id="ghTokenSaveBtn">토큰 저장</button>
+          <button type="button" class="btn secondary small" id="ghTokenClearBtn">토큰 삭제</button>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+          <button type="button" class="btn" id="publishBtn">🚀 GitHub에 바로 발행</button>
+          <button type="button" class="btn secondary" id="downloadBtn">columns.json 다운로드</button>
+          <label class="btn secondary" style="margin:0; cursor:pointer;">
+            기존 파일 불러오기
+            <input type="file" id="fileInput" accept="application/json" style="display:none;">
+          </label>
+          <span class="status" id="statusMsg"></span>
+        </div>
       </div>
 
       <ol class="steps" style="margin-top:16px;">
-        <li>위에서 다운로드한 <code>columns.json</code> 파일을 확인합니다.</li>
-        <li>GitHub 저장소에 <code>content</code> 폴더가 없다면, "Add file → Create new file"에서 파일 이름란에 <code>content/columns.json</code>이라고 입력해 폴더를 만들고 내용을 붙여넣어 커밋합니다.</li>
-        <li>이미 <code>content/columns.json</code>이 있다면, 그 파일 페이지에서 연필(수정) 아이콘을 눌러 새로 다운로드한 내용으로 통째로 바꿔 넣고 커밋합니다.</li>
-        <li>잠시 후 <a href="column.html" target="_blank">칼럼 페이지</a>를 새로고침하면 반영됩니다.</li>
+        <li><b>토큰이 저장되어 있으면</b> "GitHub에 바로 발행" 버튼 한 번으로 끝입니다. 몇 분 안에 <a href="column.html" target="_blank">칼럼 페이지</a>에 반영됩니다.</li>
+        <li>토큰이 없거나 발행 버튼이 실패하면, 아래 수동 방법을 쓰세요: "columns.json 다운로드"로 파일을 받은 뒤, GitHub 저장소의 <code>content/columns.json</code> 파일 페이지에서 연필(수정) 아이콘을 눌러 내용을 통째로 바꿔 넣고 커밋합니다.</li>
       </ol>
     </div>
   </div>
@@ -521,6 +527,103 @@
       }
     });
   });
+
+  var GH_OWNER = 'gamseonghani';
+  var GH_REPO = 'gamseonghani-site';
+  var GH_PATH = 'content/columns.json';
+  var GH_TOKEN_KEY = 'gsh_admin_gh_token';
+
+  var ghTokenInput = document.getElementById('ghToken');
+  var publishBtn = document.getElementById('publishBtn');
+
+  function safeLocalGet(key){
+    try { return localStorage.getItem(key); } catch (e) { return null; }
+  }
+  function safeLocalSet(key, val){
+    try { localStorage.setItem(key, val); } catch (e) { /* storage unavailable, ignore */ }
+  }
+  function safeLocalRemove(key){
+    try { localStorage.removeItem(key); } catch (e) { /* ignore */ }
+  }
+
+  var savedToken = safeLocalGet(GH_TOKEN_KEY);
+  if (savedToken) ghTokenInput.value = savedToken;
+
+  document.getElementById('ghTokenSaveBtn').addEventListener('click', function(){
+    var val = ghTokenInput.value.trim();
+    if (!val){ setStatus('저장할 토큰을 입력해주세요.', 'err'); return; }
+    safeLocalSet(GH_TOKEN_KEY, val);
+    setStatus('이 브라우저에 토큰을 저장했습니다.', 'ok');
+  });
+
+  document.getElementById('ghTokenClearBtn').addEventListener('click', function(){
+    safeLocalRemove(GH_TOKEN_KEY);
+    ghTokenInput.value = '';
+    setStatus('저장된 토큰을 삭제했습니다.', 'ok');
+  });
+
+  function utf8ToBase64(str){
+    var bytes = new TextEncoder().encode(str);
+    var binary = '';
+    for (var i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+    return btoa(binary);
+  }
+
+  function publishToGitHub(){
+    var token = ghTokenInput.value.trim() || safeLocalGet(GH_TOKEN_KEY);
+    if (!token){
+      setStatus('먼저 GitHub 토큰을 입력하고 "토큰 저장"을 눌러주세요.', 'err');
+      return;
+    }
+    var apiUrl = 'https://api.github.com/repos/' + GH_OWNER + '/' + GH_REPO + '/contents/' + GH_PATH;
+    var out = { title: '원장칼럼 목록', items: items };
+    var newContentB64 = utf8ToBase64(JSON.stringify(out, null, 2));
+
+    publishBtn.disabled = true;
+    setStatus('GitHub에서 현재 파일 정보를 확인하는 중...', '');
+
+    fetch(apiUrl, {
+      headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json' },
+      cache: 'no-store'
+    })
+      .then(function(res){
+        if (res.status === 404) return { sha: null };
+        if (!res.ok) return res.json().then(function(body){ throw new Error('조회 실패 (' + res.status + '): ' + (body && body.message ? body.message : '')); });
+        return res.json();
+      })
+      .then(function(current){
+        setStatus('GitHub에 발행하는 중...', '');
+        var body = {
+          message: '칼럼 업데이트 (관리자 페이지에서 발행)',
+          content: newContentB64
+        };
+        if (current && current.sha) body.sha = current.sha;
+        return fetch(apiUrl, {
+          method: 'PUT',
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'Accept': 'application/vnd.github+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        }).then(function(res){
+          if (!res.ok) return res.json().then(function(errBody){ throw new Error('발행 실패 (' + res.status + '): ' + (errBody && errBody.message ? errBody.message : '')); });
+          return res.json();
+        });
+      })
+      .then(function(){
+        safeLocalSet(GH_TOKEN_KEY, token);
+        setStatus('발행 완료! 1~2분 후 칼럼 페이지에 반영됩니다.', 'ok');
+      })
+      .catch(function(err){
+        setStatus(err.message || '발행 중 오류가 발생했습니다.', 'err');
+      })
+      .finally(function(){
+        publishBtn.disabled = false;
+      });
+  }
+
+  publishBtn.addEventListener('click', publishToGitHub);
 
   document.getElementById('downloadBtn').addEventListener('click', function(){
     var out = { title: '원장칼럼 목록', items: items };
