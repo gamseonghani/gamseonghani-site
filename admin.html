@@ -440,7 +440,13 @@
         (/^\d+$/.test(weightVal) && parseInt(weightVal, 10) >= 600);
       var isItalic = tag === 'i' || tag === 'em' || /font-style\s*:\s*italic/i.test(style);
       var isUnderline = tag === 'u' || /text-decoration[^;]*underline/i.test(style);
-      return { bold: isBold, italic: isItalic, underline: isUnderline };
+      // 글자색/형광펜(배경색)은 태그가 아니라 거의 항상 style 속성으로만 표현되므로 그대로 추출해둡니다.
+      var colorMatch = style.match(/(?:^|;)\s*color\s*:\s*([^;]+)/i);
+      var bgMatch = style.match(/background(?:-color)?\s*:\s*([^;]+)/i);
+      var color = colorMatch ? colorMatch[1].trim() : '';
+      var bg = bgMatch ? bgMatch[1].trim() : '';
+      if (/^(transparent|rgba\(0,\s*0,\s*0,\s*0\)|none|white|#fff(fff)?)$/i.test(bg)) bg = '';
+      return { bold: isBold, italic: isItalic, underline: isUnderline, color: color, bg: bg };
     }
 
     function applyEmphasis(text, emph){
@@ -449,6 +455,12 @@
       if (emph.underline) out = '<u>' + out + '</u>';
       if (emph.italic) out = '*' + out + '*';
       if (emph.bold) out = '**' + out + '**';
+      if (emph.color || emph.bg){
+        var styleParts = [];
+        if (emph.color) styleParts.push('color:' + emph.color);
+        if (emph.bg) styleParts.push('background-color:' + emph.bg);
+        out = '<span style="' + styleParts.join(';') + '">' + out + '</span>';
+      }
       return out;
     }
 
