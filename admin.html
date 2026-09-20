@@ -428,6 +428,30 @@
     var container = document.createElement('div');
     container.innerHTML = html;
 
+    // 네이버 블로그 등은 <b>, <h2> 같은 표준 태그 대신
+    // <span style="font-weight:bold"> 처럼 인라인 스타일로 서식을 넣는 경우가 많아,
+    // 태그 이름과 style 속성을 함께 봅니다.
+    function emphasisFromStyle(el, tag){
+      var style = (el.getAttribute && el.getAttribute('style')) || '';
+      var weightMatch = style.match(/font-weight\s*:\s*([a-z0-9]+)/i);
+      var weightVal = weightMatch ? weightMatch[1].toLowerCase() : '';
+      var isBold = tag === 'b' || tag === 'strong' ||
+        weightVal === 'bold' || weightVal === 'bolder' ||
+        (/^\d+$/.test(weightVal) && parseInt(weightVal, 10) >= 600);
+      var isItalic = tag === 'i' || tag === 'em' || /font-style\s*:\s*italic/i.test(style);
+      var isUnderline = tag === 'u' || /text-decoration[^;]*underline/i.test(style);
+      return { bold: isBold, italic: isItalic, underline: isUnderline };
+    }
+
+    function applyEmphasis(text, emph){
+      if (!text) return text;
+      var out = text;
+      if (emph.underline) out = '<u>' + out + '</u>';
+      if (emph.italic) out = '*' + out + '*';
+      if (emph.bold) out = '**' + out + '**';
+      return out;
+    }
+
     function walk(node){
       var out = '';
       node.childNodes.forEach(function(child){
@@ -438,19 +462,11 @@
         if (child.nodeType !== Node.ELEMENT_NODE) return;
         var tag = child.tagName.toLowerCase();
         var inner = walk(child);
+        var trimmed = inner.trim();
         switch(tag){
-          case 'b': case 'strong':
-            out += inner.trim() ? '**' + inner.trim() + '**' : '';
-            break;
-          case 'i': case 'em':
-            out += inner.trim() ? '*' + inner.trim() + '*' : '';
-            break;
-          case 'u':
-            out += inner.trim() ? '<u>' + inner.trim() + '</u>' : '';
-            break;
           case 'a':
             var href = child.getAttribute('href') || '';
-            out += inner.trim() ? '[' + inner.trim() + '](' + href + ')' : '';
+            out += trimmed ? '[' + trimmed + '](' + href + ')' : '';
             break;
           case 'img':
             var src = child.getAttribute('src') || '';
@@ -458,13 +474,13 @@
             if (src) out += '\n\n![' + alt + '](' + src + ')\n\n';
             break;
           case 'h1':
-            out += '\n\n# ' + inner.trim() + '\n\n'; break;
+            out += '\n\n# ' + trimmed + '\n\n'; break;
           case 'h2':
-            out += '\n\n## ' + inner.trim() + '\n\n'; break;
+            out += '\n\n## ' + trimmed + '\n\n'; break;
           case 'h3': case 'h4': case 'h5': case 'h6':
-            out += '\n\n### ' + inner.trim() + '\n\n'; break;
+            out += '\n\n### ' + trimmed + '\n\n'; break;
           case 'li':
-            out += '- ' + inner.trim() + '\n';
+            out += '- ' + trimmed + '\n';
             break;
           case 'ul': case 'ol':
             out += '\n' + inner + '\n';
@@ -473,12 +489,12 @@
             out += '\n';
             break;
           case 'p': case 'div': case 'section': case 'blockquote':
-            out += inner.trim() ? inner.trim() + '\n\n' : '';
+            out += trimmed ? applyEmphasis(trimmed, emphasisFromStyle(child, tag)) + '\n\n' : '';
             break;
           case 'script': case 'style':
             break;
           default:
-            out += inner;
+            out += trimmed ? applyEmphasis(trimmed, emphasisFromStyle(child, tag)) : inner;
         }
       });
       return out;
