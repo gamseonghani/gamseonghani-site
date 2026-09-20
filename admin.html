@@ -424,6 +424,88 @@
   }
   bodyEl.addEventListener('input', updatePreview);
 
+  function htmlToMarkdownish(html){
+    var container = document.createElement('div');
+    container.innerHTML = html;
+
+    function walk(node){
+      var out = '';
+      node.childNodes.forEach(function(child){
+        if (child.nodeType === Node.TEXT_NODE){
+          out += child.textContent;
+          return;
+        }
+        if (child.nodeType !== Node.ELEMENT_NODE) return;
+        var tag = child.tagName.toLowerCase();
+        var inner = walk(child);
+        switch(tag){
+          case 'b': case 'strong':
+            out += inner.trim() ? '**' + inner.trim() + '**' : '';
+            break;
+          case 'i': case 'em':
+            out += inner.trim() ? '*' + inner.trim() + '*' : '';
+            break;
+          case 'u':
+            out += inner.trim() ? '<u>' + inner.trim() + '</u>' : '';
+            break;
+          case 'a':
+            var href = child.getAttribute('href') || '';
+            out += inner.trim() ? '[' + inner.trim() + '](' + href + ')' : '';
+            break;
+          case 'img':
+            var src = child.getAttribute('src') || '';
+            var alt = child.getAttribute('alt') || '';
+            if (src) out += '\n\n![' + alt + '](' + src + ')\n\n';
+            break;
+          case 'h1':
+            out += '\n\n# ' + inner.trim() + '\n\n'; break;
+          case 'h2':
+            out += '\n\n## ' + inner.trim() + '\n\n'; break;
+          case 'h3': case 'h4': case 'h5': case 'h6':
+            out += '\n\n### ' + inner.trim() + '\n\n'; break;
+          case 'li':
+            out += '- ' + inner.trim() + '\n';
+            break;
+          case 'ul': case 'ol':
+            out += '\n' + inner + '\n';
+            break;
+          case 'br':
+            out += '\n';
+            break;
+          case 'p': case 'div': case 'section': case 'blockquote':
+            out += inner.trim() ? inner.trim() + '\n\n' : '';
+            break;
+          case 'script': case 'style':
+            break;
+          default:
+            out += inner;
+        }
+      });
+      return out;
+    }
+
+    var md = walk(container);
+    md = md.replace(/\n{3,}/g, '\n\n').replace(/[ \t]+\n/g, '\n').trim();
+    return md;
+  }
+
+  bodyEl.addEventListener('paste', function(e){
+    if (!e.clipboardData) return;
+    var html = e.clipboardData.getData('text/html');
+    if (!html || !html.trim()) return; // 서식 없는 일반 텍스트는 기본 붙여넣기 동작에 맡깁니다.
+    e.preventDefault();
+    var md = htmlToMarkdownish(html);
+    var start = bodyEl.selectionStart;
+    var end = bodyEl.selectionEnd;
+    var val = bodyEl.value;
+    bodyEl.value = val.slice(0, start) + md + val.slice(end);
+    var newPos = start + md.length;
+    bodyEl.focus();
+    bodyEl.setSelectionRange(newPos, newPos);
+    updatePreview();
+    setStatus('붙여넣은 내용의 서식(굵게/소제목/목록/링크/이미지)을 최대한 변환했습니다. 미리보기에서 확인해보세요.', 'ok');
+  });
+
   form.addEventListener('submit', function(e){
     e.preventDefault();
     var newItem = {
