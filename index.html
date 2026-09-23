@@ -1271,12 +1271,19 @@
       5: { open: 9.5, close: 20,   breakStart: 13, breakEnd: 14 },  // 금
       6: { open: 9.5, close: 14.5, breakStart: null, breakEnd: null } // 토
     };
+    // 2026년 추석 연휴 임시 휴진 (9/24 목 ~ 9/26 토). 9/27(일)은 원래 일요일 휴진.
+    var holidayRanges = [
+      { start: '2026-09-24', end: '2026-09-26', label: '추석 연휴', resume: '9/28(월) 정상 진료' }
+    ];
+
     var badge = document.getElementById('statusBadge');
     var text = document.getElementById('statusText');
     var now = new Date();
     var day = now.getDay();
     var today = hours[day];
     var nowVal = now.getHours() + now.getMinutes() / 60;
+    var todayStr = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
+    var activeHoliday = holidayRanges.filter(function(h){ return todayStr >= h.start && todayStr <= h.end; })[0];
 
     function fmt(v){
       var h = Math.floor(v);
@@ -1286,7 +1293,10 @@
       return hh + ':' + mm;
     }
 
-    if (!today){
+    if (activeHoliday){
+      badge.classList.add('closed');
+      text.textContent = activeHoliday.label + ' 휴진 · ' + activeHoliday.resume;
+    } else if (!today){
       badge.classList.add('closed');
       text.textContent = '일요일 휴진';
     } else if (nowVal < today.open){
