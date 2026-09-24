@@ -1421,7 +1421,10 @@
     special: '<path d="M12 21c-5-4-8-7.5-8-11a5 5 0 0 1 8-4 5 5 0 0 1 8 4c0 3.5-3 7-8 11z"/>'
   };
 
+  var CURRENT_ITEMS = [];
+
   function renderColumns(items){
+    CURRENT_ITEMS = items;
     var grid = document.getElementById('columnGrid');
     grid.innerHTML = '';
 
@@ -1458,7 +1461,8 @@
     });
   }
 
-  function showArticle(item){
+  function showArticle(item, opts){
+    opts = opts || {};
     var bodyHtml = (typeof marked !== 'undefined' && item.body)
       ? marked.parse(item.body)
       : '<p>' + (item.body || '') + '</p>';
@@ -1501,6 +1505,13 @@
     document.getElementById('catTabs').hidden = true;
     document.getElementById('articleView').hidden = false;
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (opts.pushHistory !== false){
+      try {
+        var slug = slugify(item.title);
+        history.pushState({ view: 'article', slug: slug }, '', 'column.html?c=' + encodeURIComponent(slug));
+      } catch (e) { /* 히스토리 API를 못 쓰는 환경이면 그냥 화면 전환만 해도 문제 없음 */ }
+    }
   }
 
   function hideArticle(){
@@ -1508,7 +1519,24 @@
     document.getElementById('columnGrid').hidden = false;
     document.getElementById('catTabs').hidden = false;
   }
-  document.getElementById('backToList').addEventListener('click', hideArticle);
+
+  document.getElementById('backToList').addEventListener('click', function(){
+    if (history.state && history.state.view === 'article'){
+      history.back();
+    } else {
+      hideArticle();
+    }
+  });
+
+  // 뒤로/앞으로 가기를 눌렀을 때, 기사 화면과 목록 화면이 브라우저 히스토리와 맞물려 전환되게 합니다.
+  window.addEventListener('popstate', function(e){
+    var state = e.state;
+    if (state && state.view === 'article' && state.slug){
+      var match = CURRENT_ITEMS.filter(function(item){ return slugify(item.title) === state.slug; })[0];
+      if (match){ showArticle(match, { pushHistory: false }); return; }
+    }
+    hideArticle();
+  });
 
   function updateTabCounts(items){
     var counts = {};
@@ -1551,8 +1579,18 @@
     var slug = new URLSearchParams(location.search).get('c');
     if (!slug) return false;
     var match = items.filter(function(item){ return slugify(item.title) === slug; })[0];
-    if (match){ showArticle(match); return true; }
-    return false;
+    if (!match) return false;
+
+    if (history.state && history.state.view === 'article'){
+      // 이미 히스토리를 만들어둔 상태(예: fetch로 최신 데이터를 받은 뒤 다시 호출된 경우)라면
+      // 내용만 새로 채우고, 히스토리는 다시 쌓지 않습니다.
+      showArticle(match, { pushHistory: false });
+      return true;
+    }
+    // 뒤로가기를 누르면 이 칼럼 목록으로 먼저 돌아오도록, 목록 상태를 먼저 히스토리에 남겨둡니다.
+    try { history.replaceState({ view: 'list' }, '', 'column.html'); } catch (e) { /* 무시 */ }
+    showArticle(match);
+    return true;
   }
 
   renderColumns(COLUMN_DATA.items || []);
