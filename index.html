@@ -1338,7 +1338,12 @@
     function renderTeasers(items){
       var grid = document.getElementById('columnTeaserGrid');
       if (!grid || !items || !items.length) return;
-      var sorted = items.slice().sort(function(a, b){ return (b.date || '').localeCompare(a.date || ''); });
+      var sorted = items.map(function(item, i){ return { item: item, i: i }; })
+        .sort(function(a, b){
+          var d = (b.item.date || '').localeCompare(a.item.date || '');
+          return d !== 0 ? d : (b.i - a.i);
+        })
+        .map(function(x){ return x.item; });
       var top = sorted.slice(0, 2);
       grid.innerHTML = top.map(function(item){
         return '<a class="column-teaser" href="column.html?c=' + encodeURIComponent(slugify(item.title)) + '">' +

@@ -1425,9 +1425,12 @@
     var grid = document.getElementById('columnGrid');
     grid.innerHTML = '';
 
-    var sorted = items.slice().sort(function(a, b){
-      return (b.date || '').localeCompare(a.date || '');
-    });
+    var sorted = items.map(function(item, i){ return { item: item, i: i }; })
+      .sort(function(a, b){
+        var d = (b.item.date || '').localeCompare(a.item.date || '');
+        return d !== 0 ? d : (b.i - a.i); // 날짜가 같으면 나중에 추가된(배열 뒤쪽) 글을 먼저 보여줍니다
+      })
+      .map(function(x){ return x.item; });
 
     sorted.forEach(function(item, i){
       var card = document.createElement('button');

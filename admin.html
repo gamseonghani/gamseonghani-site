@@ -426,7 +426,10 @@
     listEl.innerHTML = '';
     countLabel.textContent = items.length;
     var sortedIdx = items.map(function(_, i){ return i; })
-      .sort(function(a, b){ return (items[b].date || '').localeCompare(items[a].date || ''); });
+      .sort(function(a, b){
+        var d = (items[b].date || '').localeCompare(items[a].date || '');
+        return d !== 0 ? d : (b - a); // 날짜가 같으면 나중에 추가된(배열 뒤쪽) 글을 먼저 보여줍니다
+      });
 
     sortedIdx.forEach(function(i){
       var item = items[i];
