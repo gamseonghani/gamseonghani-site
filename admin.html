@@ -508,6 +508,22 @@
       return out;
     }
 
+    function cellMarkdown(cell){
+      return walk(cell).trim().replace(/\|/g, '\\|').replace(/\s*\n+\s*/g, ' ');
+    }
+
+    function tableToMarkdown(tableEl){
+      var rows = Array.prototype.slice.call(tableEl.querySelectorAll('tr'));
+      if (!rows.length) return '';
+      var lines = rows.map(function(row){
+        var cells = Array.prototype.slice.call(row.querySelectorAll('th,td'));
+        return '| ' + cells.map(cellMarkdown).join(' | ') + ' |';
+      });
+      var headerCount = rows[0].querySelectorAll('th,td').length || 1;
+      lines.splice(1, 0, '| ' + Array(headerCount).fill('---').join(' | ') + ' |');
+      return '\n\n' + lines.join('\n') + '\n\n';
+    }
+
     function walk(node){
       var out = '';
       node.childNodes.forEach(function(child){
@@ -548,6 +564,12 @@
             out += trimmed ? applyEmphasis(trimmed, emphasisFromStyle(child, tag)) + '\n\n' : '';
             break;
           case 'script': case 'style':
+            break;
+          case 'table':
+            out += tableToMarkdown(child);
+            break;
+          case 'thead': case 'tbody': case 'tfoot': case 'tr': case 'td': case 'th':
+            // 표 셀 내용은 위 'table' 케이스에서 한 번에 처리하므로 여기서는 건너뜁니다.
             break;
           default:
             out += trimmed ? applyEmphasis(trimmed, emphasisFromStyle(child, tag)) : inner;
