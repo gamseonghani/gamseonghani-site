@@ -837,19 +837,18 @@
   .cat-tabs{
     display: flex;
     gap: 10px;
-    flex-wrap: nowrap;
-    overflow-x: auto;
+    flex-wrap: wrap;
     padding: 22px 0 0;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
   }
-  .cat-tabs::-webkit-scrollbar{ display: none; }
   .cat-tabs button{
     flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     font-family: "Noto Sans KR", sans-serif;
     font-size: 0.88rem;
     font-weight: 700;
-    padding: 9px 18px;
+    padding: 9px 16px;
     border-radius: 999px;
     border: 1px solid var(--line);
     background: var(--bg);
@@ -860,6 +859,18 @@
   .cat-tabs button.active{
     background: var(--teal-deep);
     border-color: var(--teal-deep);
+    color: #F1ECDD;
+  }
+  .cat-tabs button .count{
+    background: color-mix(in srgb, var(--ink) 10%, transparent);
+    color: var(--ink-soft);
+    font-size: 0.82em;
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: 999px;
+  }
+  .cat-tabs button.active .count{
+    background: rgba(255,255,255,0.2);
     color: #F1ECDD;
   }
   .column-list{ padding: 20px 0 100px; }
@@ -1496,6 +1507,21 @@
   }
   document.getElementById('backToList').addEventListener('click', hideArticle);
 
+  function updateTabCounts(items){
+    var counts = {};
+    items.forEach(function(item){
+      counts[item.category] = (counts[item.category] || 0) + 1;
+    });
+    document.querySelectorAll('#catTabs button').forEach(function(btn){
+      if (!btn.hasAttribute('data-label')){
+        btn.setAttribute('data-label', btn.textContent.trim());
+      }
+      var filter = btn.getAttribute('data-filter');
+      var n = filter === 'all' ? items.length : (counts[filter] || 0);
+      btn.innerHTML = btn.getAttribute('data-label') + ' <span class="count">' + n + '</span>';
+    });
+  }
+
   function initFilters(){
     var tabs = document.querySelectorAll('#catTabs button');
     tabs.forEach(function(btn){
@@ -1528,6 +1554,7 @@
 
   renderColumns(COLUMN_DATA.items || []);
   initFilters();
+  updateTabCounts(COLUMN_DATA.items || []);
   openFromQuery(COLUMN_DATA.items || []);
 
   // 관리자 페이지에서 새로 추가된 칼럼이 있으면 최신 데이터로 갱신
@@ -1539,6 +1566,7 @@
         initFilters();
       }
       if (data && Array.isArray(data.items)){
+        updateTabCounts(data.items);
         openFromQuery(data.items);
       }
     })
