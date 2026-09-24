@@ -1087,7 +1087,7 @@
       <h2>원장칼럼</h2>
       <p class="lead">진료실에서 나누는 깊이 있는 건강 이야기</p>
 
-      <div class="column-teaser-grid">
+      <div class="column-teaser-grid" id="columnTeaserGrid">
         <a class="column-teaser" href="column.html">
           <span class="cat-tag">원장 이야기</span>
           <h3>13년 차 한의사가 매일 진료실 문을 열며 품는 생각</h3>
@@ -1316,6 +1316,47 @@
       badge.classList.add('closed');
       text.textContent = '진료 종료';
     }
+  })();
+
+  /* 원장칼럼 미리보기 - 관리자 페이지에서 발행한 최신 칼럼 반영 */
+  (function(){
+    var CATEGORY_LABELS = {
+      philosophy: '원장 이야기',
+      headache: '두통 · 어지러움',
+      jaw: '턱관절',
+      sensory: '감각기관 · 신경계',
+      spine: '척추 · 근골격',
+      internal: '내과 질환',
+      pediatric: '소아 클리닉',
+      special: '다이어트 클리닉'
+    };
+
+    function slugify(title){
+      return (title || '').trim().replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-+|-+$/g, '').toLowerCase();
+    }
+
+    function renderTeasers(items){
+      var grid = document.getElementById('columnTeaserGrid');
+      if (!grid || !items || !items.length) return;
+      var sorted = items.slice().sort(function(a, b){ return (b.date || '').localeCompare(a.date || ''); });
+      var top = sorted.slice(0, 2);
+      grid.innerHTML = top.map(function(item){
+        return '<a class="column-teaser" href="column.html?c=' + encodeURIComponent(slugify(item.title)) + '">' +
+          '<span class="cat-tag">' + (CATEGORY_LABELS[item.category] || item.category || '') + '</span>' +
+          '<h3>' + (item.title || '') + '</h3>' +
+          '<p>' + (item.teaser || '') + '</p>' +
+        '</a>';
+      }).join('');
+    }
+
+    fetch('content/columns.json', { cache: 'no-store' })
+      .then(function(res){ return res.ok ? res.json() : null; })
+      .then(function(data){
+        if (data && Array.isArray(data.items) && data.items.length){
+          renderTeasers(data.items);
+        }
+      })
+      .catch(function(){ /* 기본으로 보이는 카드 2개만 유지해도 문제 없음 */ });
   })();
 </script>
 
