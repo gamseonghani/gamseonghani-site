@@ -251,7 +251,6 @@
           <button type="button" class="btn secondary small" id="ghTokenClearBtn">토큰 삭제</button>
         </div>
         <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-          <button type="button" class="btn secondary" id="draftSaveBtn">💾 임시저장 (다른 컴퓨터와 공유)</button>
           <button type="button" class="btn" id="publishBtn">🚀 GitHub에 바로 발행</button>
           <button type="button" class="btn secondary" id="downloadBtn">columns.json 다운로드</button>
           <label class="btn secondary" style="margin:0; cursor:pointer;">
@@ -263,9 +262,9 @@
       </div>
 
       <ol class="steps" style="margin-top:16px;">
-        <li>별도 설정 없이 <b>어느 컴퓨터에서든</b> 바로 사용할 수 있습니다.</li>
-        <li>글이 아직 다 안 끝났거나, 다른 컴퓨터에서 이어서 작업하고 싶으면 <b>"임시저장"</b>을 누르세요. 실제 사이트에는 올라가지 않고, 어느 컴퓨터에서 admin.html을 열든 그 내용을 이어서 볼 수 있습니다.</li>
-        <li>다 됐으면 <b>"GitHub에 바로 발행"</b> 버튼 한 번으로 실제 사이트에 반영됩니다. 몇 분 안에 <a href="column.html" target="_blank">칼럼 페이지</a>에 반영됩니다.</li>
+        <li>이 페이지를 열면 <b>항상 실제 사이트에 지금 발행되어 있는 칼럼 목록</b>을 그대로 불러옵니다.</li>
+        <li>왼쪽 목록에서 "수정"/"삭제"를 하거나, 새 칼럼을 작성한 뒤 <b>"목록에 추가"</b>를 누르면 이 화면 안에서만 목록이 바뀝니다. (아직 실제 사이트에는 반영되지 않은 상태)</li>
+        <li>변경을 마쳤으면 <b>"GitHub에 바로 발행"</b> 버튼을 눌러야 실제 사이트에 반영됩니다. 몇 분 안에 <a href="column.html" target="_blank">칼럼 페이지</a>에 반영됩니다.</li>
         <li>혹시 버튼이 실패하면, 아래 수동 방법을 쓰세요: "columns.json 다운로드"로 파일을 받은 뒤, GitHub 저장소의 <code>content/columns.json</code> 파일 페이지에서 연필(수정) 아이콘을 눌러 내용을 통째로 바꿔 넣고 커밋합니다.</li>
       </ol>
     </div>
@@ -666,7 +665,6 @@
   var GH_OWNER = 'gamseonghani';
   var GH_REPO = 'gamseonghani-site';
   var GH_PATH = 'content/columns.json';
-  var GH_DRAFT_PATH = 'content/drafts.json';
   var GH_TOKEN_KEY = 'gsh_admin_gh_token';
   // 이 저장소(gamseonghani-site)에만, Contents 읽기/쓰기 권한으로 발급한 토큰입니다.
   // 어느 컴퓨터에서 admin.html을 열어도 별도 설정 없이 바로 저장/발행되도록 기본값으로 넣어둔 것으로,
@@ -675,7 +673,6 @@
 
   var ghTokenInput = document.getElementById('ghToken');
   var publishBtn = document.getElementById('publishBtn');
-  var draftSaveBtn = document.getElementById('draftSaveBtn');
 
   function safeLocalGet(key){
     try { return localStorage.getItem(key); } catch (e) { return null; }
@@ -758,10 +755,6 @@
 
     putFileToGitHub(GH_PATH, out, '칼럼 업데이트 (관리자 페이지에서 발행)', token)
       .then(function(){
-        // 발행본과 임시저장본을 같은 내용으로 맞춰서, 다른 컴퓨터에서 열어도 최신 상태가 보이게 합니다.
-        return putFileToGitHub(GH_DRAFT_PATH, { title: '임시저장', items: items, savedAt: new Date().toISOString() }, '임시저장 동기화 (발행 시 자동)', token);
-      })
-      .then(function(){
         safeLocalSet(GH_TOKEN_KEY, token);
         setStatus('발행 완료! 1~2분 후 칼럼 페이지에 반영됩니다.', 'ok');
       })
@@ -773,32 +766,7 @@
       });
   }
 
-  function saveDraft(){
-    var token = getToken();
-    if (!token){
-      setStatus('먼저 GitHub 토큰을 입력하고 "토큰 저장"을 눌러주세요.', 'err');
-      return;
-    }
-    var out = { title: '임시저장', items: items, savedAt: new Date().toISOString() };
-
-    draftSaveBtn.disabled = true;
-    setStatus('임시저장하는 중...', '');
-
-    putFileToGitHub(GH_DRAFT_PATH, out, '임시저장 (관리자 페이지)', token)
-      .then(function(){
-        safeLocalSet(GH_TOKEN_KEY, token);
-        setStatus('임시저장했습니다. 다른 컴퓨터에서 admin.html을 열면 이 내용을 이어서 볼 수 있어요.', 'ok');
-      })
-      .catch(function(err){
-        setStatus(err.message || '임시저장 중 오류가 발생했습니다.', 'err');
-      })
-      .finally(function(){
-        draftSaveBtn.disabled = false;
-      });
-  }
-
   publishBtn.addEventListener('click', publishToGitHub);
-  draftSaveBtn.addEventListener('click', saveDraft);
 
   document.getElementById('downloadBtn').addEventListener('click', function(){
     var out = { title: '원장칼럼 목록', items: items };
@@ -836,32 +804,18 @@
 
   resetForm();
 
-  function loadFromColumnsJson(){
-    return fetch('content/columns.json', { cache: 'no-store' })
-      .then(function(res){ return res.ok ? res.json() : null; })
-      .then(function(data){
-        if (data && Array.isArray(data.items) && data.items.length){
-          items = data.items;
-          setStatus('현재 사이트에 등록된 칼럼을 불러왔습니다.', 'ok');
-        } else {
-          items = DEFAULT_ITEMS.slice();
-          setStatus('사이트에 등록된 파일이 아직 없어 기본 칼럼 2개로 시작합니다.', '');
-        }
-        renderList();
-      });
-  }
-
-  fetch('content/drafts.json', { cache: 'no-store' })
+  // 이 페이지를 열 때마다 항상 실제 사이트에 지금 발행되어 있는 최신 칼럼 목록을 불러옵니다.
+  fetch('content/columns.json', { cache: 'no-store' })
     .then(function(res){ return res.ok ? res.json() : null; })
-    .then(function(draftData){
-      if (draftData && Array.isArray(draftData.items) && draftData.items.length){
-        items = draftData.items;
-        var savedAt = draftData.savedAt ? new Date(draftData.savedAt).toLocaleString('ko-KR') : '';
-        setStatus('다른 컴퓨터에 임시저장된 최신 작업 내용을 불러왔습니다.' + (savedAt ? ' (' + savedAt + ' 저장)' : ''), 'ok');
-        renderList();
-        return;
+    .then(function(data){
+      if (data && Array.isArray(data.items) && data.items.length){
+        items = data.items;
+        setStatus('현재 사이트에 발행되어 있는 칼럼을 불러왔습니다.', 'ok');
+      } else {
+        items = DEFAULT_ITEMS.slice();
+        setStatus('사이트에 등록된 파일이 아직 없어 기본 칼럼 2개로 시작합니다.', '');
       }
-      return loadFromColumnsJson();
+      renderList();
     })
     .catch(function(){
       items = DEFAULT_ITEMS.slice();
