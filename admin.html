@@ -246,7 +246,7 @@
 
       <div class="export-bar" style="flex-direction: column; align-items: stretch;">
         <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-          <input type="password" id="ghToken" placeholder="다른 GitHub 토큰을 쓰고 싶을 때만 입력 (평소엔 비워두세요)" style="flex:1; min-width:240px; padding:9px 12px; border:1px solid var(--line); border-radius:8px; font-size:13px; font-family:inherit;">
+          <input type="password" id="ghToken" placeholder="GitHub 토큰 (최초 1회만 입력 후 '토큰 저장')" style="flex:1; min-width:240px; padding:9px 12px; border:1px solid var(--line); border-radius:8px; font-size:13px; font-family:inherit;">
           <button type="button" class="btn secondary small" id="ghTokenSaveBtn">토큰 저장</button>
           <button type="button" class="btn secondary small" id="ghTokenClearBtn">토큰 삭제</button>
         </div>
@@ -262,6 +262,7 @@
       </div>
 
       <ol class="steps" style="margin-top:16px;">
+        <li><b>맨 처음 한 번만:</b> GitHub 토큰을 위 입력칸에 붙여넣고 <b>"토큰 저장"</b>을 누르세요. 이 컴퓨터의 이 브라우저에만 저장되고, 그 다음부터는 다시 입력할 필요 없습니다.</li>
         <li>이 페이지를 열면 <b>항상 실제 사이트에 지금 발행되어 있는 칼럼 목록</b>을 그대로 불러옵니다.</li>
         <li>왼쪽 목록에서 "수정"/"삭제"를 하거나, 새 칼럼을 작성한 뒤 <b>"목록에 추가"</b>를 누르면 이 화면 안에서만 목록이 바뀝니다. (아직 실제 사이트에는 반영되지 않은 상태)</li>
         <li>변경을 마쳤으면 <b>"GitHub에 바로 발행"</b> 버튼을 눌러야 실제 사이트에 반영됩니다. 몇 분 안에 <a href="column.html" target="_blank">칼럼 페이지</a>에 반영됩니다.</li>
@@ -666,10 +667,8 @@
   var GH_REPO = 'gamseonghani-site';
   var GH_PATH = 'content/columns.json';
   var GH_TOKEN_KEY = 'gsh_admin_gh_token';
-  // 이 저장소(gamseonghani-site)에만, Contents 읽기/쓰기 권한으로 발급한 토큰입니다.
-  // 어느 컴퓨터에서 admin.html을 열어도 별도 설정 없이 바로 저장/발행되도록 기본값으로 넣어둔 것으로,
-  // 이 페이지 주소나 소스를 아는 사람은 이 토큰으로 이 저장소 파일을 수정할 수 있으니 링크를 함부로 공유하지 마세요.
-  var DEFAULT_TOKEN = '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';
+  // 토큰은 소스에 적어두지 않습니다. "토큰 저장"을 누르면 이 브라우저의 localStorage에만
+  // 저장되고, 다른 사람이 이 페이지 소스를 보더라도 토큰 값 자체는 알 수 없습니다.
 
   var ghTokenInput = document.getElementById('ghToken');
   var publishBtn = document.getElementById('publishBtn');
@@ -708,7 +707,7 @@
   }
 
   function getToken(){
-    return ghTokenInput.value.trim() || safeLocalGet(GH_TOKEN_KEY) || DEFAULT_TOKEN;
+    return ghTokenInput.value.trim() || safeLocalGet(GH_TOKEN_KEY) || '';
   }
 
   function putFileToGitHub(path, contentObj, commitMessage, token){
