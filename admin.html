@@ -141,6 +141,7 @@
   }
   .body-render th{ background: #fff; color: var(--teal-deep); font-weight: 700; border-top: 1px solid var(--line); }
   .body-render td{ color: var(--ink-soft); }
+  .body-render img{ display: block; max-width: 100%; height: auto; border-radius: 8px; margin: 14px auto; }
 
   .export-bar{
     display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
@@ -229,9 +230,11 @@
           <button type="button" data-cmd="h2" title="소제목">소제목</button>
           <button type="button" data-cmd="list" title="목록">목록</button>
           <button type="button" data-cmd="link" title="링크">링크</button>
+          <button type="button" id="insertImageBtn" title="사진 삽입">🖼 사진 삽입</button>
+          <input type="file" id="bodyImageInput" accept="image/*" multiple style="display:none;">
         </div>
         <textarea id="body" required></textarea>
-        <div class="hint">서식 버튼으로 선택한 글자를 꾸미거나, 직접 마크다운 문법을 입력해도 됩니다. 아래 미리보기에서 실제로 어떻게 보이는지 확인할 수 있습니다.</div>
+        <div class="hint">서식 버튼으로 선택한 글자를 꾸미거나, 직접 마크다운 문법을 입력해도 됩니다. "사진 삽입"으로 여러 장을 한 번에 고르거나, 사진을 복사해서 본문에 바로 붙여넣기(Ctrl+V)도 됩니다. 아래 미리보기에서 실제로 어떻게 보이는지 확인할 수 있습니다.</div>
 
         <div class="preview">
           <h3>미리보기</h3>
@@ -585,6 +588,22 @@
 
   bodyEl.addEventListener('paste', function(e){
     if (!e.clipboardData) return;
+
+    // 사진 파일을 복사해서 붙여넣은 경우(스크린샷, 이미지 복사 등)는 본문에 바로 삽입합니다.
+    var clipItems = e.clipboardData.items ? Array.prototype.slice.call(e.clipboardData.items) : [];
+    var imageFiles = clipItems
+      .filter(function(it){ return it.kind === 'file' && it.type.indexOf('image/') === 0; })
+      .map(function(it){ return it.getAsFile(); })
+      .filter(Boolean);
+    if (imageFiles.length){
+      e.preventDefault();
+      setStatus('사진을 불러와 압축하는 중...', '');
+      insertImagesAtCursor(imageFiles, function(){
+        setStatus('사진을 본문에 삽입했습니다. 미리보기에서 확인해보세요.', 'ok');
+      });
+      return;
+    }
+
     var html = e.clipboardData.getData('text/html');
     if (!html || !html.trim()) return; // 서식 없는 일반 텍스트는 기본 붙여넣기 동작에 맡깁니다.
     e.preventDefault();
@@ -692,6 +711,34 @@
     updatePreview();
   }
 
+  function insertAtCursor(text){
+    var start = bodyEl.selectionStart;
+    var end = bodyEl.selectionEnd;
+    var val = bodyEl.value;
+    bodyEl.value = val.slice(0, start) + text + val.slice(end);
+    var newPos = start + text.length;
+    bodyEl.focus();
+    bodyEl.setSelectionRange(newPos, newPos);
+  }
+
+  // 사진 여러 장을 순서대로 압축해서 본문 커서 위치에 하나씩 이어 넣습니다.
+  function insertImagesAtCursor(files, onDone){
+    var remaining = Array.prototype.slice.call(files);
+    function next(){
+      if (!remaining.length){
+        updatePreview();
+        if (onDone) onDone();
+        return;
+      }
+      var file = remaining.shift();
+      resizeImageFile(file, 900, 0.78, function(dataUrl){
+        insertAtCursor('\n\n![](' + dataUrl + ')\n\n');
+        next();
+      });
+    }
+    next();
+  }
+
   document.querySelectorAll('#editorToolbar button').forEach(function(btn){
     btn.addEventListener('click', function(){
       var cmd = btn.getAttribute('data-cmd');
@@ -705,6 +752,21 @@
         if (url) wrapSelection('[', '](' + url + ')');
       }
     });
+  });
+
+  var bodyImageInput = document.getElementById('bodyImageInput');
+  document.getElementById('insertImageBtn').addEventListener('click', function(){
+    bodyImageInput.click();
+  });
+  bodyImageInput.addEventListener('change', function(e){
+    var files = e.target.files;
+    if (!files || !files.length) return;
+    var count = files.length; // e.target.value를 비우면 files(라이브 목록)도 함께 비므로 개수를 미리 저장해둡니다.
+    setStatus('사진을 불러와 압축하는 중...', '');
+    insertImagesAtCursor(files, function(){
+      setStatus(count + '장의 사진을 본문에 삽입했습니다. 미리보기에서 확인해보세요.', 'ok');
+    });
+    e.target.value = '';
   });
 
   var GH_OWNER = 'gamseonghani';
