@@ -1280,14 +1280,22 @@
       { start: '2026-09-24', end: '2026-09-26', label: '추석 연휴', resume: '9/28(월) 정상 진료' }
     ];
 
+    // 공휴일 단축진료 (휴진은 아니고, 09:30~14:30 점심시간 없이 진료)
+    var specialHours = {
+      '2026-10-03': { label: '개천절 단축진료', open: 9.5, close: 14.5, breakStart: null, breakEnd: null },
+      '2026-10-09': { label: '한글날 단축진료', open: 9.5, close: 14.5, breakStart: null, breakEnd: null }
+    };
+
     var badge = document.getElementById('statusBadge');
     var text = document.getElementById('statusText');
     var now = new Date();
     var day = now.getDay();
-    var today = hours[day];
     var nowVal = now.getHours() + now.getMinutes() / 60;
     var todayStr = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
     var activeHoliday = holidayRanges.filter(function(h){ return todayStr >= h.start && todayStr <= h.end; })[0];
+    var special = specialHours[todayStr];
+    var today = special || hours[day];
+    var labelPrefix = special ? special.label + ' · ' : '';
 
     function fmt(v){
       var h = Math.floor(v);
@@ -1305,16 +1313,16 @@
       text.textContent = '일요일 휴진';
     } else if (nowVal < today.open){
       badge.classList.add('closed');
-      text.textContent = '진료 전 · ' + fmt(today.open) + ' 진료 시작';
+      text.textContent = labelPrefix + '진료 전 · ' + fmt(today.open) + ' 진료 시작';
     } else if (today.breakStart != null && nowVal >= today.breakStart && nowVal < today.breakEnd){
       badge.classList.add('closed');
-      text.textContent = '점심시간 · ' + fmt(today.breakEnd) + ' 진료 재개';
+      text.textContent = labelPrefix + '점심시간 · ' + fmt(today.breakEnd) + ' 진료 재개';
     } else if (nowVal >= today.open && nowVal < today.close){
       badge.classList.remove('closed');
-      text.textContent = '진료중 · ' + fmt(today.close) + ' 진료 종료';
+      text.textContent = labelPrefix + '진료중 · ' + fmt(today.close) + ' 진료 종료';
     } else {
       badge.classList.add('closed');
-      text.textContent = '진료 종료';
+      text.textContent = labelPrefix + '진료 종료';
     }
   })();
 
