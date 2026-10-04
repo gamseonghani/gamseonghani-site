@@ -253,6 +253,7 @@
           <button type="button" class="btn secondary small" id="ghTokenSaveBtn">토큰 저장</button>
           <button type="button" class="btn secondary small" id="ghTokenClearBtn">토큰 삭제</button>
         </div>
+        <div id="tokenState" class="hint" style="margin:-4px 0 0;"></div>
         <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
           <button type="button" class="btn" id="publishBtn">🚀 GitHub에 바로 발행</button>
           <button type="button" class="btn secondary" id="downloadBtn">columns.json 다운로드</button>
@@ -265,8 +266,13 @@
       </div>
 
       <div class="guide-box" style="margin-top:16px; background: var(--bg-raised); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px;">
-        <p style="font-size:13.5px; color: var(--ink-soft); margin: 0 0 14px;">
+        <p style="font-size:13.5px; color: var(--ink-soft); margin: 0 0 8px;">
           <b>맨 처음 한 번만:</b> GitHub 토큰을 위 입력칸에 붙여넣고 <b>"토큰 저장"</b>을 누르세요. 이 컴퓨터의 이 브라우저에만 저장되고, 그 다음부터는 다시 입력할 필요 없습니다.
+        </p>
+        <p style="font-size:13px; color: var(--ink-soft); margin: 0 0 14px;">
+          토큰이 없거나 "발행"이 오류 나면 →
+          <a href="https://github.com/settings/personal-access-tokens/new?name=gamseonghani-admin&description=%EC%B9%BC%EB%9F%BC%EA%B4%80%EB%A6%AC%EC%9E%90&contents=write" target="_blank" rel="noopener"><b>토큰 새로 만들기</b></a>
+          (GitHub 로그인 상태에서 열립니다). <b>Repository access</b>는 <b>Only select repositories → gamseonghani-site</b>를 고르고, 권한 <b>Contents</b>가 <b>Read and write</b>인지 확인한 뒤 맨 아래 <b>Generate token</b> → 나온 <code>github_pat_…</code> 문자열을 복사해서 위 입력칸에 붙여넣고 "토큰 저장". (예전 토큰은 만료·폐기되었을 수 있어요.)
         </p>
 
         <p style="font-weight:700; font-size:14px; margin: 0 0 6px;">① 새 글을 처음 발행할 때</p>
@@ -794,19 +800,36 @@
     try { localStorage.removeItem(key); } catch (e) { /* ignore */ }
   }
 
+  var tokenStateEl = document.getElementById('tokenState');
+  function updateTokenState(){
+    var typed = ghTokenInput.value.trim();
+    var stored = safeLocalGet(GH_TOKEN_KEY);
+    if (!typed){
+      tokenStateEl.textContent = '토큰 상태: 없음 — 아래 안내대로 토큰을 만들어 붙여넣고 "토큰 저장"을 눌러주세요.';
+    } else if (typed === stored){
+      tokenStateEl.textContent = '토큰 상태: 이 브라우저에 저장된 토큰을 사용합니다. (발행이 401 오류로 막히면 만료·폐기된 토큰일 수 있으니 새로 만들어 교체하세요.)';
+    } else {
+      tokenStateEl.textContent = '토큰 상태: 입력됨 — "토큰 저장"을 누르면 이 브라우저에 기억됩니다.';
+    }
+  }
+
   var savedToken = safeLocalGet(GH_TOKEN_KEY);
   if (savedToken) ghTokenInput.value = savedToken;
+  ghTokenInput.addEventListener('input', updateTokenState);
+  updateTokenState();
 
   document.getElementById('ghTokenSaveBtn').addEventListener('click', function(){
     var val = ghTokenInput.value.trim();
     if (!val){ setStatus('저장할 토큰을 입력해주세요.', 'err'); return; }
     safeLocalSet(GH_TOKEN_KEY, val);
+    updateTokenState();
     setStatus('이 브라우저에 토큰을 저장했습니다.', 'ok');
   });
 
   document.getElementById('ghTokenClearBtn').addEventListener('click', function(){
     safeLocalRemove(GH_TOKEN_KEY);
     ghTokenInput.value = '';
+    updateTokenState();
     setStatus('저장된 토큰을 삭제했습니다.', 'ok');
   });
 
@@ -821,6 +844,29 @@
     return ghTokenInput.value.trim() || safeLocalGet(GH_TOKEN_KEY) || '';
   }
 
+  // GitHub가 돌려준 오류를, 비전문가가 바로 조치할 수 있는 안내로 바꿉니다.
+  function githubError(status, apiMessage){
+    var msg;
+    if (status === 401){
+      msg = 'GitHub 토큰이 올바르지 않거나 폐기·만료되었어요. 새 토큰을 만들어 위 입력칸에 붙여넣고 "토큰 저장"을 누른 뒤 다시 발행해주세요. (만드는 법은 아래 안내 참고)';
+    } else if (status === 403 || status === 404){
+      msg = '이 토큰으로는 gamseonghani-site 저장소에 글을 올릴 수 없어요. 토큰을 만들 때 저장소를 gamseonghani-site로 선택하고, 권한을 "Contents: Read and write"로 했는지 확인해주세요.';
+    } else if (status === 409 || status === 422){
+      msg = '그 사이 다른 곳에서 사이트가 바뀌어 충돌했어요. 발행을 한 번 더 눌러주세요.';
+    } else {
+      msg = 'GitHub에서 오류가 났어요 (' + status + ').';
+    }
+    var err = new Error(msg + (apiMessage ? ' [' + apiMessage + ']' : ''));
+    err.status = status;
+    return err;
+  }
+
+  function throwGithubError(res){
+    return res.json()
+      .then(function(b){ return (b && b.message) ? b.message : ''; }, function(){ return ''; })
+      .then(function(m){ throw githubError(res.status, m); });
+  }
+
   // 사이트(GitHub)에 지금 발행되어 있는 칼럼 목록. 파일이 1MB를 넘어도 읽히도록 raw 형식으로 받습니다.
   function fetchRemoteItems(token){
     var apiUrl = 'https://api.github.com/repos/' + GH_OWNER + '/' + GH_REPO + '/contents/' + GH_PATH;
@@ -830,7 +876,7 @@
     })
       .then(function(res){
         if (res.status === 404) return null;
-        if (!res.ok) throw new Error('사이트의 최신 목록을 확인하지 못했어요 (' + res.status + '). 안전을 위해 발행을 중단했습니다.');
+        if (!res.ok) return throwGithubError(res);
         return res.json();
       })
       .then(function(data){
@@ -848,7 +894,7 @@
     })
       .then(function(res){
         if (res.status === 404) return { sha: null };
-        if (!res.ok) return res.json().then(function(body){ throw new Error('조회 실패 (' + res.status + '): ' + (body && body.message ? body.message : '')); });
+        if (!res.ok) return throwGithubError(res);
         return res.json();
       })
       .then(function(current){
@@ -863,7 +909,7 @@
           },
           body: JSON.stringify(body)
         }).then(function(res){
-          if (!res.ok) return res.json().then(function(errBody){ throw new Error('실패 (' + res.status + '): ' + (errBody && errBody.message ? errBody.message : '')); });
+          if (!res.ok) return throwGithubError(res);
           return res.json();
         });
       });
@@ -876,25 +922,35 @@
       return;
     }
     publishBtn.disabled = true;
-    setStatus('사이트의 최신 목록을 확인하는 중...', '');
 
     // 다른 컴퓨터/다른 원장님이 그 사이에 올린 글이 있으면, 그 글이 지워지지 않도록 먼저 합칩니다.
-    fetchRemoteItems(token)
-      .then(function(remoteItems){
-        var localTitles = {};
-        items.forEach(function(it){ localTitles[it.title] = true; });
-        var kept = remoteItems.filter(function(r){ return !localTitles[r.title] && !deletedTitles[r.title]; });
-        if (kept.length){
-          items = items.concat(kept);
-          renderList();
-        }
-        setStatus('GitHub에 발행하는 중...', '');
-        var out = { title: '원장칼럼 목록', items: items };
-        return putFileToGitHub(GH_PATH, out, '칼럼 업데이트 (관리자 페이지에서 발행)', token)
-          .then(function(){ return kept; });
-      })
+    // 올리는 순간 사이트가 또 바뀌어 충돌(409/422)하면 최신 목록으로 한 번만 자동 재시도합니다.
+    function attempt(retriesLeft){
+      setStatus('사이트의 최신 목록을 확인하는 중...', '');
+      return fetchRemoteItems(token)
+        .then(function(remoteItems){
+          var localTitles = {};
+          items.forEach(function(it){ localTitles[it.title] = true; });
+          var kept = remoteItems.filter(function(r){ return !localTitles[r.title] && !deletedTitles[r.title]; });
+          if (kept.length){
+            items = items.concat(kept);
+            renderList();
+          }
+          setStatus('GitHub에 발행하는 중...', '');
+          var out = { title: '원장칼럼 목록', items: items };
+          return putFileToGitHub(GH_PATH, out, '칼럼 업데이트 (관리자 페이지에서 발행)', token)
+            .then(function(){ return kept; });
+        })
+        .catch(function(err){
+          if ((err.status === 409 || err.status === 422) && retriesLeft > 0) return attempt(retriesLeft - 1);
+          throw err;
+        });
+    }
+
+    attempt(1)
       .then(function(kept){
         safeLocalSet(GH_TOKEN_KEY, token);
+        updateTokenState();
         var msg = '발행 완료! 1~2분 후 칼럼 페이지에 반영됩니다.';
         if (kept.length){
           msg += ' (사이트에만 있던 글 ' + kept.length + '개가 지워지지 않도록 목록에 함께 합쳤어요: ' +
@@ -903,7 +959,11 @@
         setStatus(msg, 'ok');
       })
       .catch(function(err){
-        setStatus(err.message || '발행 중 오류가 발생했습니다.', 'err');
+        if (err && err.name === 'TypeError'){
+          setStatus('GitHub에 연결하지 못했어요. 인터넷 연결을 확인하고 다시 시도해주세요.', 'err');
+        } else {
+          setStatus((err && err.message) || '발행 중 오류가 발생했습니다.', 'err');
+        }
       })
       .finally(function(){
         publishBtn.disabled = false;
