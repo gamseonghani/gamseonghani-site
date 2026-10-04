@@ -346,6 +346,9 @@
 
   var items = [];
   var editingIndex = null;
+  // 이 화면에서 직접 삭제하거나 제목을 바꾼 글의 (예전) 제목. 발행할 때 사이트에만 남아 있는 글을
+  // 자동으로 지켜주되, 여기 적힌 글은 일부러 지운 것이니 되살리지 않습니다.
+  var deletedTitles = {};
 
   var listEl = document.getElementById('list');
   var countLabel = document.getElementById('countLabel');
@@ -451,6 +454,7 @@
       div.querySelector('[data-act="edit"]').addEventListener('click', function(){ fillForm(i); });
       div.querySelector('[data-act="delete"]').addEventListener('click', function(){
         if (confirm('"' + (item.title || '') + '" 칼럼을 삭제할까요?')){
+          deletedTitles[item.title] = true;
           items.splice(i, 1);
           if (editingIndex === i) resetForm();
           renderList();
@@ -636,6 +640,7 @@
       return;
     }
     if (editingIndex !== null){
+      if (items[editingIndex].title !== newItem.title) deletedTitles[items[editingIndex].title] = true;
       items[editingIndex] = newItem;
       setStatus('수정했습니다. 아직 이 화면에서만 바뀐 상태예요 — "GitHub에 바로 발행"을 눌러야 실제 사이트에 반영됩니다.', 'ok');
     } else {
@@ -816,6 +821,23 @@
     return ghTokenInput.value.trim() || safeLocalGet(GH_TOKEN_KEY) || '';
   }
 
+  // 사이트(GitHub)에 지금 발행되어 있는 칼럼 목록. 파일이 1MB를 넘어도 읽히도록 raw 형식으로 받습니다.
+  function fetchRemoteItems(token){
+    var apiUrl = 'https://api.github.com/repos/' + GH_OWNER + '/' + GH_REPO + '/contents/' + GH_PATH;
+    return fetch(apiUrl, {
+      headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github.raw+json' },
+      cache: 'no-store'
+    })
+      .then(function(res){
+        if (res.status === 404) return null;
+        if (!res.ok) throw new Error('사이트의 최신 목록을 확인하지 못했어요 (' + res.status + '). 안전을 위해 발행을 중단했습니다.');
+        return res.json();
+      })
+      .then(function(data){
+        return (data && Array.isArray(data.items)) ? data.items : [];
+      });
+  }
+
   function putFileToGitHub(path, contentObj, commitMessage, token){
     var apiUrl = 'https://api.github.com/repos/' + GH_OWNER + '/' + GH_REPO + '/contents/' + path;
     var newContentB64 = utf8ToBase64(JSON.stringify(contentObj, null, 2));
@@ -853,15 +875,32 @@
       setStatus('먼저 GitHub 토큰을 입력하고 "토큰 저장"을 눌러주세요.', 'err');
       return;
     }
-    var out = { title: '원장칼럼 목록', items: items };
-
     publishBtn.disabled = true;
-    setStatus('GitHub에 발행하는 중...', '');
+    setStatus('사이트의 최신 목록을 확인하는 중...', '');
 
-    putFileToGitHub(GH_PATH, out, '칼럼 업데이트 (관리자 페이지에서 발행)', token)
-      .then(function(){
+    // 다른 컴퓨터/다른 원장님이 그 사이에 올린 글이 있으면, 그 글이 지워지지 않도록 먼저 합칩니다.
+    fetchRemoteItems(token)
+      .then(function(remoteItems){
+        var localTitles = {};
+        items.forEach(function(it){ localTitles[it.title] = true; });
+        var kept = remoteItems.filter(function(r){ return !localTitles[r.title] && !deletedTitles[r.title]; });
+        if (kept.length){
+          items = items.concat(kept);
+          renderList();
+        }
+        setStatus('GitHub에 발행하는 중...', '');
+        var out = { title: '원장칼럼 목록', items: items };
+        return putFileToGitHub(GH_PATH, out, '칼럼 업데이트 (관리자 페이지에서 발행)', token)
+          .then(function(){ return kept; });
+      })
+      .then(function(kept){
         safeLocalSet(GH_TOKEN_KEY, token);
-        setStatus('발행 완료! 1~2분 후 칼럼 페이지에 반영됩니다.', 'ok');
+        var msg = '발행 완료! 1~2분 후 칼럼 페이지에 반영됩니다.';
+        if (kept.length){
+          msg += ' (사이트에만 있던 글 ' + kept.length + '개가 지워지지 않도록 목록에 함께 합쳤어요: ' +
+            kept.map(function(k){ return '"' + k.title + '"'; }).join(', ') + ')';
+        }
+        setStatus(msg, 'ok');
       })
       .catch(function(err){
         setStatus(err.message || '발행 중 오류가 발생했습니다.', 'err');
