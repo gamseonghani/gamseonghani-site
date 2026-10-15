@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>소아 클리닉 | 감성한의원</title>
+<meta name="description" content="경기 남양주 감성한의원 소아 클리닉. 잦은 감기·비염·기침, 성장 관리, 식욕부진, 밤에 자주 깨는 아이까지 체질과 성장 단계를 함께 살펴 진료합니다.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="감성한의원">
+<meta property="og:title" content="소아 클리닉 | 감성한의원">
+<meta property="og:description" content="아이 몸이 보내는 신호, 체질과 성장 단계부터 살펴봅니다. 남양주 감성한의원 소아 클리닉.">
+<meta property="og:image" content="https://gamseonghani.com/og-image.jpg">
+<meta property="og:url" content="https://gamseonghani.com/pediatric.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="소아 클리닉 | 감성한의원">
+<meta name="twitter:image" content="https://gamseonghani.com/og-image.jpg">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --bg: #FDFCFA;
+    --bg-raised: #F4F5EF;
+    --ink: #191A15;
+    --ink-soft: #52564B;
+    --teal: #163A2E;
+    --teal-deep: #0D251C;
+    --amber: #8C7A2A;
+    --sage: #7C9683;
+    --line: #E2E1D6;
+    --cream-on-teal: #EEF2EA;
+    --focus: #8C7A2A;
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg: #171812;
+      --bg-raised: #1F2119;
+      --ink: #EDE8DA;
+      --ink-soft: #B7B2A2;
+      --teal: #6FA592;
+      --teal-deep: #0F211C;
+      --amber: #D6A75C;
+      --sage: #7C9683;
+      --line: #3A3A30;
+      --cream-on-teal: #F1ECDD;
+      --focus: #D6A75C;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #171812;
+    --bg-raised: #1F2119;
+    --ink: #EDE8DA;
+    --ink-soft: #B7B2A2;
+    --teal: #6FA592;
+    --teal-deep: #0F211C;
+    --amber: #D6A75C;
+    --sage: #7C9683;
+    --line: #3A3A30;
+    --cream-on-teal: #F1ECDD;
+    --focus: #D6A75C;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; overflow-x: hidden; }
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Noto Sans KR", -apple-system, sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, .serif{
+    font-family: "Noto Serif KR", serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  a{ color: inherit; }
+  :focus-visible{ outline: 2px solid var(--focus); outline-offset: 3px; }
+  img{ max-width: 100%; }
+
+  .wrap{
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+  @media (max-width: 420px){
+    .wrap{ padding: 0 18px; }
+  }
+
+  /* header */
+  .scroll-progress{
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    width: 0%;
+    background: var(--amber);
+    z-index: 100;
+    transition: width .1s linear;
+  }
+
+  .site-header{
+    position: sticky; top: 0; z-index: 50;
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    transition: background-color .25s ease, border-color .25s ease, box-shadow .25s ease;
+  }
+  .site-header.scrolled{
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 2px 14px rgba(0,0,0,0.05);
+    backdrop-filter: blur(6px);
+  }
+  .site-header .wrap{
+    display: flex; align-items: center; justify-content: space-between;
+    height: 76px;
+    position: relative;
+  }
+  .wordmark{
+    font-family: "Noto Serif KR", serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--teal);
+    text-decoration: none;
+  }
+  .brand-group{ display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+  .status-badge{
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.78rem; font-weight: 600;
+    color: var(--teal-deep);
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    padding: 5px 11px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .status-badge .dot{ width: 7px; height: 7px; border-radius: 50%; background: #2E9E5B; flex: none; }
+  .status-badge.closed{ color: var(--ink-soft); }
+  .status-badge.closed .dot{ background: #B0392E; }
+  @media (max-width: 480px){ .status-badge span.status-text{ display: none; } }
+
+  .header-actions{ display: flex; align-items: center; gap: 14px; }
+  .search-wrap{ position: relative; display: flex; }
+  .icon-btn{
+    background: none; border: none; cursor: pointer;
+    color: var(--ink); display: flex; padding: 4px;
+  }
+  .icon-btn svg{ width: 20px; height: 20px; }
+  .icon-btn:hover{ color: var(--teal); }
+  .btn-reserve{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    gap: 8px;
+    background: var(--teal-deep);
+    color: #FFFFFF !important;
+    font-size: 0.92rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 13px 24px;
+    border-radius: 999px;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .btn-reserve svg{ width: 16px; height: 16px; flex: none; display: block; color: #FFFFFF; transform: translateY(-5px); }
+  .btn-reserve .label{ display: inline-block; line-height: 1; transform: translateY(-5px); }
+  .btn-reserve:hover{ background: var(--teal); }
+  .search-pop{
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 14px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    z-index: 90;
+  }
+  .search-pop.open{ display: flex; gap: 8px; }
+  .search-pop input{
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 0.9rem;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    width: 200px;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  .search-hit{ outline: 2px solid var(--amber); outline-offset: 5px; border-radius: 4px; transition: outline-color .3s; }
+  @media (max-width: 480px){
+    .search-pop.open{
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      top: 70px;
+      transform: none;
+      margin-top: 0;
+    }
+    .search-pop input{ width: 100%; }
+  }
+
+  .site-nav ul{
+    display: flex; gap: 34px; list-style: none; margin: 0; padding: 0;
+  }
+  .site-nav a{
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    position: relative;
+    padding-bottom: 4px;
+  }
+  .site-nav a::after{
+    content: "";
+    position: absolute; left: 0; right: 100%; bottom: 0;
+    height: 1px; background: var(--teal);
+    transition: right .25s ease;
+  }
+  .site-nav a:hover::after, .site-nav a:focus-visible::after{ right: 0; }
+  .nav-toggle{
+    display: block;
+    background: none; border: none;
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 0.95rem;
+    color: var(--ink);
+    cursor: pointer;
+    padding: 8px 0;
+  }
+  .site-nav{
+    display: none;
+    position: absolute; left: 0; right: 0; top: 76px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    padding: 8px 28px 20px;
+  }
+  .site-nav .header-actions{ display: none; }
+  .site-nav.open{ display: block; }
+  .site-nav.open ul{ flex-direction: column; gap: 18px; }
+  .site-nav.open .header-actions{
+    display: flex;
+    margin-left: 0;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+  @media (min-width: 760px){
+    .nav-toggle{ display: none; }
+    .site-nav{
+      display: flex;
+      align-items: center;
+      flex: 1;
+      position: static;
+      background: none;
+      border-bottom: none;
+      padding: 0;
+      margin-left: 40px;
+    }
+    .site-nav .header-actions{ display: flex; margin-left: auto; }
+  }
+
+  .btn{
+    display: inline-block;
+    padding: 13px 26px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    border-radius: 3px;
+    border: 1px solid var(--teal);
+  }
+  .btn-solid{ background: var(--teal); color: var(--cream-on-teal); }
+  .btn-solid:hover{ background: var(--teal-deep); border-color: var(--teal-deep); }
+  .btn-line{ color: var(--teal); }
+  .btn-line:hover{ background: color-mix(in srgb, var(--teal) 8%, transparent); }
+  /* Lean Diet brand purple */
+  .btn-lean{ background: #6831D7; border-color: #6831D7; color: #FFFFFF; }
+  .btn-lean:hover{ background: #5626B8; border-color: #5626B8; }
+
+  /* page hero */
+  .page-hero{
+    padding: 70px 0 56px;
+    border-bottom: 1px solid var(--line);
+    opacity: 0;
+    transform: translateY(14px);
+    animation: rise .8s ease forwards .1s;
+  }
+  @keyframes rise{ to{ opacity: 1; transform: none; } }
+  .breadcrumb{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+  }
+  .breadcrumb a{ color: var(--ink-soft); text-decoration: none; }
+  .breadcrumb a:hover{ color: var(--teal); text-decoration: underline; }
+  .breadcrumb .sep{ color: var(--line); }
+  .breadcrumb .current{ color: var(--ink); font-weight: 500; }
+  .page-hero .eyebrow{
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--sage);
+    margin-bottom: 10px;
+  }
+  .page-hero h1{
+    font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+    line-height: 1.4;
+    color: var(--ink);
+    word-break: keep-all;
+    max-width: 640px;
+  }
+  .page-hero p{
+    margin-top: 18px;
+    color: var(--ink-soft);
+    font-size: 1.05rem;
+    max-width: 560px;
+    word-break: keep-all;
+  }
+  .page-hero p strong{ font-weight: 700; }
+  .page-hero .feature-tags{
+    margin-top: 26px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .page-hero .feature-tags span{
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--teal-deep);
+    border: 1px solid var(--line);
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: var(--bg-raised);
+  }
+  .cta-row{
+    margin-top: 30px;
+    display: flex; gap: 14px; flex-wrap: wrap;
+  }
+  .cta-row .btn{ font-weight: 700; }
+  .page-hero p.cta-note{ margin-top: 14px; font-size: 0.88rem; }
+
+  /* process (shared pattern) */
+  .process{ padding: 90px 0; }
+  .process h2{ font-size: 1.7rem; }
+  .process p.lead{ color: var(--ink-soft); margin-top: 18px; max-width: 640px; word-break: keep-all; }
+  .process-steps{
+    margin-top: 52px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+  .process-step{
+    padding: 0 24px 0 0;
+    border-left: 1px solid var(--line);
+    padding-left: 24px;
+  }
+  .process-step:first-child{ border-left: none; padding-left: 0; }
+  .process-step .num{
+    font-family: "Noto Serif KR", serif;
+    font-size: 1.4rem;
+    color: var(--sage);
+  }
+  .process-step h3{ margin-top: 10px; font-size: 1.05rem; }
+  .process-step p{ margin: 10px 0 0; color: var(--ink-soft); font-size: 0.94rem; }
+  @media (max-width: 760px){
+    .process-steps{ grid-template-columns: 1fr; gap: 28px; }
+    .process-step{ border-left: none; padding-left: 0; border-top: 1px solid var(--line); padding-top: 24px; }
+    .process-step:first-child{ border-top: none; padding-top: 0; }
+  }
+
+  /* symptom cards (matches index.html subject-grid) */
+  .symptoms{ background: var(--bg-raised); padding: 90px 0; }
+  .symptoms h2{ font-size: 1.7rem; margin-bottom: 10px; }
+  .symptoms .lead{ color: var(--ink-soft); margin: 0 0 44px; max-width: 620px; word-break: keep-all; }
+  .subject-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .subject-card{
+    display: block;
+    padding: 28px 24px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--bg);
+  }
+  .subject-card .cat-tag{
+    display: inline-block;
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: var(--teal);
+    background: color-mix(in srgb, var(--teal) 10%, transparent);
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+  .subject-card h3{ font-size: 1.05rem; color: var(--ink); margin: 0 0 10px; }
+  .subject-card p{ margin: 0; color: var(--ink-soft); font-size: 0.9rem; line-height: 1.65; }
+  @media (max-width: 900px){ .subject-grid{ grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px){ .subject-grid{ grid-template-columns: 1fr; } }
+
+  /* key questions (gardenclinic-style detail blocks) */
+  .key-questions{ padding: 90px 0; }
+  .key-questions h2{ font-size: 1.7rem; }
+  .key-questions .lead{ color: var(--ink-soft); margin-top: 18px; max-width: 640px; word-break: keep-all; }
+  .key-qa{ margin-top: 44px; }
+  .key-qa-item + .key-qa-item{ margin-top: 40px; }
+  .key-qa-item h3{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    color: var(--ink);
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--ink);
+    word-break: keep-all;
+  }
+  .key-qa-item h3 .dot{
+    flex: none;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--amber);
+  }
+  .key-qa-item .qa-box{
+    margin: 20px 0 0;
+    background: var(--bg-raised);
+    border-radius: 8px;
+    padding: 18px 20px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.7;
+    word-break: keep-all;
+  }
+  .key-qa-item .qa-body{
+    margin: 14px 0 0;
+    color: var(--ink-soft);
+    line-height: 1.8;
+    max-width: none;
+    word-break: keep-all;
+  }
+
+  /* faq */
+  .faq{ background: var(--bg-raised); padding: 90px 0; }
+
+  /* faq: accordion */
+  .faq-accordion h2{ font-size: 1.6rem; margin-bottom: 20px; }
+  .accordion-item{
+    padding: 6px 0;
+    border-top: 1px solid var(--line);
+  }
+  .faq-accordion .accordion-item:last-child{ border-bottom: 1px solid var(--line); }
+  .accordion-item summary{
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 16px 0;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .accordion-item summary::-webkit-details-marker{ display: none; }
+  .accordion-item summary:hover{ color: var(--teal); }
+  .accordion-item .toggle{
+    flex: none;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    color: var(--teal);
+    transition: transform .2s ease;
+  }
+  .accordion-item[open] .toggle{ transform: rotate(45deg); }
+  .accordion-body{
+    padding: 0 0 20px;
+    color: var(--ink-soft);
+    font-size: 0.94rem;
+    line-height: 1.75;
+    max-width: 760px;
+  }
+
+  .faq-note{
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    max-width: 760px;
+  }
+
+  /* visit / cta */
+  .visit{ padding: 90px 0; }
+
+  /* closing cta banner (gardenclinic-style card) */
+  .cta-banner{
+    position: relative;
+    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-deep) 55%, #081812 100%);
+    border-radius: 24px;
+    padding: 56px 40px;
+    text-align: center;
+    color: var(--cream-on-teal);
+  }
+  .cta-banner h2{ font-size: 1.6rem; margin-bottom: 14px; word-break: keep-all; }
+  .cta-banner p{ color: color-mix(in srgb, var(--cream-on-teal) 82%, transparent); max-width: 480px; margin: 0 auto 32px; word-break: keep-all; }
+  .cta-buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .cta-buttons a{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 26px;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .cta-buttons a svg{ width: 16px; height: 16px; flex: none; }
+  .cta-buttons .pill-solid{ background: var(--cream-on-teal); color: var(--teal-deep); }
+  .cta-buttons .pill-solid:hover{ background: #FFFFFF; }
+  .cta-buttons .pill-line{ color: var(--cream-on-teal); border: 1px solid color-mix(in srgb, var(--cream-on-teal) 40%, transparent); }
+  .cta-buttons .pill-line:hover{ background: color-mix(in srgb, var(--cream-on-teal) 10%, transparent); }
+  .cta-buttons .pill-lean{ background: #6831D7; color: #FFFFFF; }
+  .cta-buttons .pill-lean:hover{ background: #7A45E6; }
+  @media (max-width: 480px){
+    .cta-banner{ padding: 44px 24px; }
+  }
+
+  footer{
+    padding: 20px 0 40px;
+  }
+
+  /* right-side floating icon rail */
+  .side-rail{
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 80;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .side-rail a, .side-rail button{
+    position: relative;
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.18);
+    transition: transform .15s ease;
+    border: none;
+    padding: 0;
+    font: inherit;
+  }
+  .side-rail .tooltip{
+    position: absolute;
+    right: calc(100% + 12px);
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--teal-deep);
+    color: #F1ECDD;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .15s ease;
+  }
+  .side-rail a:hover .tooltip,
+  .side-rail a:focus-visible .tooltip{ opacity: 1; }
+  .side-rail a:hover{ transform: scale(1.08); }
+  .side-rail .icon{ width: 20px; height: 20px; display: inline-flex; }
+  .side-rail .icon svg{ display: block; width: 100%; height: 100%; }
+  .side-rail .phone{ background: var(--teal-deep); color: #F1ECDD; }
+  .side-rail .kakao{ background: #FEE500; color: #3C1E1E; }
+  .side-rail .naver{ background: #03C75A; color: #FFFFFF; }
+  .side-rail .youtube{ background: #FF0000; color: #FFFFFF; }
+  .side-rail .back-to-top{
+    background: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease, transform .15s ease;
+  }
+  .side-rail .back-to-top.visible{
+    opacity: 1;
+    pointer-events: auto;
+  }
+  @media (max-width: 640px){
+    .side-rail{ right: 12px; top: auto; bottom: 84px; transform: none; gap: 10px; }
+    .side-rail a{ width: 42px; height: 42px; }
+    .side-rail .icon{ width: 18px; height: 18px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .page-hero{ animation: none; opacity: 1; transform: none; }
+    html{ scroll-behavior: auto; }
+  }
+
+  /* diet: keep Korean words intact when wrapping */
+  .process-step p, .subject-card p, .accordion-body, .safety-box li{ word-break: keep-all; }
+
+  /* diet: 3-stage variant of process steps */
+  .stages{ background: var(--bg-raised); }
+  .process-steps.three{ grid-template-columns: repeat(3, 1fr); }
+  .process-step .stage-tag{
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--amber);
+  }
+  @media (max-width: 760px){
+    .process-steps.three{ grid-template-columns: 1fr; }
+  }
+
+  /* diet: safety check */
+  .safety{ padding: 90px 0; }
+  .safety h2{ font-size: 1.7rem; }
+  .safety .lead{ color: var(--ink-soft); margin-top: 18px; max-width: 640px; word-break: keep-all; }
+  .safety-grid{
+    margin-top: 44px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .safety-box{
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 28px 26px;
+    background: var(--bg);
+  }
+  .safety-box h3{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.05rem;
+    color: var(--ink);
+    word-break: keep-all;
+  }
+  .safety-box h3 .dot{
+    flex: none;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--amber);
+  }
+  .safety-box ul{
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .safety-box li{
+    position: relative;
+    padding: 10px 0 10px 18px;
+    border-top: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: 0.94rem;
+    word-break: keep-all;
+  }
+  .safety-box li:first-child{ border-top: none; }
+  .safety-box li::before{
+    content: "";
+    position: absolute;
+    left: 2px; top: 21px;
+    width: 6px; height: 1px;
+    background: var(--teal);
+  }
+  .safety-box li strong{ color: var(--ink); font-weight: 500; }
+  @media (max-width: 760px){
+    .safety-grid{ grid-template-columns: 1fr; }
+  }
+
+  .btn-kakao{ background: #FEE500; border-color: #FEE500; color: #3C1E1E; }
+  .btn-kakao:hover{ background: #F2D900; border-color: #F2D900; }
+  .cta-buttons .pill-kakao{ background: #FEE500; color: #3C1E1E; }
+  .cta-buttons .pill-kakao:hover{ background: #FFF07A; }
+  .related-cols{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 28px; }
+  .related-cols a{ display:block; padding: 18px 20px; border:1px solid color-mix(in srgb, currentColor 14%, transparent); border-radius: 14px; text-decoration:none; color: inherit; line-height:1.55; }
+  .related-cols a:hover{ border-color: var(--teal); }
+  .related-cols .rc-tag{ display:block; font-size: 12px; color: var(--teal); font-weight:700; margin-bottom:6px; }
+  .related-more{ margin-top: 22px; text-align:center; }
+  .related-more a{ color: var(--teal); font-weight:700; text-decoration:none; }
+  @media (max-width: 900px){ .related-cols{ grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px){ .related-cols{ grid-template-columns: 1fr; } }
+  .law-note{ margin-top: 10px; font-size: 13px; opacity: .75; line-height:1.6; }
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand-group">
+      <a href="index.html" class="wordmark">감성한의원</a>
+      <span class="status-badge" id="statusBadge">
+        <span class="dot"></span>
+        <span class="status-text" id="statusText">진료 시간 확인 중</span>
+      </span>
+    </div>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="mainNav" id="navToggle">메뉴</button>
+    <nav class="site-nav" id="mainNav">
+      <ul>
+        <li><a href="index.html#philosophy">한의원 소개</a></li>
+        <li><a href="index.html#process">진료 과정</a></li>
+        <li><a href="index.html#subjects">진료과목</a></li>
+        <li><a href="column.html">원장칼럼</a></li>
+        <li><a href="index.html#visit">오시는 길</a></li>
+      </ul>
+      <div class="header-actions">
+        <div class="search-wrap">
+          <button class="icon-btn" id="searchBtn" aria-label="사이트 내 검색" aria-expanded="false" aria-controls="searchPop">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          </button>
+          <div class="search-pop" id="searchPop">
+            <input type="text" id="searchInput" placeholder="증상이나 메뉴를 검색해보세요">
+          </div>
+        </div>
+        <a class="btn-reserve" href="https://map.naver.com/p/entry/place/1017147051?lng=127.1599938&lat=37.6093987&placePath=%2F%3Fabt%3D%255B%257B%2522eid%2522%253A%2522N-RES-RANK-26%2522%252C%2522value%2522%253A%257B%2522bt%2522%253A%25222%2522%252C%2522t_modeling_quality_imp%2522%253A%25220.02%253B0%253B0%253B0%2522%252C%2522is_control%2522%253Atrue%257D%257D%252C%257B%2522eid%2522%253A%2522NS-SHP-RANK-26%2522%252C%2522value%2522%253A%257B%2522bt%2522%253A%25224%2522%252C%2522is_control%2522%253Afalse%257D%257D%255D%26abtExp%3DN-RES-RANK-26%253A2%253At_modeling_quality_imp%253D0.02%25253B0%25253B0%25253B0%26ac%3D0%26adm_lat%3D37.560361%26adm_long%3D127.188804%26bizId%3D1017147051%26bookingRedirectUrl%3Dhttps%25253A%25252F%25252Fm.booking.naver.com%25252Fbooking%25252F13%25252Fbizes%25252F705713%25253Ftheme%25253Dplace%252526lang%25253Dko%252526service-target%25253Dmap-pc%26debug%3D0%26deviceType%3Dpc%26lgl_lat%3D37.569608%26lgl_long%3D127.188062%26lgl_rcode%3D02450109%26ngn_country%3DKR%26nlu_query%3D%257B%2522qr%2522%253A%255B%257B%2522query%2522%253A%2522%25EA%25B0%2590%25EC%2584%25B1%2520%25ED%2595%259C%25EB%25B0%25A9%25EC%259D%2598%25EC%259B%2590%2522%252C%2522c_score%2522%253A0.0%252C%2522score%2522%253A2.0%252C%2522qr_category%2522%253A1%252C%2522qr_type%2522%253A2%257D%255D%252C%2522hospital%2522%253A%257B%2522q%2522%253A%2522%25EA%25B0%2590%25EC%2584%25B1%25ED%2595%259C%25EC%259D%2598%25EC%259B%2590%2522%252C%2522sid%2522%253A%25221017147051%2522%252C%2522source%2522%253A%2522placesearch%2522%257D%252C%2522nluQuery%2522%253A%2522%25EA%25B0%2590%25EC%2584%25B1%25ED%2595%259C%25EC%259D%2598%25EC%259B%2590%2522%257D%26nqx_theme%3D%257B%2522theme%2522%253A%257B%2522sub%2522%253A%255B%257B%2522name%2522%253A%2522location%2522%257D%252C%257B%2522name%2522%253A%2522hospital%2522%257D%255D%257D%257D%26r1%3D%25EA%25B2%25BD%25EA%25B8%25B0%25EB%258F%2584%26r2%3D%25ED%2595%2598%25EB%2582%25A8%25EC%258B%259C%26r3%3D%25EB%25AF%25B8%25EC%2582%25AC1%25EB%258F%2599%26rcode%3D02450610%26responseType%3Djson%26rev%3D45%26sm%3Dtop_hty%26spq%3D0%26ssc%3Dtab.nx.all%26target%3Dpc%26where%3Dnexearch%26x%3D127.188804%26y%3D37.560361&searchType=place&c=15.00,0,0,0,dh" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 2a1 1 0 0 1 1 1v1h6V3a1 1 0 1 1 2 0v1h1a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1V3a1 1 0 0 1 1-1zM5.5 10v9c0 .3.2.5.5.5h12c.3 0 .5-.2.5-.5v-9h-13z"/></svg><span class="label">진료 예약</span></a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <nav class="breadcrumb" aria-label="현재 위치">
+        <a href="index.html">홈</a>
+        <span class="sep">/</span>
+        <a href="index.html#subjects">진료과목</a>
+        <span class="sep">/</span>
+        <span class="current">소아 클리닉</span>
+      </nav>
+      <p class="eyebrow">한방 소아 클리닉</p>
+      <h1>아이 몸이 보내는 신호,<br>체질부터 살펴봅니다</h1>
+      <p><strong>잦은 감기와 비염부터 성장, 식욕, 밤잠까지 아이의 체질과 성장 단계를 함께 보고 진료합니다.</strong></p>
+      <div class="feature-tags">
+        <span>체질 맞춤 처방</span>
+        <span>감기 · 비염 · 호흡기</span>
+        <span>성장 관리</span>
+        <span>소화 · 수면 관리</span>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-solid" href="https://map.naver.com/p/entry/place/1017147051?lng=127.1599938&lat=37.6093987&placePath=%2F%3Fabt%3D%255B%257B%2522eid%2522%253A%2522N-RES-RANK-26%2522%252C%2522value%2522%253A%257B%2522bt%2522%253A%25222%2522%252C%2522t_modeling_quality_imp%2522%253A%25220.02%253B0%253B0%253B0%2522%252C%2522is_control%2522%253Atrue%257D%257D%252C%257B%2522eid%2522%253A%2522NS-SHP-RANK-26%2522%252C%2522value%2522%253A%257B%2522bt%2522%253A%25224%2522%252C%2522is_control%2522%253Afalse%257D%257D%255D%26abtExp%3DN-RES-RANK-26%253A2%253At_modeling_quality_imp%253D0.02%25253B0%25253B0%25253B0%26ac%3D0%26adm_lat%3D37.560361%26adm_long%3D127.188804%26bizId%3D1017147051%26bookingRedirectUrl%3Dhttps%25253A%25252F%25252Fm.booking.naver.com%25252Fbooking%25252F13%25252Fbizes%25252F705713%25253Ftheme%25253Dplace%252526lang%25253Dko%252526service-target%25253Dmap-pc%26debug%3D0%26deviceType%3Dpc%26lgl_lat%3D37.569608%26lgl_long%3D127.188062%26lgl_rcode%3D02450109%26ngn_country%3DKR%26nlu_query%3D%257B%2522qr%2522%253A%255B%257B%2522query%2522%253A%2522%25EA%25B0%2590%25EC%2584%25B1%2520%25ED%2595%259C%25EB%25B0%25A9%25EC%259D%2598%25EC%259B%2590%2522%252C%2522c_score%2522%253A0.0%252C%2522score%2522%253A2.0%252C%2522qr_category%2522%253A1%252C%2522qr_type%2522%253A2%257D%255D%252C%2522hospital%2522%253A%257B%2522q%2522%253A%2522%25EA%25B0%2590%25EC%2584%25B1%25ED%2595%259C%25EC%259D%2598%25EC%259B%2590%2522%252C%2522sid%2522%253A%25221017147051%2522%252C%2522source%2522%253A%2522placesearch%2522%257D%252C%2522nluQuery%2522%253A%2522%25EA%25B0%2590%25EC%2584%25B1%25ED%2595%259C%25EC%259D%2598%25EC%259B%2590%2522%257D%26nqx_theme%3D%257B%2522theme%2522%253A%257B%2522sub%2522%253A%255B%257B%2522name%2522%253A%2522location%2522%257D%252C%257B%2522name%2522%253A%2522hospital%2522%257D%255D%257D%257D%26r1%3D%25EA%25B2%25BD%25EA%25B8%25B0%25EB%258F%2584%26r2%3D%25ED%2595%2598%25EB%2582%25A8%25EC%258B%259C%26r3%3D%25EB%25AF%25B8%25EC%2582%25AC1%25EB%258F%2599%26rcode%3D02450610%26responseType%3Djson%26rev%3D45%26sm%3Dtop_hty%26spq%3D0%26ssc%3Dtab.nx.all%26target%3Dpc%26where%3Dnexearch%26x%3D127.188804%26y%3D37.560361&searchType=place&c=15.00,0,0,0,dh" target="_blank" rel="noopener">네이버로 예약하기</a>
+        <a class="btn btn-kakao" href="https://pf.kakao.com/_fPVDG/chat" target="_blank" rel="noopener">카카오톡 상담</a>
+      </div>
+      <p class="cta-note">아이와 함께 오시는 <strong>평일 저녁 · 토요일</strong>에도 진료합니다.</p>
+    </div>
+  </section>
+
+  <section class="key-questions">
+    <div class="wrap">
+      <h2>이런 점이 궁금하실 거예요</h2>
+      <p class="lead">아이와 함께 오시는 보호자분들이 가장 먼저 물어보시는 것들입니다.</p>
+      <div class="key-qa">
+        <div class="key-qa-item">
+          <h3><span class="dot"></span> 한방 소아 진료는 어떻게 다른가요?</h3>
+          <p class="qa-box">증상 하나보다, 그 증상이 반복되는 아이의 몸 상태를 함께 봅니다.</p>
+          <p class="qa-body">같은 콧물·기침이라도 소화력이 약해 기운이 달리는 아이와, 코·기관지가 예민한 아이는 접근이 다릅니다.<br>맥과 증상, 식습관·대변·수면 상태까지 함께 살펴 아이에게 맞는 처방과 관리 방법을 정합니다.</p>
+        </div>
+        <div class="key-qa-item">
+          <h3><span class="dot"></span> 열이 나면 바로 해열제를 먹여야 하나요?</h3>
+          <p class="qa-box">온도 숫자보다 아이의 컨디션이 더 중요한 기준입니다.</p>
+          <p class="qa-body">발열은 몸이 감염과 싸우고 있다는 신호인 경우가 많습니다.<br>물을 잘 마시고 놀 만큼 컨디션이 괜찮다면 지켜볼 수 있는 경우가 많지만, 몹시 힘들어하거나 열성경련 이력이 있다면 해열제를 고려합니다.<br>생후 3개월 미만의 발열, 축 처짐, 경련이 있다면 온도와 관계없이 바로 진료를 받으셔야 합니다.</p>
+        </div>
+        <div class="key-qa-item">
+          <h3><span class="dot"></span> 소아청소년과 치료와 함께 받아도 되나요?</h3>
+          <p class="qa-box">네, 역할을 나누어 함께 진행하는 경우가 많습니다.</p>
+          <p class="qa-body">고열·폐렴·천식 발작 같은 급성기에는 소아청소년과 진료를 우선합니다.<br>급성기가 지난 뒤 회복이 더디거나 같은 증상이 반복될 때, 체질을 살펴 회복력을 돕는 방향으로 한의원 치료를 병행합니다.<br>복용 중인 약이 있다면 진료 때 알려주시면 함께 확인합니다.</p>
+        </div>
+        <div class="key-qa-item">
+          <h3><span class="dot"></span> 아이가 한약과 침을 잘 견딜 수 있을까요?</h3>
+          <p class="qa-box">아이의 나이와 협조 정도에 맞춰 무리하지 않게 진행합니다.</p>
+          <p class="qa-body">소아용 침은 자극이 약하고 짧게 시술하며, 아이가 많이 무서워하면 침 없이 한약과 생활 관리 위주로 진행할 수도 있습니다.<br>한약은 아이가 복용하기 편한 형태와 양을 함께 상의해 정합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="symptoms">
+    <div class="wrap">
+      <h2>이런 아이를 진료합니다</h2>
+      <p class="lead">"크면 괜찮아지겠지" 하고 넘기기 쉬운 증상도, 반복된다면 한 번 살펴볼 필요가 있습니다.</p>
+      <div class="subject-grid">
+        <div class="subject-card">
+          <span class="cat-tag">감기</span>
+          <h3>감기를 달고 사는 아이</h3>
+          <p>어린이집·유치원 등 단체생활을 시작한 뒤 감기가 잦고, 회복이 유독 더딘 경우</p>
+        </div>
+        <div class="subject-card">
+          <span class="cat-tag">비염</span>
+          <h3>비염 · 축농증</h3>
+          <p>콧물·코막힘이 2주 이상 이어지거나, 환절기마다 같은 코 증상이 반복되는 경우</p>
+        </div>
+        <div class="subject-card">
+          <span class="cat-tag">호흡기</span>
+          <h3>기침 · 중이염 · 결막염</h3>
+          <p>밤기침이 오래가거나, 감기 끝에 중이염·결막염으로 자주 이어지는 경우</p>
+        </div>
+        <div class="subject-card">
+          <span class="cat-tag">성장</span>
+          <h3>성장 관리</h3>
+          <p>또래보다 작거나 1년 성장 속도가 느려진 경우, 2차 성징이 이르게 나타나는 경우</p>
+        </div>
+        <div class="subject-card">
+          <span class="cat-tag">소화</span>
+          <h3>식욕부진 · 잦은 복통</h3>
+          <p>밥을 잘 먹지 않거나, 특별한 이상 없이 배가 아프다는 말이 잦은 경우</p>
+        </div>
+        <div class="subject-card">
+          <span class="cat-tag">체중</span>
+          <h3>소아 비만</h3>
+          <p>양을 줄이기보다 식습관·수면·활동 리듬을 함께 잡아야 하는 경우</p>
+        </div>
+        <div class="subject-card">
+          <span class="cat-tag">수면</span>
+          <h3>밤에 자주 깨는 아이 · 땀</h3>
+          <p>밤마다 놀란 듯 깨서 울거나, 자면서 땀을 유난히 많이 흘리는 경우</p>
+        </div>
+        <div class="subject-card">
+          <span class="cat-tag">집중 · 체형</span>
+          <h3>집중력 · 소아 평발</h3>
+          <p>학습기에 쉽게 지치고 집중이 어려운 경우(총명탕), 발 아치와 걸음걸이가 신경 쓰이는 경우</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="process">
+    <div class="wrap">
+      <h2>진료 절차</h2>
+      <p class="lead">첫 상담부터 경과 관리까지, 이렇게 진행됩니다.</p>
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="num">1</div>
+          <h3>상담 · 문진</h3>
+          <p>언제부터 어떤 증상이 반복되는지, 감기 빈도와 회복 기간, 복용 중인 약을 보호자와 함께 꼼꼼히 확인합니다.</p>
+        </div>
+        <div class="process-step">
+          <div class="num">2</div>
+          <h3>체질 · 성장 상태 확인</h3>
+          <p>맥진과 함께 소화·대변·수면 상태, 키·몸무게 기록과 성장 속도를 살펴 아이의 현재 상태를 파악합니다.</p>
+        </div>
+        <div class="process-step">
+          <div class="num">3</div>
+          <h3>맞춤 치료 계획</h3>
+          <p>아이의 체질과 증상 패턴에 맞춰 한약 처방, 소아침 등 치료 방법과 기간을 함께 정합니다.</p>
+        </div>
+        <div class="process-step">
+          <div class="num">4</div>
+          <h3>경과 확인 · 생활 관리</h3>
+          <p>내원 시마다 변화를 확인해 처방을 조절하고, 집에서 할 수 있는 수면·식습관·환경 관리를 안내합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="process stages">
+    <div class="wrap">
+      <h2>연령별로 살펴보는 포인트</h2>
+      <p class="lead">아이는 자라는 시기마다 몸이 필요로 하는 것이 다릅니다. 지금 단계에 맞춰 살펴봅니다.</p>
+      <div class="process-steps three">
+        <div class="process-step">
+          <div class="num">01</div>
+          <span class="stage-tag">영유아기 (0~3세)</span>
+          <h3>놓치기 쉬운 기본기</h3>
+          <p>면역계가 바이러스를 처음 배우는 시기입니다. 잦은 감기와 밤잠, 이유식·식습관이 자리 잡는지를 함께 살펴봅니다.</p>
+        </div>
+        <div class="process-step">
+          <div class="num">02</div>
+          <span class="stage-tag">유아기 (4~6세)</span>
+          <h3>비염 · 수면 · 심리</h3>
+          <p>단체생활로 감기와 비염이 겹치기 쉽고, 밤에 깨거나 예민해지는 모습이 늘어나는 시기입니다. 1년에 5cm 미만으로 자란다면 성장 속도도 확인해봅니다.</p>
+        </div>
+        <div class="process-step">
+          <div class="num">03</div>
+          <span class="stage-tag">학동기 (7세~사춘기 전)</span>
+          <h3>성장 속도 점검</h3>
+          <p>입학 후 수면·활동량·식습관이 바뀌며 성장에 공백이 생기기 쉽습니다. 사춘기 전 성장 속도와 2차 성징 시기를 정기적으로 점검합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="safety">
+    <div class="wrap">
+      <h2>이럴 때는 먼저 응급 진료를 받으세요</h2>
+      <p class="lead">아이를 안전하게 지키기 위해, 한의원보다 소아청소년과·응급실이 먼저인 경우를 알려드립니다.</p>
+      <div class="safety-grid">
+        <div class="safety-box">
+          <h3><span class="dot"></span> 바로 진료가 필요한 신호</h3>
+          <ul>
+            <li><strong>생후 3개월 미만</strong> 아기의 발열</li>
+            <li><strong>5분 이상 이어지는 경련</strong>, 하루 두 번 이상 반복되는 경련</li>
+            <li><strong>입술·손끝이 파래지거나</strong> 숨쉬기를 힘들어할 때</li>
+            <li><strong>침을 삼키기 힘들어하고</strong> 목소리가 갑자기 잠길 때</li>
+            <li>평소와 다르게 <strong>축 처지고 반응이 둔할 때</strong></li>
+          </ul>
+        </div>
+        <div class="safety-box">
+          <h3><span class="dot"></span> 진료 전 꼭 말씀해주세요</h3>
+          <ul>
+            <li>현재 <strong>복용 중인 약</strong>(항생제, 해열제, 흡입제 등)</li>
+            <li><strong>음식·약물 알레르기</strong>나 기저질환이 있는 경우</li>
+            <li>이전에 <strong>열성경련</strong>을 겪은 적이 있는 경우</li>
+            <li><strong>영유아 검진 기록</strong>이나 키·몸무게 기록이 있는 경우</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq">
+    <div class="wrap">
+
+      <div class="faq-accordion">
+        <h2>소아 클리닉 자주 묻는 질문</h2>
+        <details class="accordion-item">
+          <summary><span>몇 살부터 한의원 진료를 받을 수 있나요?</span><span class="toggle">+</span></summary>
+          <div class="accordion-body"><p>영유아부터 진료가 가능합니다. 아이의 나이와 상태에 맞춰 치료 방법과 한약의 양·형태를 정합니다.</p></div>
+        </details>
+        <details class="accordion-item">
+          <summary><span>아이가 한약을 잘 못 먹으면 어떻게 하나요?</span><span class="toggle">+</span></summary>
+          <div class="accordion-body"><p>아이가 복용하기 편한 양과 방법을 함께 상의합니다. 복용이 어려우면 진료 때 말씀해주시면 조절해드립니다.</p></div>
+        </details>
+        <details class="accordion-item">
+          <summary><span>침이 무섭지는 않을까요?</span><span class="toggle">+</span></summary>
+          <div class="accordion-body"><p>소아용 침은 자극이 약하고 짧게 시술합니다. 아이가 많이 무서워하면 침 없이 한약과 생활 관리 위주로 진행할 수도 있습니다.</p></div>
+        </details>
+        <details class="accordion-item">
+          <summary><span>어린이집 다니고부터 감기가 너무 잦아요. 정상인가요?</span><span class="toggle">+</span></summary>
+          <div class="accordion-body"><p>단체생활 초기에는 처음 접하는 바이러스가 늘어 감기가 잦아지는 경우가 많습니다.<br>감기 횟수보다 매번 1~2주 안에 회복되는지, 감기 사이에 컨디션이 돌아오는지가 더 중요한 기준입니다.</p></div>
+        </details>
+        <details class="accordion-item">
+          <summary><span>감기에 걸릴 때마다 항생제를 먹여야 하나요?</span><span class="toggle">+</span></summary>
+          <div class="accordion-body"><p>대부분의 감기는 바이러스성이라 항생제가 필요하지 않은 경우가 많습니다.<br>세균 감염이 확인되거나 합병증이 의심될 때 담당 의료진의 판단에 따라 사용합니다.</p></div>
+        </details>
+        <details class="accordion-item">
+          <summary><span>콧물이 누런색이면 축농증인가요?</span><span class="toggle">+</span></summary>
+          <div class="accordion-body"><p>감기 경과 중에도 콧물은 누렇게 변할 수 있어 색깔만으로는 판단하기 어렵습니다.<br>증상이 10일 이상 호전 없이 이어지는지, 고열이나 눈 주위 부종이 있는지를 함께 확인합니다.</p></div>
+        </details>
+        <details class="accordion-item">
+          <summary><span>비염 치료는 얼마나 걸리나요?</span><span class="toggle">+</span></summary>
+          <div class="accordion-body"><p>단순 감기성 콧물과 달리 알레르기성 비염은 체질 관리에 시간이 필요한 경우가 많습니다.<br>아이의 상태에 따라 다르며, 진료 후 예상 기간을 안내해드립니다.</p></div>
+        </details>
+        <details class="accordion-item">
+          <summary><span>성장 상태는 언제, 얼마나 자주 확인하면 좋나요?</span><span class="toggle">+</span></summary>
+          <div class="accordion-body"><p>특별한 이상이 없다면 6개월~1년 주기로 키·몸무게를 기록해 성장 속도를 확인하는 것을 권합니다.<br>1년에 4cm 미만으로 자라거나, 만 8세 이전(여아)·만 9세 이전(남아)에 2차 성징이 보이면 소아청소년과·성장 진료를 먼저 받아보시는 것이 좋습니다.</p></div>
+        </details>
+        <details class="accordion-item">
+          <summary><span>밥을 너무 안 먹어요. 많이 먹이는 게 목표인가요?</span><span class="toggle">+</span></summary>
+          <div class="accordion-body"><p>많이 먹이는 것보다 아이가 소화하고 흡수할 수 있는 상태를 만드는 것이 우선입니다.<br>소화력, 대변 상태, 간식·수면 습관을 함께 살펴 관리 방향을 정합니다.</p></div>
+        </details>
+        <details class="accordion-item">
+          <summary><span>아이가 자주 배가 아프다고 하는데 꾀병일까요?</span><span class="toggle">+</span></summary>
+          <div class="accordion-body"><p>특별한 이상 없이 반복되는 복통도 아이에게는 실제 불편함인 경우가 많습니다.<br>다만 열·구토·혈변을 동반하거나 밤에 자다 깰 만큼 아프다면 먼저 진료를 받아 다른 원인을 확인해야 합니다.</p></div>
+        </details>
+        <details class="accordion-item">
+          <summary><span>밤에 자주 깨서 우는데 한의원에서 볼 수 있나요?</span><span class="toggle">+</span></summary>
+          <div class="accordion-body"><p>소화기에 열이 쌓였는지, 작은 자극에도 잘 놀라는지 등 아이의 패턴을 살펴 처방을 정합니다.<br>열이나 경련이 동반된다면 먼저 진료를 받아보셔야 합니다.</p></div>
+        </details>
+        <details class="accordion-item">
+          <summary><span>열성경련을 한 적이 있어요. 어떻게 해야 하나요?</span><span class="toggle">+</span></summary>
+          <div class="accordion-body"><p>경련 시에는 아이를 옆으로 눕히고, 입에 무언가를 물리지 말고, 시간을 재주세요. 5분 이상 지속되면 즉시 119에 연락하셔야 합니다.<br>급성기 이후에는 열이 잘 오르는 체질을 살펴 평소 관리 방법을 함께 상의할 수 있습니다.</p></div>
+        </details>
+        <details class="accordion-item">
+          <summary><span>보약은 언제 먹이는 게 좋나요?</span><span class="toggle">+</span></summary>
+          <div class="accordion-body"><p>환절기가 시작되기 2~3주 전이나, 큰 감기를 앓고 난 뒤 회복이 더딜 때 고려하는 경우가 많습니다.<br>보약은 만병통치약이 아니라 아이의 회복력을 돕는 역할이므로, 체질을 확인한 뒤 처방합니다.</p></div>
+        </details>
+        <details class="accordion-item">
+          <summary><span>한약을 먹는 중에 감기약을 함께 먹어도 되나요?</span><span class="toggle">+</span></summary>
+          <div class="accordion-body"><p>목적이 달라 함께 복용하는 경우가 많지만, 아이 상태에 따라 다를 수 있어 진료 때 복용 중인 약을 알려주시면 함께 확인해드립니다.</p></div>
+        </details>
+        <details class="accordion-item">
+          <summary><span>첫 진료 때 무엇을 준비하면 좋을까요?</span><span class="toggle">+</span></summary>
+          <div class="accordion-body"><p>최근 감기 빈도와 회복 기간, 복용 중인 약, 영유아 검진 기록이나 키·몸무게 기록이 있으면 도움이 됩니다.<br>증상이 나타나는 시간대나 양상을 메모해 오시면 진료가 더 정확해집니다.</p></div>
+        </details>
+        <details class="accordion-item">
+          <summary><span>비용은 어느 정도인가요?</span><span class="toggle">+</span></summary>
+          <div class="accordion-body"><p>진료 내용과 처방 구성, 기간에 따라 달라집니다. 진료 후 치료 계획과 함께 비용을 미리 안내해드립니다.</p></div>
+        </details>
+        <details class="accordion-item">
+          <summary><span>퇴근 후나 주말에도 진료받을 수 있나요?</span><span class="toggle">+</span></summary>
+          <div class="accordion-body"><p>평일은 최대 저녁 8시까지, 토요일도 오후 2시 30분까지 진료합니다.<br>하원·하교 후나 주말에도 아이와 함께 방문하실 수 있습니다.</p></div>
+        </details>
+        <details class="accordion-item">
+          <summary><span>예약 없이 바로 갈 수 있나요?</span><span class="toggle">+</span></summary>
+          <div class="accordion-body"><p>내원 접수도 가능하지만, 첫 진료는 상담 시간이 필요해 전화나 네이버 예약을 먼저 해주시면 대기 시간을 줄일 수 있습니다.</p></div>
+        </details>
+      </div>
+
+      <p class="faq-note">※ 치료 효과에는 개인차가 있으며, 진료 후 아이의 체질과 건강 상태에 따라 치료 방법과 처방 여부가 결정됩니다.</p>
+    </div>
+  </section>
+
+  <section class="key-questions related">
+    <div class="wrap">
+      <h2>원장칼럼에서 더 읽어보기</h2>
+      <p class="lead">진료실에서 보호자분들이 자주 물어보시는 내용을 칼럼으로 정리했습니다.</p>
+      <div class="related-cols">
+        <a href="column.html"><span class="rc-tag">감기 · 호흡기</span>소아 발열, 해열제 사용 기준은 언제일까요?</a>
+        <a href="column.html"><span class="rc-tag">감기 · 호흡기</span>아이가 자주 감기에 걸리는 이유, 단체생활증후군일까요?</a>
+        <a href="column.html"><span class="rc-tag">비염 · 알레르기</span>소아 비염, 왜 이렇게 안 나을까요?</a>
+        <a href="column.html"><span class="rc-tag">비염 · 알레르기</span>축농증(부비동염)과 항생제 사용 기준</a>
+        <a href="column.html"><span class="rc-tag">성장 · 발달</span>소아 성장평가, 언제 어떻게 체크해야 할까요?</a>
+        <a href="column.html"><span class="rc-tag">행동 · 수면</span>아이가 밤에 자주 깨요, 소아 야제일까요?</a>
+      </div>
+      <p class="related-more"><a href="column.html">소아 클리닉 칼럼 전체 보기 →</a></p>
+    </div>
+  </section>
+
+  <section class="visit" id="visit">
+    <div class="wrap">
+
+      <div class="cta-banner">
+        <h2>우리 아이, 한 번 살펴볼까요?</h2>
+        <p>진료를 통해 아이의 현재 상태와 치료 계획·예상 기간·비용을 안내해드립니다.</p>
+        <div class="cta-buttons">
+          <a class="pill-solid" href="https://map.naver.com/p/entry/place/1017147051?lng=127.1599938&lat=37.6093987&placePath=%2F%3Fabt%3D%255B%257B%2522eid%2522%253A%2522N-RES-RANK-26%2522%252C%2522value%2522%253A%257B%2522bt%2522%253A%25222%2522%252C%2522t_modeling_quality_imp%2522%253A%25220.02%253B0%253B0%253B0%2522%252C%2522is_control%2522%253Atrue%257D%257D%252C%257B%2522eid%2522%253A%2522NS-SHP-RANK-26%2522%252C%2522value%2522%253A%257B%2522bt%2522%253A%25224%2522%252C%2522is_control%2522%253Afalse%257D%257D%255D%26abtExp%3DN-RES-RANK-26%253A2%253At_modeling_quality_imp%253D0.02%25253B0%25253B0%25253B0%26ac%3D0%26adm_lat%3D37.560361%26adm_long%3D127.188804%26bizId%3D1017147051%26bookingRedirectUrl%3Dhttps%25253A%25252F%25252Fm.booking.naver.com%25252Fbooking%25252F13%25252Fbizes%25252F705713%25253Ftheme%25253Dplace%252526lang%25253Dko%252526service-target%25253Dmap-pc%26debug%3D0%26deviceType%3Dpc%26lgl_lat%3D37.569608%26lgl_long%3D127.188062%26lgl_rcode%3D02450109%26ngn_country%3DKR%26nlu_query%3D%257B%2522qr%2522%253A%255B%257B%2522query%2522%253A%2522%25EA%25B0%2590%25EC%2584%25B1%2520%25ED%2595%259C%25EB%25B0%25A9%25EC%259D%2598%25EC%259B%2590%2522%252C%2522c_score%2522%253A0.0%252C%2522score%2522%253A2.0%252C%2522qr_category%2522%253A1%252C%2522qr_type%2522%253A2%257D%255D%252C%2522hospital%2522%253A%257B%2522q%2522%253A%2522%25EA%25B0%2590%25EC%2584%25B1%25ED%2595%259C%25EC%259D%2598%25EC%259B%2590%2522%252C%2522sid%2522%253A%25221017147051%2522%252C%2522source%2522%253A%2522placesearch%2522%257D%252C%2522nluQuery%2522%253A%2522%25EA%25B0%2590%25EC%2584%25B1%25ED%2595%259C%25EC%259D%2598%25EC%259B%2590%2522%257D%26nqx_theme%3D%257B%2522theme%2522%253A%257B%2522sub%2522%253A%255B%257B%2522name%2522%253A%2522location%2522%257D%252C%257B%2522name%2522%253A%2522hospital%2522%257D%255D%257D%257D%26r1%3D%25EA%25B2%25BD%25EA%25B8%25B0%25EB%258F%2584%26r2%3D%25ED%2595%2598%25EB%2582%25A8%25EC%258B%259C%26r3%3D%25EB%25AF%25B8%25EC%2582%25AC1%25EB%258F%2599%26rcode%3D02450610%26responseType%3Djson%26rev%3D45%26sm%3Dtop_hty%26spq%3D0%26ssc%3Dtab.nx.all%26target%3Dpc%26where%3Dnexearch%26x%3D127.188804%26y%3D37.560361&searchType=place&c=15.00,0,0,0,dh" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
+            네이버로 예약하기
+          </a>
+          <a class="pill-kakao" href="https://pf.kakao.com/_fPVDG/chat" target="_blank" rel="noopener">
+            카카오톡 상담
+          </a>
+          <a class="pill-line" href="tel:031-566-1075">
+            <svg viewBox="0 0 512 512" fill="currentColor"><path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64c0 247.4 200.6 448 448 448 18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6l-40.4 49.3c-70.4-33.3-127.4-90.3-160.7-160.7l49.3-40.4c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></svg>
+            031-566-1075
+          </a>
+        </div>
+        <p class="law-note">이 페이지는 의료법과 보건복지부 의료광고 가이드라인을 준수하여 작성되었습니다. 구체적인 치료 계획이나 진단은 담당 의료진과 충분한 상담 후 결정하시기 바랍니다.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer></footer>
+
+<nav class="side-rail" aria-label="빠른 상담 아이콘">
+  <a class="phone" href="tel:031-566-1075" aria-label="전화 문의">
+    <span class="tooltip">전화 상담</span>
+    <span class="icon"><svg viewBox="0 0 512 512" width="18" height="18"><path fill="#F1ECDD" d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64c0 247.4 200.6 448 448 448 18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6l-40.4 49.3c-70.4-33.3-127.4-90.3-160.7-160.7l49.3-40.4c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></svg></span>
+  </a>
+  <a class="kakao" href="https://pf.kakao.com/_fPVDG/chat" target="_blank" rel="noopener" aria-label="카톡 상담">
+    <span class="tooltip">카카오톡 상담</span>
+    <span class="icon"><svg viewBox="0 0 24 24" width="19" height="19"><path fill="#3C1E1E" d="M12 3.6C6.6 3.6 2.3 7.1 2.3 11.4c0 2.7 1.7 5.1 4.3 6.5-.2.7-.8 3-.9 3.4 0 0-.02.15.08.21.1.06.21.02.21.02.28-.04 3.2-2.12 3.7-2.48.7.1 1.5.16 2.3.16 5.4 0 9.7-3.5 9.7-7.85 0-4.3-4.3-7.79-9.7-7.79z"/></svg></span>
+  </a>
+  <a class="naver" href="https://map.naver.com/p/entry/place/1017147051?lng=127.1599938&lat=37.6093987&placePath=%2F%3Fabt%3D%255B%257B%2522eid%2522%253A%2522N-RES-RANK-26%2522%252C%2522value%2522%253A%257B%2522bt%2522%253A%25222%2522%252C%2522t_modeling_quality_imp%2522%253A%25220.02%253B0%253B0%253B0%2522%252C%2522is_control%2522%253Atrue%257D%257D%252C%257B%2522eid%2522%253A%2522NS-SHP-RANK-26%2522%252C%2522value%2522%253A%257B%2522bt%2522%253A%25224%2522%252C%2522is_control%2522%253Afalse%257D%257D%255D%26abtExp%3DN-RES-RANK-26%253A2%253At_modeling_quality_imp%253D0.02%25253B0%25253B0%25253B0%26ac%3D0%26adm_lat%3D37.560361%26adm_long%3D127.188804%26bizId%3D1017147051%26bookingRedirectUrl%3Dhttps%25253A%25252F%25252Fm.booking.naver.com%25252Fbooking%25252F13%25252Fbizes%25252F705713%25253Ftheme%25253Dplace%252526lang%25253Dko%252526service-target%25253Dmap-pc%26debug%3D0%26deviceType%3Dpc%26lgl_lat%3D37.569608%26lgl_long%3D127.188062%26lgl_rcode%3D02450109%26ngn_country%3DKR%26nlu_query%3D%257B%2522qr%2522%253A%255B%257B%2522query%2522%253A%2522%25EA%25B0%2590%25EC%2584%25B1%2520%25ED%2595%259C%25EB%25B0%25A9%25EC%259D%2598%25EC%259B%2590%2522%252C%2522c_score%2522%253A0.0%252C%2522score%2522%253A2.0%252C%2522qr_category%2522%253A1%252C%2522qr_type%2522%253A2%257D%255D%252C%2522hospital%2522%253A%257B%2522q%2522%253A%2522%25EA%25B0%2590%25EC%2584%25B1%25ED%2595%259C%25EC%259D%2598%25EC%259B%2590%2522%252C%2522sid%2522%253A%25221017147051%2522%252C%2522source%2522%253A%2522placesearch%2522%257D%252C%2522nluQuery%2522%253A%2522%25EA%25B0%2590%25EC%2584%25B1%25ED%2595%259C%25EC%259D%2598%25EC%259B%2590%2522%257D%26nqx_theme%3D%257B%2522theme%2522%253A%257B%2522sub%2522%253A%255B%257B%2522name%2522%253A%2522location%2522%257D%252C%257B%2522name%2522%253A%2522hospital%2522%257D%255D%257D%257D%26r1%3D%25EA%25B2%25BD%25EA%25B8%25B0%25EB%258F%2584%26r2%3D%25ED%2595%2598%25EB%2582%25A8%25EC%258B%259C%26r3%3D%25EB%25AF%25B8%25EC%2582%25AC1%25EB%258F%2599%26rcode%3D02450610%26responseType%3Djson%26rev%3D45%26sm%3Dtop_hty%26spq%3D0%26ssc%3Dtab.nx.all%26target%3Dpc%26where%3Dnexearch%26x%3D127.188804%26y%3D37.560361&searchType=place&c=15.00,0,0,0,dh" target="_blank" rel="noopener" aria-label="네이버 예약">
+    <span class="tooltip">네이버 예약</span>
+    <span class="icon"><svg viewBox="0 0 24 24" width="17" height="17"><rect x="3" y="5" width="18" height="15" rx="2.2" fill="#FFFFFF"/><rect x="7" y="2.3" width="2.2" height="4" rx="1.1" fill="#FFFFFF"/><rect x="14.8" y="2.3" width="2.2" height="4" rx="1.1" fill="#FFFFFF"/><path d="M8 13.4l2.4 2.4L16.2 10.2" stroke="#03C75A" stroke-width="2.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+  </a>
+  <a class="youtube" href="https://www.youtube.com/@pain_dr_kwon" target="_blank" rel="noopener" aria-label="유튜브">
+    <span class="tooltip">유튜브 채널</span>
+    <span class="icon"><svg viewBox="0 0 28 20" width="22" height="16"><rect x="0.5" y="0.5" width="27" height="19" rx="5" fill="#FFFFFF"/><path fill="#FF0000" d="M11.5 5.8v8.4l7.3-4.2z"/></svg></span>
+  </a>
+  <button type="button" class="back-to-top" id="backToTop" aria-label="맨 위로 이동">
+    <span class="tooltip">맨 위로</span>
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+  </button>
+</nav>
+
+<script>
+
+  var siteHeader = document.querySelector('.site-header');
+  var scrollProgress = document.getElementById('scrollProgress');
+  var backToTop = document.getElementById('backToTop');
+
+  function updateOnScroll(){
+    if (window.scrollY > 20){
+      siteHeader.classList.add('scrolled');
+    } else {
+      siteHeader.classList.remove('scrolled');
+    }
+
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var pct = docHeight > 0 ? (window.scrollY / docHeight) * 100 : 0;
+    scrollProgress.style.width = pct + '%';
+
+    if (window.scrollY > 300){
+      backToTop.classList.add('visible');
+    } else {
+      backToTop.classList.remove('visible');
+    }
+  }
+  window.addEventListener('scroll', updateOnScroll);
+  updateOnScroll();
+
+  backToTop.addEventListener('click', function(){
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  var toggle = document.getElementById('navToggle');
+  var nav = document.getElementById('mainNav');
+  toggle.addEventListener('click', function(){
+    var open = nav.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  nav.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      nav.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  /* search */
+  var searchBtn = document.getElementById('searchBtn');
+  var searchPop = document.getElementById('searchPop');
+  var searchInput = document.getElementById('searchInput');
+  searchBtn.addEventListener('click', function(){
+    var open = searchPop.classList.toggle('open');
+    searchBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) searchInput.focus();
+  });
+  document.addEventListener('click', function(e){
+    if (!searchPop.contains(e.target) && e.target !== searchBtn && !searchBtn.contains(e.target)){
+      searchPop.classList.remove('open');
+      searchBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+  searchInput.addEventListener('keydown', function(e){
+    if (e.key === 'Enter'){
+      var q = searchInput.value.trim().toLowerCase();
+      if (!q) return;
+      var nodes = document.querySelectorAll('main h1, main h2, main h3, main p, main li, main span');
+      var found = null;
+      for (var i = 0; i < nodes.length; i++){
+        if (nodes[i].textContent.toLowerCase().indexOf(q) !== -1){ found = nodes[i]; break; }
+      }
+      if (found){
+        found.scrollIntoView({behavior:'smooth', block:'center'});
+        found.classList.add('search-hit');
+        setTimeout(function(){ found.classList.remove('search-hit'); }, 1800);
+        searchPop.classList.remove('open');
+      } else {
+        searchInput.placeholder = '검색 결과가 없어요';
+        setTimeout(function(){ searchInput.placeholder = '증상이나 메뉴를 검색해보세요'; }, 1800);
+      }
+    }
+  });
+
+  /* 진료중 상태 배지 - 실제 진료시간 반영 */
+  (function(){
+    var hours = {
+      0: null,                                                     // 일요일 휴진
+      1: { open: 9.5, close: 20,   breakStart: 13, breakEnd: 14 },  // 월
+      2: { open: 9.5, close: 19,   breakStart: 13, breakEnd: 14 },  // 화
+      3: { open: 9.5, close: 20,   breakStart: 13, breakEnd: 14 },  // 수
+      4: { open: 9.5, close: 19,   breakStart: 13, breakEnd: 14 },  // 목
+      5: { open: 9.5, close: 20,   breakStart: 13, breakEnd: 14 },  // 금
+      6: { open: 9.5, close: 14.5, breakStart: null, breakEnd: null } // 토
+    };
+    // 2026년 추석 연휴 임시 휴진 (9/24 목 ~ 9/26 토). 9/27(일)은 원래 일요일 휴진.
+    var holidayRanges = [
+      { start: '2026-09-24', end: '2026-09-26', label: '추석 연휴', resume: '9/28(월) 정상 진료' }
+    ];
+
+    var badge = document.getElementById('statusBadge');
+    var text = document.getElementById('statusText');
+    var now = new Date();
+    var day = now.getDay();
+    var today = hours[day];
+    var nowVal = now.getHours() + now.getMinutes() / 60;
+    var todayStr = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
+    var activeHoliday = holidayRanges.filter(function(h){ return todayStr >= h.start && todayStr <= h.end; })[0];
+
+    function fmt(v){
+      var h = Math.floor(v);
+      var m = Math.round((v - h) * 60);
+      var hh = h < 10 ? '0' + h : '' + h;
+      var mm = m < 10 ? '0' + m : '' + m;
+      return hh + ':' + mm;
+    }
+
+    if (activeHoliday){
+      badge.classList.add('closed');
+      text.textContent = activeHoliday.label + ' 휴진 · ' + activeHoliday.resume;
+    } else if (!today){
+      badge.classList.add('closed');
+      text.textContent = '일요일 휴진';
+    } else if (nowVal < today.open){
+      badge.classList.add('closed');
+      text.textContent = '진료 전 · ' + fmt(today.open) + ' 진료 시작';
+    } else if (today.breakStart != null && nowVal >= today.breakStart && nowVal < today.breakEnd){
+      badge.classList.add('closed');
+      text.textContent = '점심시간 · ' + fmt(today.breakEnd) + ' 진료 재개';
+    } else if (nowVal >= today.open && nowVal < today.close){
+      badge.classList.remove('closed');
+      text.textContent = '진료중 · ' + fmt(today.close) + ' 진료 종료';
+    } else {
+      badge.classList.add('closed');
+      text.textContent = '진료 종료';
+    }
+  })();
+</script>
+
+</body>
+</html>
