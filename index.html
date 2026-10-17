@@ -1103,16 +1103,10 @@
       <p class="lead">진료실에서 나누는 깊이 있는 건강 이야기</p>
 
       <div class="column-teaser-grid" id="columnTeaserGrid">
-        <a class="column-teaser" href="column.html">
-          <span class="cat-tag">원장 이야기</span>
-          <h3>13년 차 한의사가 매일 진료실 문을 열며 품는 생각</h3>
-          <p>같은 증상도 사람마다 낫는 속도가 다른 이유를 고민하며, 몸이 아니라 삶 전체를 들여다보게 된 과정을 담은 원장의 진료 철학 이야기.</p>
-        </a>
-        <a class="column-teaser" href="column.html">
-          <span class="cat-tag">턱관절·감각기관</span>
-          <h3>삼차신경통, 왜 얼굴 한쪽만 아픈가요? 치료 정리</h3>
-          <p>세수나 양치 같은 가벼운 자극에도 얼굴 한쪽이 발작적으로 아픈 삼차신경통의 특징과, 턱관절·경추와의 연관성, 약침·추나·한약이 각각 맡는 역할을 정리했습니다.</p>
-        </a>
+<!--TEASERS_START-->
+        <a class="column-teaser" href="/column/%EB%B0%9C%EB%AA%A9-%EC%95%88%EC%AA%BD-%EC%8F%A0%EB%A6%BC-%EA%B3%BC%ED%9A%8C%EB%82%B4%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%82%B4%ED%8E%B4%EB%B4%90%EC%95%BC-%ED%95%A0%EA%B9%8C%EC%9A%94/"><span class="cat-tag">발목관절</span><h3>발목 안쪽 쏠림, 과회내는 어떻게 살펴봐야 할까요</h3><p>발목이 안으로 기울어 보인다고 모두 문제는 아닙니다. 체중이 실릴 때 발이 얼마나, 왜 안쪽으로 구르는지가 더 중요합니다. 회내와 과회내의 차이, 원인, 관리 방향을 정리했습니다.</p></a>
+        <a class="column-teaser" href="/column/%ED%8F%89%EB%B0%9C-%EC%A1%B1%EB%B6%80-%EC%B6%94%EB%82%98%EB%A1%9C-%EA%B4%80%EB%A6%AC%ED%95%98%EB%A9%B4-%ED%8E%B8%ED%95%98%EA%B2%8C-%EA%B1%B8%EC%9D%84-%EC%88%98-%EC%9E%88%EC%9D%84%EA%B9%8C%EC%9A%94/"><span class="cat-tag">발목관절</span><h3>평발, 족부 추나로 관리하면 편하게 걸을 수 있을까요?</h3><p>성인 평발은 아치를 되돌리기보다 부담을 덜고 지지력을 키우는 관리가 목표입니다. 족부 추나·교정구·발 운동의 역할과 진료가 필요한 신호를 정리했습니다.</p></a>
+<!--TEASERS_END-->
       </div>
 
       <a class="btn btn-line" href="column.html" style="margin-top:32px; display:inline-block;">전체 칼럼 보기</a>
@@ -1341,51 +1335,6 @@
     }
   })();
 
-  /* 원장칼럼 미리보기 - 관리자 페이지에서 발행한 최신 칼럼 반영 */
-  (function(){
-    var CATEGORY_LABELS = {
-      philosophy: '원장 이야기',
-      headache: '두통 · 어지러움',
-      jaw: '턱관절',
-      sensory: '감각기관 · 신경계',
-      spine: '척추 · 근골격',
-      internal: '내과 질환',
-      pediatric: '소아 클리닉',
-      special: '다이어트 클리닉'
-    };
-
-    function slugify(title){
-      return (title || '').trim().replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-+|-+$/g, '').toLowerCase();
-    }
-
-    function renderTeasers(items){
-      var grid = document.getElementById('columnTeaserGrid');
-      if (!grid || !items || !items.length) return;
-      var sorted = items.map(function(item, i){ return { item: item, i: i }; })
-        .sort(function(a, b){
-          var d = (b.item.date || '').localeCompare(a.item.date || '');
-          return d !== 0 ? d : (b.i - a.i);
-        })
-        .map(function(x){ return x.item; });
-      var top = sorted.slice(0, 2);
-      grid.innerHTML = top.map(function(item){
-        return '<a class="column-teaser" href="column.html?c=' + encodeURIComponent(slugify(item.title)) + '">' +
-          '<span class="cat-tag">' + (CATEGORY_LABELS[item.category] || item.category || '') + '</span>' +
-          '<h3>' + (item.title || '') + '</h3>' +
-          '<p>' + (item.teaser || '') + '</p>' +
-        '</a>';
-      }).join('');
-    }
-
-    fetch('content/columns.json', { cache: 'no-store' })
-      .then(function(res){ return res.ok ? res.json() : null; })
-      .then(function(data){
-        if (data && Array.isArray(data.items) && data.items.length){
-          renderTeasers(data.items);
-        }
-      })
-      .catch(function(){ /* 기본으로 보이는 카드 2개만 유지해도 문제 없음 */ });
-  })();
 </script>
 
 </body>

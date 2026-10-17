@@ -906,6 +906,7 @@
     padding: 0;
     font: inherit;
     color: inherit;
+    text-decoration: none;
     transition: border-color .2s ease, transform .15s ease;
   }
   .column-card[hidden]{ display: none; }
@@ -945,6 +946,14 @@
   }
   .column-card .meta .dot{ color: var(--line); }
 
+  a.back-to-list{ text-decoration: none; display: flex; width: fit-content; }
+  .article-page .column-list{ padding-top: 120px; }
+  .related-posts{ max-width: 720px; margin-top: 56px; padding-top: 28px; border-top: 1px solid var(--line); }
+  .related-posts h2{ font-family: 'Pretendard', "Noto Sans KR", sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--ink); margin: 0 0 14px; }
+  .related-posts ul{ list-style: none; margin: 0; padding: 0; }
+  .related-posts li{ padding: 8px 0; border-bottom: 1px solid var(--line); }
+  .related-posts a{ color: var(--teal); text-decoration: none; font-weight: 500; line-height: 1.5; }
+  .related-posts a:hover{ text-decoration: underline; }
   .article-view{ max-width: 980px; margin: 0 auto; }
   .article-view[hidden]{ display: none; }
   .back-to-list{
@@ -1168,38 +1177,45 @@
   <section class="column-list">
     <div class="wrap">
       <div class="column-grid" id="columnGrid">
-        <p class="loading-note" id="loadingNote">칼럼을 불러오는 중입니다...</p>
-      </div>
-      <div class="article-view" id="articleView" hidden>
-        <button type="button" class="back-to-list" id="backToList">← 목록으로</button>
-        <span class="cat-tag" id="articleCat"></span>
-        <h1 id="articleTitle"></h1>
-        <p class="meta" id="articleMeta"></p>
-        <div class="article-layout">
-          <div class="column-body" id="articleBody"></div>
-          <aside class="article-side">
-            <div class="side-card author-card">
-              <p class="side-label">작성자</p>
-              <div class="author-info">
-                <div class="author-avatar">🌿</div>
-                <div>
-                  <p class="author-name" id="sideAuthorName"></p>
-                  <p class="author-role">감성한의원 대표원장</p>
-                </div>
-              </div>
-            </div>
-            <div class="side-card" id="relatedCard" hidden>
-              <p class="side-label">관련 진료</p>
-              <a class="side-link" id="relatedLink" href="index.html"></a>
-            </div>
-            <div class="side-card booking-card">
-              <p class="side-label">진료 예약</p>
-              <a class="btn-book" href="https://map.naver.com/p/entry/place/1017147051?lng=127.1599938&amp;lat=37.6093987&amp;placePath=%2F%3Fabt%3D%255B%257B%2522eid%2522%253A%2522N-RES-RANK-26%2522%252C%2522value%2522%253A%257B%2522bt%2522%253A%25222%2522%252C%2522t_modeling_quality_imp%2522%253A%25220.02%253B0%253B0%253B0%2522%252C%2522is_control%2522%253Atrue%257D%257D%252C%257B%2522eid%2522%253A%2522NS-SHP-RANK-26%2522%252C%2522value%2522%253A%257B%2522bt%2522%253A%25224%2522%252C%2522is_control%2522%253Afalse%257D%257D%255D%26abtExp%3DN-RES-RANK-26%253A2%253At_modeling_quality_imp%253D0.02%25253B0%25253B0%25253B0%26ac%3D0%26adm_lat%3D37.560361%26adm_long%3D127.188804%26bizId%3D1017147051%26bookingRedirectUrl%3Dhttps%25253A%25252F%25252Fm.booking.naver.com%25252Fbooking%25252F13%25252Fbizes%25252F705713%25253Ftheme%25253Dplace%252526lang%25253Dko%252526service-target%25253Dmap-pc%26debug%3D0%26deviceType%3Dpc%26lgl_lat%3D37.569608%26lgl_long%3D127.188062%26lgl_rcode%3D02450109%26ngn_country%3DKR%26nlu_query%3D%257B%2522qr%2522%253A%255B%257B%2522query%2522%253A%2522%25EA%25B0%2590%25EC%2584%25B1%2520%25ED%2595%259C%25EB%25B0%25A9%25EC%259D%2598%25EC%259B%2590%2522%252C%2522c_score%2522%253A0.0%252C%2522score%2522%253A2.0%252C%2522qr_category%2522%253A1%252C%2522qr_type%2522%253A2%257D%255D%252C%2522hospital%2522%253A%257B%2522q%2522%253A%2522%25EA%25B0%2590%25EC%2584%25B1%25ED%2595%259C%25EC%259D%2598%25EC%259B%2590%2522%252C%2522sid%2522%253A%25221017147051%2522%252C%2522source%2522%253A%2522placesearch%2522%257D%252C%2522nluQuery%2522%253A%2522%25EA%25B0%2590%25EC%2584%25B1%25ED%2595%259C%25EC%259D%2598%25EC%259B%2590%2522%257D%26nqx_theme%3D%257B%2522theme%2522%253A%257B%2522sub%2522%253A%255B%257B%2522name%2522%253A%2522location%2522%257D%252C%257B%2522name%2522%253A%2522hospital%2522%257D%255D%257D%257D%26r1%3D%25EA%25B2%25BD%25EA%25B8%25B0%25EB%258F%2584%26r2%3D%25ED%2595%2598%25EB%2582%25A8%25EC%258B%259C%26r3%3D%25EB%25AF%25B8%25EC%2582%25AC1%25EB%258F%2599%26rcode%3D02450610%26responseType%3Djson%26rev%3D45%26sm%3Dtop_hty%26spq%3D0%26ssc%3Dtab.nx.all%26target%3Dpc%26where%3Dnexearch%26x%3D127.188804%26y%3D37.560361&amp;searchType=place&amp;c=15.00,0,0,0,dh" target="_blank" rel="noopener">네이버로 예약하기</a>
-              <a class="btn-call" href="tel:031-566-1075">☎ 031-566-1075</a>
-            </div>
-          </aside>
-        </div>
-        <div class="article-tags" id="articleTags" hidden></div>
+<!--CARDS_START-->
+        <a class="column-card" href="/column/%EB%B0%9C%EB%AA%A9-%EC%95%88%EC%AA%BD-%EC%8F%A0%EB%A6%BC-%EA%B3%BC%ED%9A%8C%EB%82%B4%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%82%B4%ED%8E%B4%EB%B4%90%EC%95%BC-%ED%95%A0%EA%B9%8C%EC%9A%94/" data-category="ankle"><div class="thumb"><img src="/column/%EB%B0%9C%EB%AA%A9-%EC%95%88%EC%AA%BD-%EC%8F%A0%EB%A6%BC-%EA%B3%BC%ED%9A%8C%EB%82%B4%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%82%B4%ED%8E%B4%EB%B4%90%EC%95%BC-%ED%95%A0%EA%B9%8C%EC%9A%94/thumb-2a50cb45.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">발목관절</span><h3>발목 안쪽 쏠림, 과회내는 어떻게 살펴봐야 할까요</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-10-18</p></div></a>
+        <a class="column-card" href="/column/%ED%8F%89%EB%B0%9C-%EC%A1%B1%EB%B6%80-%EC%B6%94%EB%82%98%EB%A1%9C-%EA%B4%80%EB%A6%AC%ED%95%98%EB%A9%B4-%ED%8E%B8%ED%95%98%EA%B2%8C-%EA%B1%B8%EC%9D%84-%EC%88%98-%EC%9E%88%EC%9D%84%EA%B9%8C%EC%9A%94/" data-category="ankle"><div class="thumb"><img src="/column/%ED%8F%89%EB%B0%9C-%EC%A1%B1%EB%B6%80-%EC%B6%94%EB%82%98%EB%A1%9C-%EA%B4%80%EB%A6%AC%ED%95%98%EB%A9%B4-%ED%8E%B8%ED%95%98%EA%B2%8C-%EA%B1%B8%EC%9D%84-%EC%88%98-%EC%9E%88%EC%9D%84%EA%B9%8C%EC%9A%94/thumb-9973eff8.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">발목관절</span><h3>평발, 족부 추나로 관리하면 편하게 걸을 수 있을까요?</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-10-18</p></div></a>
+        <a class="column-card" href="/column/%ED%8F%89%EB%B0%9C%EA%B3%BC-%EC%9A%94%EC%A1%B1-%EB%82%B4-%EB%B0%9C%EC%9D%80-%EC%B2%B4%EC%A4%91%EC%9D%84-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%B0%9B%EA%B3%A0-%EC%9E%88%EC%9D%84%EA%B9%8C%EC%9A%94/" data-category="ankle"><div class="thumb"><img src="/column/%ED%8F%89%EB%B0%9C%EA%B3%BC-%EC%9A%94%EC%A1%B1-%EB%82%B4-%EB%B0%9C%EC%9D%80-%EC%B2%B4%EC%A4%91%EC%9D%84-%EC%96%B4%EB%96%BB%EA%B2%8C-%EB%B0%9B%EA%B3%A0-%EC%9E%88%EC%9D%84%EA%B9%8C%EC%9A%94/thumb-57096ed1.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">발목관절</span><h3>평발과 요족, 내 발은 체중을 어떻게 받고 있을까요</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-10-17</p></div></a>
+        <a class="column-card" href="/column/%ED%97%88%EB%A6%AC%ED%86%B5%EC%A6%9D%EC%9D%B8%EB%8D%B0-%EC%99%9C-%EC%97%89%EB%8D%A9%EC%9D%B4-%EA%B7%BC%EC%9C%A1%EC%9D%84-%EB%B3%BC%EA%B9%8C%EC%9A%94-%EA%B3%A0%EA%B4%80%EC%A0%88-%EA%B3%A8%EB%B0%98%EA%B3%BC%EC%9D%98-%EC%97%B0%EA%B2%B0-%EA%B3%A0%EB%A6%AC/" data-category="spine"><div class="thumb"><img src="/column/%ED%97%88%EB%A6%AC%ED%86%B5%EC%A6%9D%EC%9D%B8%EB%8D%B0-%EC%99%9C-%EC%97%89%EB%8D%A9%EC%9D%B4-%EA%B7%BC%EC%9C%A1%EC%9D%84-%EB%B3%BC%EA%B9%8C%EC%9A%94-%EA%B3%A0%EA%B4%80%EC%A0%88-%EA%B3%A8%EB%B0%98%EA%B3%BC%EC%9D%98-%EC%97%B0%EA%B2%B0-%EA%B3%A0%EB%A6%AC/thumb-2db6d60b.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">척추 · 근골격</span><h3>허리통증인데 왜 엉덩이 근육을 볼까요? 고관절·골반과의 연결 고리</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-10-16</p></div></a>
+        <a class="column-card" href="/column/%EC%9A%B0%EB%A6%AC-%EC%95%84%EC%9D%B4-%EC%B2%AB-%EC%A7%84%EB%A3%8C-%EB%AC%B4%EC%97%87%EC%9D%84-%ED%99%95%EC%9D%B8%ED%95%98%EA%B3%A0-%EC%96%B4%EB%96%BB%EA%B2%8C-%EA%B3%84%ED%9A%8D%EC%9D%84-%EC%84%B8%EC%9A%B8%EA%B9%8C%EC%9A%94/" data-category="pediatric"><div class="thumb"><img src="/column/%EC%9A%B0%EB%A6%AC-%EC%95%84%EC%9D%B4-%EC%B2%AB-%EC%A7%84%EB%A3%8C-%EB%AC%B4%EC%97%87%EC%9D%84-%ED%99%95%EC%9D%B8%ED%95%98%EA%B3%A0-%EC%96%B4%EB%96%BB%EA%B2%8C-%EA%B3%84%ED%9A%8D%EC%9D%84-%EC%84%B8%EC%9A%B8%EA%B9%8C%EC%9A%94/thumb-53c3ca5d.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">소아 클리닉</span><h3>우리 아이 첫 진료, 무엇을 확인하고 어떻게 계획을 세울까요</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-10-16</p></div></a>
+        <a class="column-card" href="/column/%EA%B3%A8%ED%94%84-%ED%9B%84-%ED%97%88%EB%A6%AC%ED%86%B5%EC%A6%9D-%EC%99%9C-%EC%97%89%EB%8D%A9%EC%9D%B4-%EA%B7%BC%EC%9C%A1%EA%B3%BC-%EA%B3%A0%EA%B4%80%EC%A0%88%EC%9D%84-%ED%95%A8%EA%BB%98-%EB%B4%90%EC%95%BC-%ED%95%A0%EA%B9%8C%EC%9A%94/" data-category="spine"><div class="thumb"><img src="/column/%EA%B3%A8%ED%94%84-%ED%9B%84-%ED%97%88%EB%A6%AC%ED%86%B5%EC%A6%9D-%EC%99%9C-%EC%97%89%EB%8D%A9%EC%9D%B4-%EA%B7%BC%EC%9C%A1%EA%B3%BC-%EA%B3%A0%EA%B4%80%EC%A0%88%EC%9D%84-%ED%95%A8%EA%BB%98-%EB%B4%90%EC%95%BC-%ED%95%A0%EA%B9%8C%EC%9A%94/thumb-4bb6cd59.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">척추 · 근골격</span><h3>골프 후 허리통증, 왜 엉덩이 근육과 고관절을 함께 봐야 할까요?</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-10-15</p></div></a>
+        <a class="column-card" href="/column/%EC%86%8C%EC%95%84-%EC%83%81%EB%B9%84%EC%95%BD-%EC%A7%91%EC%97%90-%EC%96%B4%EB%96%A4-%EA%B1%B8-%EC%A4%80%EB%B9%84%ED%95%B4%EB%91%90%EB%A9%B4-%EC%A2%8B%EC%9D%84%EA%B9%8C%EC%9A%94/" data-category="pediatric"><div class="thumb"><img src="/column/%EC%86%8C%EC%95%84-%EC%83%81%EB%B9%84%EC%95%BD-%EC%A7%91%EC%97%90-%EC%96%B4%EB%96%A4-%EA%B1%B8-%EC%A4%80%EB%B9%84%ED%95%B4%EB%91%90%EB%A9%B4-%EC%A2%8B%EC%9D%84%EA%B9%8C%EC%9A%94/thumb-e6bcdd7a.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">소아 클리닉</span><h3>소아 상비약, 집에 어떤 걸 준비해두면 좋을까요</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-10-15</p></div></a>
+        <a class="column-card" href="/column/%EC%9E%A6%EC%9D%80-%EC%86%8C%EC%95%84-%EB%B3%B5%ED%86%B5-%EA%BE%80%EB%B3%91%EC%9D%B4-%EC%95%84%EB%8B%99%EB%8B%88%EB%8B%A4/" data-category="pediatric"><div class="thumb"><img src="/column/%EC%9E%A6%EC%9D%80-%EC%86%8C%EC%95%84-%EB%B3%B5%ED%86%B5-%EA%BE%80%EB%B3%91%EC%9D%B4-%EC%95%84%EB%8B%99%EB%8B%88%EB%8B%A4/thumb-50e20f7f.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">소아 클리닉</span><h3>잦은 소아 복통, 꾀병이 아닙니다</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-10-14</p></div></a>
+        <a class="column-card" href="/column/%EC%86%8C%EC%95%84-%EC%B2%9C%EC%8B%9D-%EC%96%B8%EC%A0%9C-%EC%96%91%EB%B0%A9%EA%B3%BC-%EB%B3%91%ED%96%89%ED%95%B4%EC%95%BC-%ED%95%A0%EA%B9%8C%EC%9A%94/" data-category="pediatric"><div class="thumb"><img src="/column/%EC%86%8C%EC%95%84-%EC%B2%9C%EC%8B%9D-%EC%96%B8%EC%A0%9C-%EC%96%91%EB%B0%A9%EA%B3%BC-%EB%B3%91%ED%96%89%ED%95%B4%EC%95%BC-%ED%95%A0%EA%B9%8C%EC%9A%94/thumb-d61b4e70.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">소아 클리닉</span><h3>소아 천식, 언제 양방과 병행해야 할까요</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-10-13</p></div></a>
+        <a class="column-card" href="/column/%EC%86%8C%EC%95%84-%EB%8B%A4%ED%95%9C%EC%A6%9D-%EB%95%80-%ED%9D%98%EB%A6%AC%EB%8A%94-%EB%B6%80%EC%9C%84%EB%A7%88%EB%8B%A4-%EB%8B%A4%EB%A5%B8-%EC%9D%98%EB%AF%B8%EA%B0%80-%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4/" data-category="pediatric"><div class="thumb"><img src="/column/%EC%86%8C%EC%95%84-%EB%8B%A4%ED%95%9C%EC%A6%9D-%EB%95%80-%ED%9D%98%EB%A6%AC%EB%8A%94-%EB%B6%80%EC%9C%84%EB%A7%88%EB%8B%A4-%EB%8B%A4%EB%A5%B8-%EC%9D%98%EB%AF%B8%EA%B0%80-%EC%9E%88%EC%8A%B5%EB%8B%88%EB%8B%A4/thumb-9a924f69.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">소아 클리닉</span><h3>소아 다한증, 땀 흘리는 부위마다 다른 의미가 있습니다</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-10-13</p></div></a>
+        <a class="column-card" href="/column/%EC%86%8C%EC%95%84-%EA%B0%90%EA%B8%B0-%ED%95%AD%EC%83%9D%EC%A0%9C-%EA%BC%AD-%ED%95%84%EC%9A%94%ED%95%A0%EA%B9%8C%EC%9A%94-%EC%98%AC%EB%B0%94%EB%A5%B4%EA%B2%8C-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EA%B8%B0%EC%A4%80/" data-category="pediatric"><div class="thumb"><img src="/column/%EC%86%8C%EC%95%84-%EA%B0%90%EA%B8%B0-%ED%95%AD%EC%83%9D%EC%A0%9C-%EA%BC%AD-%ED%95%84%EC%9A%94%ED%95%A0%EA%B9%8C%EC%9A%94-%EC%98%AC%EB%B0%94%EB%A5%B4%EA%B2%8C-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EA%B8%B0%EC%A4%80/thumb-9c25f488.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">소아 클리닉</span><h3>소아 감기 항생제, 꼭 필요할까요? 올바르게 사용하는 기준</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-10-10</p></div></a>
+        <a class="column-card" href="/column/%EC%95%BD%EC%B9%A8-%EC%8A%A4%ED%85%8C%EB%A1%9C%EC%9D%B4%EB%93%9C-%EC%95%84%EB%8B%8C%EA%B0%80%EC%9A%94-%EB%9F%AC%EB%84%88%EB%B6%84%EB%93%A4%EC%9D%B4-%EA%BC%AD-%EB%AC%BC%EC%96%B4%EB%B3%B4%EC%8B%9C%EB%8A%94-%EC%95%BD%EC%B9%A8-q-a/" data-category="spine"><div class="thumb"><img src="/column/%EC%95%BD%EC%B9%A8-%EC%8A%A4%ED%85%8C%EB%A1%9C%EC%9D%B4%EB%93%9C-%EC%95%84%EB%8B%8C%EA%B0%80%EC%9A%94-%EB%9F%AC%EB%84%88%EB%B6%84%EB%93%A4%EC%9D%B4-%EA%BC%AD-%EB%AC%BC%EC%96%B4%EB%B3%B4%EC%8B%9C%EB%8A%94-%EC%95%BD%EC%B9%A8-q-a/thumb-f8fbe90b.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">척추 · 근골격</span><h3>약침 스테로이드 아닌가요? 러너분들이 꼭 물어보시는 약침 Q&amp;A</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-10-10</p></div></a>
+        <a class="column-card" href="/column/%EC%86%8C%EC%95%84%EB%B9%84%EB%A7%8C-%EA%B4%80%EB%A6%AC-%EC%96%91%EC%9D%84-%EC%A4%84%EC%9D%B4%EB%8A%94-%EA%B2%8C-%EB%8B%B5%EC%9D%B4-%EC%95%84%EB%8B%8C-%EC%9D%B4%EC%9C%A0/" data-category="philosophy"><div class="thumb"><img src="/column/%EC%86%8C%EC%95%84%EB%B9%84%EB%A7%8C-%EA%B4%80%EB%A6%AC-%EC%96%91%EC%9D%84-%EC%A4%84%EC%9D%B4%EB%8A%94-%EA%B2%8C-%EB%8B%B5%EC%9D%B4-%EC%95%84%EB%8B%8C-%EC%9D%B4%EC%9C%A0/thumb-c05c6cb2.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">원장 이야기</span><h3>소아비만 관리, 양을 줄이는 게 답이 아닌 이유</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-10-09</p></div></a>
+        <a class="column-card" href="/column/%EC%96%B4%EC%A7%80%EB%9F%BC%EC%A6%9D-%EA%B2%80%EC%82%AC%EB%8A%94-%EC%A0%95%EC%83%81%EC%9D%B8%EB%8D%B0-%EA%B3%84%EC%86%8D-%EC%96%B4%EC%A7%80%EB%9F%AC%EC%9B%8C%EC%9A%94-%EB%AA%A9%EC%9D%B4-%EC%9B%90%EC%9D%B8%EC%9D%BC-%EC%88%98%EB%8F%84-%EC%9E%88%EC%9D%84%EA%B9%8C%EC%9A%94/" data-category="philosophy"><div class="thumb"><img src="/column/%EC%96%B4%EC%A7%80%EB%9F%BC%EC%A6%9D-%EA%B2%80%EC%82%AC%EB%8A%94-%EC%A0%95%EC%83%81%EC%9D%B8%EB%8D%B0-%EA%B3%84%EC%86%8D-%EC%96%B4%EC%A7%80%EB%9F%AC%EC%9B%8C%EC%9A%94-%EB%AA%A9%EC%9D%B4-%EC%9B%90%EC%9D%B8%EC%9D%BC-%EC%88%98%EB%8F%84-%EC%9E%88%EC%9D%84%EA%B9%8C%EC%9A%94/thumb-03d55005.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">원장 이야기</span><h3>어지럼증 검사는 정상인데 계속 어지러워요, 목이 원인일 수도 있을까요?</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-10-09</p></div></a>
+        <a class="column-card" href="/column/%EC%84%B1%EC%9E%A5%EB%B6%80%EC%A7%84-%EC%97%B0%EB%A0%B9%EB%B3%84-%EC%9B%90%EC%9D%B8%EA%B3%BC-%EB%8C%80%EC%B2%98/" data-category="pediatric"><div class="thumb"><img src="/column/%EC%84%B1%EC%9E%A5%EB%B6%80%EC%A7%84-%EC%97%B0%EB%A0%B9%EB%B3%84-%EC%9B%90%EC%9D%B8%EA%B3%BC-%EB%8C%80%EC%B2%98/thumb-be954d12.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">소아 클리닉</span><h3>성장부진, 연령별 원인과 대처</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-10-07</p></div></a>
+        <a class="column-card" href="/column/%EC%84%B1%EC%A1%B0%EC%88%99%EC%A6%9D-%EC%9A%B0%EB%A6%AC-%EC%95%84%EC%9D%B4%EB%8F%84-%ED%95%B4%EB%8B%B9%EB%90%A0%EA%B9%8C%EC%9A%94-%EB%B6%80%EB%AA%A8%EA%B0%80-%EA%BC%AD-%EC%95%8C%EC%95%84%EC%95%BC-%ED%95%A0-%EC%8B%A0%ED%98%B8%EC%99%80-%EA%B4%80%EB%A6%AC%EB%B2%95/" data-category="pediatric"><div class="thumb"><img src="/column/%EC%84%B1%EC%A1%B0%EC%88%99%EC%A6%9D-%EC%9A%B0%EB%A6%AC-%EC%95%84%EC%9D%B4%EB%8F%84-%ED%95%B4%EB%8B%B9%EB%90%A0%EA%B9%8C%EC%9A%94-%EB%B6%80%EB%AA%A8%EA%B0%80-%EA%BC%AD-%EC%95%8C%EC%95%84%EC%95%BC-%ED%95%A0-%EC%8B%A0%ED%98%B8%EC%99%80-%EA%B4%80%EB%A6%AC%EB%B2%95/thumb-5a77afe6.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">소아 클리닉</span><h3>성조숙증, 우리 아이도 해당될까요? 부모가 꼭 알아야 할 신호와 관리법</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-10-07</p></div></a>
+        <a class="column-card" href="/column/%EC%82%AC%EC%B6%98%EA%B8%B0-%ED%82%A4-%EC%84%B1%EC%9E%A5-%EC%8B%9C%EC%9E%91%EB%90%98%EA%B8%B0-%EC%A7%81%EC%A0%84-1-2%EB%85%84%EC%9D%B4-%EC%A4%91%EC%9A%94%ED%95%9C-%EC%9D%B4%EC%9C%A0/" data-category="pediatric"><div class="thumb"><img src="/column/%EC%82%AC%EC%B6%98%EA%B8%B0-%ED%82%A4-%EC%84%B1%EC%9E%A5-%EC%8B%9C%EC%9E%91%EB%90%98%EA%B8%B0-%EC%A7%81%EC%A0%84-1-2%EB%85%84%EC%9D%B4-%EC%A4%91%EC%9A%94%ED%95%9C-%EC%9D%B4%EC%9C%A0/thumb-1edd46f3.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">소아 클리닉</span><h3>사춘기 키 성장, 시작되기 직전 1~2년이 중요한 이유</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-10-06</p></div></a>
+        <a class="column-card" href="/column/4-6%EC%84%B8-%EC%9C%A0%EC%95%84-%EC%84%B1%EC%9E%A5%EA%B4%80%EB%A6%AC-%EC%95%BC%EA%B2%BD%EC%A6%9D-%EC%8B%AC%EB%A6%AC-%EB%B9%84%EC%97%BC%EC%9D%B4-%EA%B2%B9%EC%B9%98%EB%8A%94-%EC%8B%9C%EA%B8%B0/" data-category="pediatric"><div class="thumb"><img src="/column/4-6%EC%84%B8-%EC%9C%A0%EC%95%84-%EC%84%B1%EC%9E%A5%EA%B4%80%EB%A6%AC-%EC%95%BC%EA%B2%BD%EC%A6%9D-%EC%8B%AC%EB%A6%AC-%EB%B9%84%EC%97%BC%EC%9D%B4-%EA%B2%B9%EC%B9%98%EB%8A%94-%EC%8B%9C%EA%B8%B0/thumb-f98f74da.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">소아 클리닉</span><h3>4~6세 유아 성장관리, 야경증·심리·비염이 겹치는 시기</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-10-04</p></div></a>
+        <a class="column-card" href="/column/%EB%8F%8C-3%EC%84%B8-%EC%98%81%EC%9C%A0%EC%95%84-%EC%84%B1%EC%9E%A5%EA%B4%80%EB%A6%AC%EC%97%90%EC%84%9C-%EB%86%93%EC%B9%98%EA%B8%B0-%EC%89%AC%EC%9A%B4-%EA%B2%83/" data-category="internal"><div class="thumb"><img src="/column/%EB%8F%8C-3%EC%84%B8-%EC%98%81%EC%9C%A0%EC%95%84-%EC%84%B1%EC%9E%A5%EA%B4%80%EB%A6%AC%EC%97%90%EC%84%9C-%EB%86%93%EC%B9%98%EA%B8%B0-%EC%89%AC%EC%9A%B4-%EA%B2%83/thumb-d2e61e89.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">내과 질환</span><h3>돌~3세, 영유아 성장관리에서 놓치기 쉬운 것</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-10-04</p></div></a>
+        <a class="column-card" href="/column/%EC%B4%88%EB%93%B1%ED%95%99%EA%B5%90-%EC%9E%85%ED%95%99-%ED%9B%84-%EC%B4%88%EB%93%B1%ED%95%99%EC%83%9D-%EC%84%B1%EC%9E%A5%EA%B4%80%EB%A6%AC-%EC%9D%B4-%EC%8B%9C%EA%B8%B0%EB%A5%BC-%EB%86%93%EC%B9%98%EB%A9%B4-%EC%95%88-%EB%90%98%EB%8A%94-%EC%9D%B4%EC%9C%A0/" data-category="pediatric"><div class="thumb"><img src="/column/%EC%B4%88%EB%93%B1%ED%95%99%EA%B5%90-%EC%9E%85%ED%95%99-%ED%9B%84-%EC%B4%88%EB%93%B1%ED%95%99%EC%83%9D-%EC%84%B1%EC%9E%A5%EA%B4%80%EB%A6%AC-%EC%9D%B4-%EC%8B%9C%EA%B8%B0%EB%A5%BC-%EB%86%93%EC%B9%98%EB%A9%B4-%EC%95%88-%EB%90%98%EB%8A%94-%EC%9D%B4%EC%9C%A0/thumb-cd70599e.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">소아 클리닉</span><h3>초등학교 입학 후 초등학생 성장관리, 이 시기를 놓치면 안 되는 이유</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-10-04</p></div></a>
+        <a class="column-card" href="/column/%EC%B6%95%EB%86%8D%EC%A6%9D-%EB%B6%80%EB%B9%84%EB%8F%99%EC%97%BC-%EA%B3%BC-%ED%95%AD%EC%83%9D%EC%A0%9C-%EC%82%AC%EC%9A%A9-%EA%B8%B0%EC%A4%80/" data-category="pediatric"><div class="thumb"><img src="/column/%EC%B6%95%EB%86%8D%EC%A6%9D-%EB%B6%80%EB%B9%84%EB%8F%99%EC%97%BC-%EA%B3%BC-%ED%95%AD%EC%83%9D%EC%A0%9C-%EC%82%AC%EC%9A%A9-%EA%B8%B0%EC%A4%80/thumb-dcd40585.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">소아 클리닉</span><h3>축농증(부비동염)과 항생제 사용 기준</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-10-03</p></div></a>
+        <a class="column-card" href="/column/%ED%99%98%EC%A0%88%EA%B8%B0%EB%A7%8C-%EB%90%98%EB%A9%B4-%EC%BD%A7%EB%AC%BC-%EC%9E%AC%EC%B1%84%EA%B8%B0%EA%B0%80-%ED%84%B0%EC%A0%B8%EC%9A%94-%ED%95%9C%EC%95%BD%EC%9C%BC%EB%A1%9C-%EC%B9%98%EB%A3%8C%ED%95%A0-%EC%88%98-%EC%9E%88%EC%9D%84%EA%B9%8C%EC%9A%94/" data-category="internal"><div class="thumb"><img src="/column/%ED%99%98%EC%A0%88%EA%B8%B0%EB%A7%8C-%EB%90%98%EB%A9%B4-%EC%BD%A7%EB%AC%BC-%EC%9E%AC%EC%B1%84%EA%B8%B0%EA%B0%80-%ED%84%B0%EC%A0%B8%EC%9A%94-%ED%95%9C%EC%95%BD%EC%9C%BC%EB%A1%9C-%EC%B9%98%EB%A3%8C%ED%95%A0-%EC%88%98-%EC%9E%88%EC%9D%84%EA%B9%8C%EC%9A%94/thumb-fea3ff99.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">내과 질환</span><h3>환절기만 되면 콧물·재채기가 터져요, 한약으로 치료할 수 있을까요?</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-10-02</p></div></a>
+        <a class="column-card" href="/column/%EC%95%84%EC%9D%B4%EA%B0%80-%EC%9E%90%EC%A3%BC-%EA%B0%90%EA%B8%B0%EC%97%90-%EA%B1%B8%EB%A6%AC%EB%8A%94-%EC%9D%B4%EC%9C%A0-%EB%8B%A8%EC%B2%B4%EC%83%9D%ED%99%9C%EC%A6%9D%ED%9B%84%EA%B5%B0%EC%9D%BC%EA%B9%8C%EC%9A%94/" data-category="pediatric"><div class="thumb"><img src="/column/%EC%95%84%EC%9D%B4%EA%B0%80-%EC%9E%90%EC%A3%BC-%EA%B0%90%EA%B8%B0%EC%97%90-%EA%B1%B8%EB%A6%AC%EB%8A%94-%EC%9D%B4%EC%9C%A0-%EB%8B%A8%EC%B2%B4%EC%83%9D%ED%99%9C%EC%A6%9D%ED%9B%84%EA%B5%B0%EC%9D%BC%EA%B9%8C%EC%9A%94/thumb-6607259a.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">소아 클리닉</span><h3>아이가 자주 감기에 걸리는 이유, 단체생활증후군일까요?</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-09-28</p></div></a>
+        <a class="column-card" href="/column/%ED%97%88%EB%A6%AC%EB%94%94%EC%8A%A4%ED%81%AC-%ED%95%9C%EB%B0%A9%EC%9C%BC%EB%A1%9C%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%B9%98%EB%A3%8C%ED%95%98%EB%82%98%EC%9A%94/" data-category="spine"><div class="thumb"><img src="/column/%ED%97%88%EB%A6%AC%EB%94%94%EC%8A%A4%ED%81%AC-%ED%95%9C%EB%B0%A9%EC%9C%BC%EB%A1%9C%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%B9%98%EB%A3%8C%ED%95%98%EB%82%98%EC%9A%94/thumb-05e5e8ff.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">척추 · 근골격</span><h3>허리디스크, 한방으로는 어떻게 치료하나요?</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-09-27</p></div></a>
+        <a class="column-card" href="/column/%EC%95%84%EC%9D%B4-%EA%B8%B0%EC%B9%A8-%EC%A2%85%EB%A5%98%EB%B3%84-%EA%B5%AC%EB%B3%84%EB%B2%95-%EB%B0%A4%EA%B8%B0%EC%B9%A8%EA%B3%BC-%EC%9D%91%EA%B8%89-%EC%8B%A0%ED%98%B8%EA%B9%8C%EC%A7%80/" data-category="pediatric"><div class="thumb"><img src="/column/%EC%95%84%EC%9D%B4-%EA%B8%B0%EC%B9%A8-%EC%A2%85%EB%A5%98%EB%B3%84-%EA%B5%AC%EB%B3%84%EB%B2%95-%EB%B0%A4%EA%B8%B0%EC%B9%A8%EA%B3%BC-%EC%9D%91%EA%B8%89-%EC%8B%A0%ED%98%B8%EA%B9%8C%EC%A7%80/thumb-b38d8bb2.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">소아 클리닉</span><h3>아이 기침 종류별 구별법, 밤기침과 응급 신호까지</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-09-27</p></div></a>
+        <a class="column-card" href="/column/%EC%86%8C%EC%95%84-%ED%8F%90%EB%A0%B4-%EA%B8%B0%EC%B9%A8%EC%9D%B4-%EC%8B%AC%ED%95%B4%EC%A0%B8%EC%84%9C-%EC%83%9D%EA%B8%B0%EB%8A%94-%EA%B2%8C-%EC%95%84%EB%8B%99%EB%8B%88%EB%8B%A4/" data-category="pediatric"><div class="thumb"><img src="/column/%EC%86%8C%EC%95%84-%ED%8F%90%EB%A0%B4-%EA%B8%B0%EC%B9%A8%EC%9D%B4-%EC%8B%AC%ED%95%B4%EC%A0%B8%EC%84%9C-%EC%83%9D%EA%B8%B0%EB%8A%94-%EA%B2%8C-%EC%95%84%EB%8B%99%EB%8B%88%EB%8B%A4/thumb-82c9e1da.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">소아 클리닉</span><h3>소아 폐렴, 기침이 심해져서 생기는 게 아닙니다</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-09-27</p></div></a>
+        <a class="column-card" href="/column/%ED%99%98%EC%A0%88%EA%B8%B0-%EC%B2%B4%EB%A0%A5-%EC%A0%80%ED%95%98-%EC%9A%B0%EB%A6%AC-%EC%95%84%EC%9D%B4-%EB%B3%B4%EC%95%BD-%ED%83%80%EC%9D%B4%EB%B0%8D%EC%9D%80-%EC%96%B8%EC%A0%9C%EC%9D%BC%EA%B9%8C%EC%9A%94/" data-category="pediatric"><div class="thumb"><img src="/column/%ED%99%98%EC%A0%88%EA%B8%B0-%EC%B2%B4%EB%A0%A5-%EC%A0%80%ED%95%98-%EC%9A%B0%EB%A6%AC-%EC%95%84%EC%9D%B4-%EB%B3%B4%EC%95%BD-%ED%83%80%EC%9D%B4%EB%B0%8D%EC%9D%80-%EC%96%B8%EC%A0%9C%EC%9D%BC%EA%B9%8C%EC%9A%94/thumb-88a97142.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">소아 클리닉</span><h3>환절기 체력 저하, 우리 아이 보약 타이밍은 언제일까요?</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-09-26</p></div></a>
+        <a class="column-card" href="/column/%EC%86%8C%EC%95%84-%EC%97%B4%EC%84%B1%EA%B2%BD%EB%A0%A8-%EB%B6%80%EB%AA%A8%EA%B0%80-%EB%B0%98%EB%93%9C%EC%8B%9C-%EC%95%8C%EC%95%84%EC%95%BC-%ED%95%A0-%EB%8C%80%EC%B2%98%EB%B2%95/" data-category="pediatric"><div class="thumb"><img src="/column/%EC%86%8C%EC%95%84-%EC%97%B4%EC%84%B1%EA%B2%BD%EB%A0%A8-%EB%B6%80%EB%AA%A8%EA%B0%80-%EB%B0%98%EB%93%9C%EC%8B%9C-%EC%95%8C%EC%95%84%EC%95%BC-%ED%95%A0-%EB%8C%80%EC%B2%98%EB%B2%95/thumb-6cdd8947.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">소아 클리닉</span><h3>소아 열성경련, 부모가 반드시 알아야 할 대처법</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-09-26</p></div></a>
+        <a class="column-card" href="/column/%EC%95%84%EC%9D%B4%EA%B0%80-%EB%B0%A4%EC%97%90-%EC%9E%90%EC%A3%BC-%EA%B9%A8%EC%9A%94-%EC%86%8C%EC%95%84-%EC%95%BC%EC%A0%9C%EC%9D%BC%EA%B9%8C%EC%9A%94-%EC%9B%90%EC%9D%B8%EA%B3%BC-%EA%B4%80%EB%A6%AC%EB%B2%95/" data-category="pediatric"><div class="thumb"><img src="/column/%EC%95%84%EC%9D%B4%EA%B0%80-%EB%B0%A4%EC%97%90-%EC%9E%90%EC%A3%BC-%EA%B9%A8%EC%9A%94-%EC%86%8C%EC%95%84-%EC%95%BC%EC%A0%9C%EC%9D%BC%EA%B9%8C%EC%9A%94-%EC%9B%90%EC%9D%B8%EA%B3%BC-%EA%B4%80%EB%A6%AC%EB%B2%95/thumb-b5ea933f.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">소아 클리닉</span><h3>아이가 밤에 자주 깨요, 소아 야제일까요? (원인과 관리법)</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-09-25</p></div></a>
+        <a class="column-card" href="/column/%EC%86%8C%EC%95%84-%EC%84%B1%EC%9E%A5%ED%8F%89%EA%B0%80-%EC%96%B8%EC%A0%9C-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%B2%B4%ED%81%AC%ED%95%B4%EC%95%BC-%ED%95%A0%EA%B9%8C%EC%9A%94-%EC%97%B0%EB%A0%B9%EB%B3%84-%EC%B2%B4%ED%81%AC-%EC%8B%9C%EA%B8%B0/" data-category="pediatric"><div class="thumb"><img src="/column/%EC%86%8C%EC%95%84-%EC%84%B1%EC%9E%A5%ED%8F%89%EA%B0%80-%EC%96%B8%EC%A0%9C-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%B2%B4%ED%81%AC%ED%95%B4%EC%95%BC-%ED%95%A0%EA%B9%8C%EC%9A%94-%EC%97%B0%EB%A0%B9%EB%B3%84-%EC%B2%B4%ED%81%AC-%EC%8B%9C%EA%B8%B0/thumb-8a5bbe75.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">소아 클리닉</span><h3>소아 성장평가, 언제 어떻게 체크해야 할까요? (연령별 체크 시기)</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-09-25</p></div></a>
+        <a class="column-card" href="/column/%EC%86%8C%EC%95%84-%EB%B9%84%EC%97%BC-%EC%99%9C-%EC%9D%B4%EB%A0%87%EA%B2%8C-%EC%95%88-%EB%82%98%EC%9D%84%EA%B9%8C%EC%9A%94-%EC%B9%98%EB%A3%8C%EA%B8%B0%EA%B0%84%EA%B3%BC-%EA%B3%84%EC%A0%88-%EA%B4%80%EB%A6%AC%EB%B2%95/" data-category="pediatric"><div class="thumb"><img src="/column/%EC%86%8C%EC%95%84-%EB%B9%84%EC%97%BC-%EC%99%9C-%EC%9D%B4%EB%A0%87%EA%B2%8C-%EC%95%88-%EB%82%98%EC%9D%84%EA%B9%8C%EC%9A%94-%EC%B9%98%EB%A3%8C%EA%B8%B0%EA%B0%84%EA%B3%BC-%EA%B3%84%EC%A0%88-%EA%B4%80%EB%A6%AC%EB%B2%95/thumb-cb489d5e.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">소아 클리닉</span><h3>소아 비염, 왜 이렇게 안 나을까요? (치료기간과 계절 관리법)</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-09-25</p></div></a>
+        <a class="column-card" href="/column/%EC%86%8C%EC%95%84-%EB%B0%9C%EC%97%B4-%ED%95%B4%EC%97%B4%EC%A0%9C-%EC%82%AC%EC%9A%A9-%EA%B8%B0%EC%A4%80%EC%9D%80-%EC%96%B8%EC%A0%9C%EC%9D%BC%EA%B9%8C%EC%9A%94-%EA%B0%90%EA%B8%B0-%EB%B0%9C%EC%97%B4-%EB%8C%80%EC%B2%98%EB%B2%95-%EC%B4%9D%EC%A0%95%EB%A6%AC/" data-category="pediatric"><div class="thumb"><img src="/column/%EC%86%8C%EC%95%84-%EB%B0%9C%EC%97%B4-%ED%95%B4%EC%97%B4%EC%A0%9C-%EC%82%AC%EC%9A%A9-%EA%B8%B0%EC%A4%80%EC%9D%80-%EC%96%B8%EC%A0%9C%EC%9D%BC%EA%B9%8C%EC%9A%94-%EA%B0%90%EA%B8%B0-%EB%B0%9C%EC%97%B4-%EB%8C%80%EC%B2%98%EB%B2%95-%EC%B4%9D%EC%A0%95%EB%A6%AC/thumb-44b3479b.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">소아 클리닉</span><h3>소아 발열, 해열제 사용 기준은 언제일까요? (감기 발열 대처법 총정리)</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-09-22</p></div></a>
+        <a class="column-card" href="/column/%EB%AC%BC%EB%A7%8C-%EB%A8%B9%EC%96%B4%EB%8F%84-%EC%82%B4%EC%AA%84%EC%9A%94-%EC%A0%95%EB%A7%90-%EC%9D%B8%EC%8A%90%EB%A6%B0%EC%A0%80%ED%95%AD%EC%84%B1-%EB%95%8C%EB%AC%B8%EC%9D%BC%EA%B9%8C%EC%9A%94/" data-category="special"><div class="thumb"><img src="/column/%EB%AC%BC%EB%A7%8C-%EB%A8%B9%EC%96%B4%EB%8F%84-%EC%82%B4%EC%AA%84%EC%9A%94-%EC%A0%95%EB%A7%90-%EC%9D%B8%EC%8A%90%EB%A6%B0%EC%A0%80%ED%95%AD%EC%84%B1-%EB%95%8C%EB%AC%B8%EC%9D%BC%EA%B9%8C%EC%9A%94/thumb-35ea29f8.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">다이어트 클리닉</span><h3>물만 먹어도 살쪄요, 정말 인슐린저항성 때문일까요?</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-09-20</p></div></a>
+        <a class="column-card" href="/column/%ED%97%88%EB%A6%AC%EB%94%94%EC%8A%A4%ED%81%AC%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%B9%A8%EC%9C%BC%EB%A1%9C-%EC%B9%98%EB%A3%8C%ED%95%98%EB%82%98%EC%9A%94/" data-category="spine"><div class="thumb"><svg viewBox="0 0 24 24"><path d="M12 2.5v19"/><path d="M7.5 6h9M7.5 10h9M7.5 14h9M7.5 18h9"/></svg></div><div class="card-body"><span class="cat-tag">척추 · 근골격</span><h3>허리디스크는 어떻게 침으로 치료하나요?</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-09-20</p></div></a>
+        <a class="column-card" href="/column/%ED%97%88%EB%A6%AC%EB%94%94%EC%8A%A4%ED%81%AC-%ED%86%B5%EC%A6%9D-%EC%9B%90%EC%9D%B8%EC%9D%B4-%EB%94%94%EC%8A%A4%ED%81%AC%EA%B0%80-%EC%95%84%EB%8B%88%EB%9D%BC-%EC%97%BC%EC%A6%9D%EC%9D%B4%EB%9D%BC%EB%A9%B4-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%B9%98%EB%A3%8C%ED%95%98%EB%82%98%EC%9A%94/" data-category="spine"><div class="thumb"><svg viewBox="0 0 24 24"><path d="M12 2.5v19"/><path d="M7.5 6h9M7.5 10h9M7.5 14h9M7.5 18h9"/></svg></div><div class="card-body"><span class="cat-tag">척추 · 근골격</span><h3>허리디스크 통증, 원인이 디스크가 아니라 염증이라면 어떻게 치료하나요?</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-09-19</p></div></a>
+        <a class="column-card" href="/column/%EC%82%BC%EC%B0%A8%EC%8B%A0%EA%B2%BD%ED%86%B5-%EC%99%9C-%EC%96%BC%EA%B5%B4-%ED%95%9C%EC%AA%BD%EB%A7%8C-%EC%95%84%ED%94%88%EA%B0%80%EC%9A%94-%EC%B9%98%EB%A3%8C-%EC%A0%95%EB%A6%AC/" data-category="sensory"><div class="thumb"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="7"/><path d="M12 5v14"/><path d="M7 9c1 1.2 2 1.2 3 0M14 9c1 1.2 2 1.2 3 0M7 14c1 1.2 2 1.2 3 0M14 14c1 1.2 2 1.2 3 0"/></svg></div><div class="card-body"><span class="cat-tag">감각기관 · 신경계</span><h3>삼차신경통, 왜 얼굴 한쪽만 아픈가요? 치료 정리</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-09-01</p></div></a>
+        <a class="column-card" href="/column/13%EB%85%84-%EC%B0%A8-%ED%95%9C%EC%9D%98%EC%82%AC%EA%B0%80-%EB%A7%A4%EC%9D%BC-%EC%A7%84%EB%A3%8C%EC%8B%A4-%EB%AC%B8%EC%9D%84-%EC%97%B4%EB%A9%B0-%ED%92%88%EB%8A%94-%EC%83%9D%EA%B0%81/" data-category="philosophy"><div class="thumb"><img src="/column/13%EB%85%84-%EC%B0%A8-%ED%95%9C%EC%9D%98%EC%82%AC%EA%B0%80-%EB%A7%A4%EC%9D%BC-%EC%A7%84%EB%A3%8C%EC%8B%A4-%EB%AC%B8%EC%9D%84-%EC%97%B4%EB%A9%B0-%ED%92%88%EB%8A%94-%EC%83%9D%EA%B0%81/thumb-8b4680b2.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">원장 이야기</span><h3>13년 차 한의사가 매일 진료실 문을 열며 품는 생각</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-08-01</p></div></a>
+<!--CARDS_END-->
       </div>
     </div>
   </section>
@@ -1231,7 +1247,6 @@
   </button>
 </nav>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
 <script>
 
   var siteHeader = document.querySelector('.site-header');
@@ -1441,197 +1456,37 @@
     special: '<path d="M12 21c-5-4-8-7.5-8-11a5 5 0 0 1 8-4 5 5 0 0 1 8 4c0 3.5-3 7-8 11z"/>'
   };
 
-  var CURRENT_ITEMS = [];
-
-  function renderColumns(items){
-    CURRENT_ITEMS = items;
-    var grid = document.getElementById('columnGrid');
-    grid.innerHTML = '';
-
-    var sorted = items.map(function(item, i){ return { item: item, i: i }; })
-      .sort(function(a, b){
-        var d = (b.item.date || '').localeCompare(a.item.date || '');
-        return d !== 0 ? d : (b.i - a.i); // 날짜가 같으면 나중에 추가된(배열 뒤쪽) 글을 먼저 보여줍니다
-      })
-      .map(function(x){ return x.item; });
-
-    sorted.forEach(function(item, i){
-      var card = document.createElement('button');
-      card.type = 'button';
-      card.className = 'column-card';
-      card.setAttribute('data-category', item.category || '');
-
-      var iconPath = CATEGORY_ICONS[item.category] || CATEGORY_ICONS.philosophy;
-      var author = item.author || '권오경 원장';
-      var thumbHtml = item.thumbnail
-        ? '<img src="' + item.thumbnail + '" alt="">'
-        : '<svg viewBox="0 0 24 24">' + iconPath + '</svg>';
-
-      card.innerHTML =
-        '<div class="thumb">' + thumbHtml + '</div>' +
-        '<div class="card-body">' +
-          '<span class="cat-tag">' + (CATEGORY_LABELS[item.category] || item.category || '') + '</span>' +
-          '<h3>' + (item.title || '') + '</h3>' +
-          '<p class="meta">' + author + '<span class="dot">·</span>' + (item.date || '') + '</p>' +
-        '</div>';
-
-      card.addEventListener('click', function(){ showArticle(item); });
-
-      grid.appendChild(card);
-    });
-  }
-
-  function showArticle(item, opts){
-    opts = opts || {};
-    var bodyHtml = (typeof marked !== 'undefined' && item.body)
-      ? marked.parse(item.body)
-      : '<p>' + (item.body || '') + '</p>';
-    var author = item.author || '권오경 원장';
-    var minutes = estimateReadMinutes(item.body);
-
-    document.getElementById('articleCat').textContent = CATEGORY_LABELS[item.category] || item.category || '';
-    document.getElementById('articleTitle').textContent = item.title || '';
-    document.getElementById('articleMeta').textContent = author + ' · ' + (item.date || '') + ' · 약 ' + minutes + '분 읽기';
-    document.getElementById('articleBody').innerHTML = bodyHtml;
-    document.getElementById('sideAuthorName').textContent = author;
-
-    var relatedCard = document.getElementById('relatedCard');
-    var relatedLink = document.getElementById('relatedLink');
-    var anchor = CATEGORY_ANCHOR[item.category];
-    if (anchor){
-      relatedLink.href = 'index.html#' + anchor;
-      relatedLink.textContent = (CATEGORY_LABELS[item.category] || '') + ' 안내 보기 →';
-      relatedCard.hidden = false;
-    } else {
-      relatedCard.hidden = true;
+  // 칼럼 카드는 배포할 때(scripts/build.js) 실제 링크(<a href>)로 미리 만들어집니다.
+  // 여기서는 분류 탭 필터와 개수 표시만 담당합니다.
+  (function(){
+    // 예전 주소(column.html?c=글주소)로 들어오면 새 글 주소로 이동시킵니다.
+    var legacy = new URLSearchParams(location.search).get('c');
+    if (legacy){
+      location.replace('/column/' + encodeURIComponent(legacy) + '/');
+      return;
     }
 
-    var tagsWrap = document.getElementById('articleTags');
-    tagsWrap.innerHTML = '';
-    var tags = Array.isArray(item.tags) ? item.tags : [];
-    if (tags.length){
-      tags.forEach(function(t){
-        var span = document.createElement('span');
-        span.className = 'tag';
-        span.textContent = '#' + t;
-        tagsWrap.appendChild(span);
-      });
-      tagsWrap.hidden = false;
-    } else {
-      tagsWrap.hidden = true;
-    }
-
-    document.getElementById('columnGrid').hidden = true;
-    document.getElementById('catTabs').hidden = true;
-    document.getElementById('articleView').hidden = false;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    if (opts.pushHistory !== false){
-      try {
-        var slug = slugify(item.title);
-        history.pushState({ view: 'article', slug: slug }, '', 'column.html?c=' + encodeURIComponent(slug));
-      } catch (e) { /* 히스토리 API를 못 쓰는 환경이면 그냥 화면 전환만 해도 문제 없음 */ }
-    }
-  }
-
-  function hideArticle(){
-    document.getElementById('articleView').hidden = true;
-    document.getElementById('columnGrid').hidden = false;
-    document.getElementById('catTabs').hidden = false;
-  }
-
-  document.getElementById('backToList').addEventListener('click', function(){
-    if (history.state && history.state.view === 'article'){
-      history.back();
-    } else {
-      hideArticle();
-    }
-  });
-
-  // 뒤로/앞으로 가기를 눌렀을 때, 기사 화면과 목록 화면이 브라우저 히스토리와 맞물려 전환되게 합니다.
-  window.addEventListener('popstate', function(e){
-    var state = e.state;
-    if (state && state.view === 'article' && state.slug){
-      var match = CURRENT_ITEMS.filter(function(item){ return slugify(item.title) === state.slug; })[0];
-      if (match){ showArticle(match, { pushHistory: false }); return; }
-    }
-    hideArticle();
-  });
-
-  function updateTabCounts(items){
-    var counts = {};
-    items.forEach(function(item){
-      counts[item.category] = (counts[item.category] || 0) + 1;
-    });
-    document.querySelectorAll('#catTabs button').forEach(function(btn){
-      if (!btn.hasAttribute('data-label')){
-        btn.setAttribute('data-label', btn.textContent.trim());
-      }
-      var filter = btn.getAttribute('data-filter');
-      var n = filter === 'all' ? items.length : (counts[filter] || 0);
-      btn.innerHTML = btn.getAttribute('data-label') + ' <span class="count">' + n + '</span>';
-    });
-  }
-
-  function initFilters(){
+    var cards = document.querySelectorAll('.column-card');
     var tabs = document.querySelectorAll('#catTabs button');
+    var counts = {};
+    cards.forEach(function(card){
+      var c = card.getAttribute('data-category');
+      counts[c] = (counts[c] || 0) + 1;
+    });
     tabs.forEach(function(btn){
+      var filter = btn.getAttribute('data-filter');
+      var label = btn.textContent.trim();
+      var n = filter === 'all' ? cards.length : (counts[filter] || 0);
+      btn.innerHTML = label + ' <span class="count">' + n + '</span>';
       btn.addEventListener('click', function(){
-        var cards = document.querySelectorAll('.column-card');
         tabs.forEach(function(b){ b.classList.remove('active'); });
         btn.classList.add('active');
-        var filter = btn.getAttribute('data-filter');
         cards.forEach(function(card){
           card.hidden = !(filter === 'all' || card.getAttribute('data-category') === filter);
         });
       });
     });
-  }
-
-  var COLUMN_DATA = {"title": "원장칼럼 목록", "items": [{"title": "13년 차 한의사가 매일 진료실 문을 열며 품는 생각", "category": "philosophy", "teaser": "같은 증상도 사람마다 낫는 속도가 다른 이유를 고민하며, 몸이 아니라 삶 전체를 들여다보게 된 과정을 담은 원장의 진료 철학 이야기.", "date": "2026-08-01", "body": "한의사로서 오랜 시간 진료를 해오면서, 자연스럽게 한 가지 질문이 마음에 자리 잡게 되었습니다. '나는 어떤 마음으로 환자를 대하고 있는가.' 시간이 지나고 수많은 환자분들을 만나며, 그 질문은 제게 하나의 '진료 철학'으로 자리 잡았습니다. 이 글은 저의 진료 철학에 대해 처음으로 차분히 풀어내고자 하는 마음에서 시작되었습니다.\n\n2013년부터 김홍기 스승님 밑에서 공부를 시작해, 2016~2022년 몸바로한의원 김포점 대표원장, 2022~2023년 몸바로한의원 송도본점 수석원장을 거쳐, 현재는 남양주 감성한의원에서 수많은 만성통증 환자분들과 마주하고 있습니다.\n\n그동안 저는 늘 고민했습니다. \"왜 어떤 환자는 빠르게 낫고, 어떤 환자는 시간이 더 걸릴까?\" \"같은 증상이라도 사람마다 치료하는 방법이 달라야 하지 않을까?\" 그 답은 점점 분명해졌습니다. 단순히 '몸'만 치료해서는 안 되고, 그 사람의 '삶'을 들여다보아야 한다는 것이었습니다.\n\n## 진료 경험의 회상 — 시간을 아끼지 않았던 젊은 시절의 나\n\n가끔 예전 진료 경험을 떠올리면 열정 하나로 몰입했던 시절이 생각납니다. 추나요법을 중점적으로 진료하던 2019년의 어느 날, 한 후배가 저에게 물었습니다. \"선배님은 어떻게 한 환자분을 그렇게 오래 보세요?\"\n\n지금 생각하면 저 스스로에게도 묻고 싶어집니다. '그때 난 왜 그랬을까?' 그 시절에는 짧게는 20분, 길게는 30분씩 한 분에게 온전히 집중하며 진료했습니다. 그것이 당연하다고 여겼고, 환자에 대한 궁금증과 진료에 대한 열정으로 가득했던 때였습니다.\n\n지금은 임상 경험과 노하우가 쌓여 예전보다 짧은 시간 안에도 명확한 치료 효과를 이끌어낼 수 있게 되었습니다. 하지만 그 당시에는 도대체 무엇이 그리 궁금하고 흥미로웠는지, 환자분의 A부터 Z까지를 파고들었습니다. (물론 지금도 환자분의 삶을 꼼꼼히 살피는 본질은 변하지 않았습니다.)\n\n자세 하나하나, 수면 패턴, 식습관, 생활 리듬까지 모두 체크하며, \"이분의 통증은 어디서부터 시작되었을까?\" \"어떤 방식이 이분에게 가장 적합할까?\"를 끝없이 고민했습니다. 돌이켜 보면 그 집요할 정도의 꼼꼼함 덕분에 당시에도 많은 분들께 도움을 드릴 수 있었고, 특히 수십 년 된 만성 두통 환자분들과의 기억은 지금도 또렷하게 남아 있습니다.\n\n## 치료를 넘어, '삶 전체'를 바라보는 진료\n\n최근 진료 중인 50대 환자분 역시 이러한 관점에서 치료를 이어가고 있는 케이스입니다. 몸이 늘 붓고 무거우며 무기력하고, 머리에 안개가 낀 듯 멍한 만성 피로감으로 오랜 시간 고생해오신 분이었습니다.\n\n\"원래 다들 이렇게 무겁게 살지 않나요?\" \"머리가 맑고 가벼운 느낌이 뭔지 모르겠어요. 그런 게 정말 있나요?\" 예전 송도에서 뵈었던 환자분이 떠오를 정도로, 이분에게는 이 만성적인 불편함이 너무나 익숙하고 당연한 일상이 되어 있었습니다.\n\n이런 경우 모든 증상을 한 번에 없앨 수는 없지만, 증상 하나하나의 원인을 짚어가며 양파껍질을 벗겨내듯 천천히 호전시켜 나갑니다.\n\n- 공진단으로 머리가 멍한 브레인포그 증상을 완화하고\n- 추나치료로 허리 통증과 체형 균형을 개선하며\n- 맞춤 한약을 통해 떨어진 기운과 면역력을 회복시켰습니다.\n\n얼마 전에는 아침마다 반복되던 붓기가 눈에 띄게 줄었다는 말씀을 들었습니다. 이 호전은 진료실 대화 속에서 찾아낸 '수면 자세 개선' 덕분이었습니다. 대화 도중 발견한 잘못된 수면 습관의 교정 필요성을 짚어드렸고, 환자분께서 이를 곧바로 실천하시면서 좋은 변화를 만들어낸 것입니다. 작은 생활 습관의 변화 하나가 온전한 회복의 시작점이 된다는 사실을 다시 한번 확인한 순간이었습니다.\n\n## 결국, 진료란 마음의 자세입니다\n\n만성통증은 결코 하나의 원인으로만 발생하지 않습니다. 환자분의 하루, 그리고 그 삶의 방식이 몸에 켜켜이 새겨져 나타난 결과입니다. 그렇기에 저는 오늘도 환자분의 이야기에 귀를 기울이고, 자세를 관찰하며, 생활 패턴을 꼼꼼히 묻습니다. 그저 겉으로 드러난 통증만을 진단하는 것이 아니라, 한 사람의 삶을 함께 들여다보는 것. 그 마음을 품고 오늘도 진료실 문을 엽니다."}, {"title": "삼차신경통, 왜 얼굴 한쪽만 아픈가요? 치료 정리", "category": "sensory", "teaser": "세수나 양치 같은 가벼운 자극에도 얼굴 한쪽이 발작적으로 아픈 삼차신경통의 특징과, 턱관절·경추와의 연관성, 약침·추나·한약이 각각 맡는 역할을 정리했습니다.", "date": "2026-09-01", "body": "삼차신경통에 대해 증상 구분 기준, 턱관절·경추와의 연관성, 약침·추나·한약 치료의 역할을 정리했습니다. 삼차신경통은 얼굴 한쪽에 수 초에서 2분 이내의 전기 충격 같은 통증이 반복되는 신경병증성 통증이며, 세수·양치·씹기·찬바람 같은 가벼운 자극이 통증을 유발하는 점이 근육성 얼굴 통증과 구분되는 지점입니다. 한의학적 치료는 약침으로 신경 주변 환경을, 추나로 턱관절·경추 정렬을, 한약으로 재발 조건을 각각 다루는 구조로 진행됩니다.\n\n## 삼차신경통이란 무엇이며, 증상은 어떻게 나타날까요\n\n삼차신경통이란 얼굴 감각을 담당하는 삼차신경(5번 뇌신경)에 이상이 생겨, 한쪽 얼굴에 발작적인 통증이 반복되는 질환을 말합니다. 통증 한 번의 지속 시간은 대개 수 초에서 2분 이내로 짧습니다. 그러나 하루에도 수십 회 반복될 수 있어 식사와 대화 자체가 어려워집니다.\n\n발생 빈도는 인구 10만 명당 연간 약 4~13명으로 보고됩니다. 50대 이후에서 비교적 흔하고, 여성이 남성보다 1.5~2배가량 많다고 알려져 있습니다.\n\n가장 큰 특징은 유발점(trigger zone)입니다. 세수, 양치, 면도, 찬바람, 말하기처럼 통증을 일으킬 이유가 없는 자극이 발작을 촉발합니다. 또 하나는 통증의 성질입니다. 근육에서 오는 통증은 묵직하고 뻐근하지만, 신경성 통증은 칼로 베거나 전기가 흐르는 느낌으로 표현됩니다. 통증이 없는 시간에는 오히려 멀쩡하다는 점도 감별 지점입니다.\n\n삼차신경은 눈 주위(안신경), 광대·윗잇몸(상악신경), 아래턱·아랫잇몸(하악신경) 세 갈래로 나뉩니다. 이 중 상악신경과 하악신경 영역의 통증이 전체의 상당수를 차지합니다. 약 95%는 한쪽 얼굴에서만 나타납니다. 양쪽이 동시에 아프거나, 감각 저하가 함께 있거나, 40세 이전에 시작된 경우에는 다른 원인을 함께 살펴야 합니다.\n\n## 삼차신경통과 턱관절·경추 문제는 어떤 관계일까요\n\n얼굴 통증을 호소하는 분들 중에는 삼차신경통과 턱관절 문제가 겹쳐 있는 경우가 적지 않습니다. 하악신경은 씹는 근육의 운동 신경도 함께 담당하기 때문입니다.\n\n저작근(씹는 근육)이 장기간 긴장하면 근육 내 압력이 올라가고, 그 사이를 지나는 신경 가지가 지속적인 자극을 받습니다. 이 상태에서는 원래라면 아프지 않을 정도의 자극에도 통증 신호가 과하게 증폭됩니다. 이를 중추 감작(통증 신호에 대한 신경계의 과민 반응)이라고 부릅니다. 통증이 오래될수록 이 과정이 굳어져 치료 기간이 길어지는 원인이 됩니다.\n\n상부 경추(1~3번 목뼈)의 감각 신호와 삼차신경의 감각 신호는 뇌간의 같은 영역에서 만납니다. 목의 긴장이 얼굴 통증으로 느껴지는 이유가 여기에 있습니다. 거북목 자세가 길어지면 후두하근이 지속적으로 수축하고, 이 신호가 얼굴 쪽 통증 회로를 함께 자극합니다. 얼굴만 보지 않고 목과 턱을 함께 확인하는 이유입니다.\n\n## 약침, 추나, 한약은 삼차신경통에서 각각 무엇을 하나요\n\n한의학에서는 삼차신경통을 면통(面痛)의 범주로 봅니다. 치료는 통증이 발생하는 국소 지점, 그 지점을 계속 자극하는 구조, 재발을 허용하는 몸 상태를 분리해서 접근합니다.\n\n약침이란 한약재에서 추출·정제한 약물을 경혈과 압통점에 직접 주입하는 치료를 말합니다. 삼차신경통에서는 통증 분지의 주행 경로와 저작근의 긴장 지점을 함께 다룹니다. 목적은 국소 순환을 개선하고 신경 주변 조직의 긴장과 염증 환경을 줄이는 데 있으며, 일반적으로 주 2~3회 간격으로 4~8주 정도 경과를 관찰하며 조정합니다.\n\n추나요법은 턱관절과 경추의 정렬, 저작근·후두하근의 긴장을 다룹니다. 약침이 통증 지점을 다룬다면, 추나는 그 지점이 계속 자극받는 구조적 조건을 바꾸는 쪽입니다. 한약은 통증 발작의 빈도와 회복 속도에 관여하는 전신 상태를 다룹니다. 수면의 질, 스트레스 반응, 소화 기능처럼 통증 역치를 낮추는 요소를 함께 조절하며, 대개 4~12주 단위로 처방을 조정합니다.\n\n## 자주 묻는 질문\n\n**Q. 삼차신경통은 얼마나 아픈가요?**\nA. 한 번에 수 초에서 2분 이내로 짧지만 강도가 매우 높습니다. 세수나 양치처럼 일상적인 동작조차 피하게 되는 경우가 많고, 발작이 지나가면 통증이 사라지는 간헐적 양상이 특징입니다.\n\n**Q. 삼차신경통과 턱관절장애는 어떻게 구분하나요?**\nA. 삼차신경통은 짧고 날카로운 발작통이 가벼운 접촉으로 유발되는 반면, 턱관절장애는 씹거나 입을 크게 벌릴 때 묵직한 통증이 이어집니다. 관절 소리와 개구 제한이 있으면 턱관절 쪽 비중이 크며, 두 가지가 함께 있는 경우도 있어 촉진과 문진으로 확인합니다.\n\n**Q. 약침 치료는 어떤 원리로 작용하나요?**\nA. 정제한 한약 성분을 통증 분지의 주행 경로와 근육 압통점에 직접 넣는 방식입니다. 국소 순환 개선과 근긴장 완화를 통해 신경이 받는 자극 조건을 줄이는 것이 목적이며, 자극 부위와 용량은 통증 분지와 반응 정도에 따라 조정합니다.\n\n**Q. 추나요법이 얼굴 통증에 왜 필요한가요?**\nA. 상부 경추의 감각 신호와 삼차신경 신호가 뇌간에서 같은 영역으로 모이기 때문입니다. 목과 턱의 정렬이 어긋나 있으면 얼굴 통증 회로가 지속적으로 자극받으며, 추나는 이 구조적 조건을 다루는 단계에 해당합니다.\n\n**Q. 한약은 얼마나 복용하나요?**\nA. 통증 기간과 동반 증상에 따라 다르지만, 일반적으로 4~12주 단위로 경과를 보며 처방을 조정합니다. 발작 빈도, 수면의 질, 소화 상태가 함께 지표가 되며, 3개월 이상 지속된 만성 통증은 관찰 기간을 더 길게 잡습니다.\n\n**Q. 치료 기간은 얼마나 걸리나요?**\nA. 발병 3개월 이내의 경우 4~8주 범위에서 변화를 확인하는 경우가 많습니다. 통증 기간이 1년을 넘어가면 중추 감작이 진행되어 기간이 더 필요하며, 발작 횟수와 강도를 기록해두면 경과 판단이 정확해집니다.\n\n**Q. 복용 중인 약이 있어도 한방 치료가 가능한가요?**\nA. 항경련제 등을 복용 중인 상태에서도 병행하는 경우가 있습니다. 다만 복용 중인 약의 종류와 용량을 진료 시 정확히 알려주셔야 하며, 약물 조정은 처방한 의료진과 상의해 결정하는 것이 원칙입니다.\n\n**Q. 추나요법과 약침은 건강보험이 적용되나요?**\nA. 추나요법은 일정 조건에서 건강보험 급여 항목으로 분류되어 있고, 약침은 비급여 항목에 해당합니다. 적용 여부는 진단명과 치료 횟수 기준에 따라 달라지므로 세부 사항은 진료 시 확인이 필요합니다.\n\n**Q. 찬바람만 스쳐도 아픈 이유는 무엇인가요?**\nA. 삼차신경이 과민해진 상태에서는 통증을 유발하지 않을 정도의 약한 자극도 통증 신호로 전환됩니다. 이를 이질통이라고 하며, 신경병증성 통증에서 흔히 나타납니다. 겨울철이나 에어컨 바람에 증상이 심해지는 것도 같은 이유입니다.\n\n**Q. 삼차신경통은 재발하나요?**\nA. 통증이 줄어든 뒤에도 수면 부족, 스트레스, 이갈이, 장시간 거북목 자세가 이어지면 재발 가능성이 있습니다. 그래서 통증이 잡힌 뒤 자세와 저작 습관을 다루는 단계가 필요하며, 발작이 다시 시작될 때 초기에 대응하면 경과 관리가 수월합니다.\n\n## 오늘 내용 정리\n\n- 삼차신경통은 얼굴 한쪽에 수 초에서 2분 이내의 발작적 통증이 반복되는 신경병증성 통증입니다.\n- 세수·양치·찬바람 같은 가벼운 자극이 통증을 유발하는 점이 근육성 얼굴 통증과 구분되는 기준입니다.\n- 하악 부위 통증은 저작근 긴장, 턱관절과 상부 경추 정렬 문제와 함께 나타나는 경우가 있습니다.\n- 약침은 통증 지점의 국소 환경을, 추나는 그 지점을 자극하는 구조를, 한약은 재발 조건이 되는 전신 상태를 다룹니다.\n- 통증 기간이 길수록 중추 감작이 진행되므로, 발작 빈도와 강도를 기록해 경과를 판단하는 것이 도움이 됩니다.\n\n*이 글은 의료법과 보건복지부 의료광고 가이드라인을 준수하여 작성되었습니다. 구체적인 치료 계획이나 진단은 담당 의료진과 충분한 상담 후 결정하시기 바랍니다.*"}]};
-
-  function slugify(title){
-    return (title || '').trim().replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-+|-+$/g, '').toLowerCase();
-  }
-
-  // 홈페이지 원장칼럼 카드 등에서 ?c=제목슬러그 로 들어오면 목록 대신 해당 글을 바로 엽니다.
-  function openFromQuery(items){
-    var slug = new URLSearchParams(location.search).get('c');
-    if (!slug) return false;
-    var match = items.filter(function(item){ return slugify(item.title) === slug; })[0];
-    if (!match) return false;
-
-    if (history.state && history.state.view === 'article'){
-      // 이미 히스토리를 만들어둔 상태(예: fetch로 최신 데이터를 받은 뒤 다시 호출된 경우)라면
-      // 내용만 새로 채우고, 히스토리는 다시 쌓지 않습니다.
-      showArticle(match, { pushHistory: false });
-      return true;
-    }
-    // 뒤로가기를 누르면 이 칼럼 목록으로 먼저 돌아오도록, 목록 상태를 먼저 히스토리에 남겨둡니다.
-    try { history.replaceState({ view: 'list' }, '', 'column.html'); } catch (e) { /* 무시 */ }
-    showArticle(match);
-    return true;
-  }
-
-  renderColumns(COLUMN_DATA.items || []);
-  initFilters();
-  updateTabCounts(COLUMN_DATA.items || []);
-  openFromQuery(COLUMN_DATA.items || []);
-
-  // 관리자 페이지에서 새로 추가된 칼럼이 있으면 최신 데이터로 갱신
-  fetch('content/columns.json', { cache: 'no-store' })
-    .then(function(res){ return res.ok ? res.json() : null; })
-    .then(function(data){
-      if (data && Array.isArray(data.items) && data.items.length > COLUMN_DATA.items.length){
-        renderColumns(data.items);
-        initFilters();
-      }
-      if (data && Array.isArray(data.items)){
-        updateTabCounts(data.items);
-        openFromQuery(data.items);
-      }
-    })
-    .catch(function(){ /* 내장된 칼럼만 보여줘도 문제 없음 */ });
+  })();
 
 </script>
 

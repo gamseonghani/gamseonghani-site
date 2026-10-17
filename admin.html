@@ -630,10 +630,25 @@
     setStatus('붙여넣은 내용의 서식(굵게/소제목/목록/링크/이미지)을 최대한 변환했습니다. 미리보기에서 확인해보세요.', 'ok');
   });
 
+  function slugifyTitle(title){
+    return (title || '').trim().replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-+|-+$/g, '').toLowerCase();
+  }
+  function makeUniqueSlug(title){
+    var base = slugifyTitle(title) || ('column-' + Date.now());
+    var used = {};
+    items.forEach(function(it){ if (it.slug) used[it.slug] = true; });
+    var slug = base, n = 2;
+    while (used[slug]) slug = base + '-' + (n++);
+    return slug;
+  }
+
   form.addEventListener('submit', function(e){
     e.preventDefault();
+    var existing = editingIndex !== null ? items[editingIndex] : null;
     var newItem = {
       title: titleEl.value.trim(),
+      // 글 주소(slug): 한 번 정해지면 제목을 고쳐도 바뀌지 않습니다.
+      slug: existing ? (existing.slug || makeUniqueSlug(existing.title)) : makeUniqueSlug(titleEl.value.trim()),
       category: categorySelect.value,
       date: dateEl.value || todayStr(),
       author: authorEl.value.trim() || '권오경 원장',
@@ -642,6 +657,13 @@
       thumbnail: currentThumbnail || null,
       body: bodyEl.value.trim()
     };
+    // 수정한 글은 실제 수정일을 남깁니다(검색엔진용 정보로 쓰입니다).
+    if (existing){
+      if (existing.modified) newItem.modified = existing.modified;
+      var changed = existing.title !== newItem.title || existing.body !== newItem.body ||
+        existing.teaser !== newItem.teaser || existing.category !== newItem.category;
+      if (changed) newItem.modified = todayStr();
+    }
     if (!newItem.title || !newItem.body){
       setStatus('제목과 본문은 반드시 입력해주세요.', 'err');
       return;

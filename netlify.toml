@@ -1,0 +1,13 @@
+# Netlify 설정: 배포할 때마다 칼럼 개별 페이지·목록·사이트맵을 자동으로 만듭니다.
+[build]
+  command = "node scripts/build.js"
+  publish = "."
+
+# 예전 주소(column.html?c=글주소)로 들어와도 새 글 주소로 보냅니다.
+# (Netlify가 처리하지 못하는 경우를 대비해 column.html 안의 스크립트도 같은 이동을 합니다.)
+[[redirects]]
+  from = "/column.html"
+  query = { c = ":slug" }
+  to = "/column/:slug/"
+  status = 301
+  force = true
