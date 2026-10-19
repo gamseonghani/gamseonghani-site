@@ -197,7 +197,17 @@ function main() {
     const published = isoDate(item.date);
     const modified = isoDate(item.modified) || published;
     // 본문의 "4~13명" 같은 물결표가 취소선으로 바뀌지 않도록, 한 개짜리 ~ 는 글자 그대로 보이게 합니다.
-    const bodyHtml = marked.parse((bodies[slug] || '').replace(/(?<!~)~(?!~)/g, '\\~'));
+    let bodyHtml = marked.parse((bodies[slug] || '').replace(/(?<!~)~(?!~)/g, '\\~'));
+    // 글 제목이 이미 h1 이므로, 본문 안의 h1 은 h2 로 낮춥니다(페이지당 h1 하나).
+    bodyHtml = bodyHtml.replace(/<h1(\b[^>]*)>([\s\S]*?)<\/h1>/g, '<h2$1>$2</h2>');
+    // 이미지: 대체 텍스트가 비어 있으면 글 제목 기반 문구를 넣고, 화면 밖 이미지는 늦게 불러옵니다.
+    let imgNo = 0;
+    bodyHtml = bodyHtml.replace(/<img\b([^>]*?)\s*\/?>/g, (m, attrs) => {
+      imgNo++;
+      attrs = attrs.replace(/\s*alt=""/, '');
+      if (!/\balt=/.test(attrs)) attrs += ' alt="' + esc(item.title) + ' 관련 이미지 ' + imgNo + '"';
+      return '<img' + attrs + ' loading="lazy" decoding="async">';
+    });
     const dates = esc(item.date || '') + (item.modified && item.modified !== item.date ? ' · 수정 ' + esc(item.modified) : '');
     const meta = esc(author) + ' · ' + dates + ' · 약 ' + readMinutes(item.body) + '분 읽기';
 
@@ -241,6 +251,11 @@ function main() {
     const anchor = CATEGORY_ANCHOR[item.category];
     const tags = Array.isArray(item.tags) && item.tags.length
       ? '<div class="article-tags">' + item.tags.map((t) => '<span class="tag">#' + esc(t) + '</span>').join('') + '</div>' : '';
+    const bio = '<section class="author-bio"><p class="author-bio-name">' + esc(author) + '</p><p class="author-bio-desc">' +
+      (author === DEFAULT_AUTHOR
+        ? '감성한의원 대표원장. 13년 임상 경험을 바탕으로 턱 · 척추 · 발 통증과 만성 통증의 원인을 살펴 진료합니다.'
+        : '감성한의원') +
+      '</p><a class="author-bio-link" href="/index.html#philosophy">한의원과 원장 소개 보기 →</a></section>';
     const sameCat = sortedNewestFirst(items).filter((x) => x.slug !== slug && x.category === item.category).slice(0, 4);
     const more = sameCat.length
       ? '<section class="related-posts"><h2>' + esc(label) + ' 다른 칼럼</h2><ul>' +
@@ -253,7 +268,7 @@ function main() {
       .replace('{{RELATED_OPEN}}', anchor ? '<div class="side-card" id="relatedCard">' : '<div class="side-card" id="relatedCard" hidden>')
       .replace('{{RELATED_HREF}}', anchor ? '/index.html#' + anchor : '/index.html')
       .replace('{{RELATED_TEXT}}', anchor ? esc(label) + ' 안내 보기 →' : '')
-      .replace('{{TAGS}}', tags).replace('{{MORE}}', more) +
+      .replace('{{TAGS}}', () => tags + bio).replace('{{MORE}}', () => more) +
       '\n    </div>\n  </section>';
 
     let html = tpl.replace(headRe, () => head).replace(secRe, () => rootRel(section));
