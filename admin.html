@@ -91,6 +91,9 @@
   textarea{ resize: vertical; }
   #teaser{ height: 60px; }
   #body{ height: 260px; line-height: 1.6; }
+  .count-badge{ display:inline-block; min-width:22px; text-align:center; font-size:11.5px; font-weight:700; background:var(--bg-raised); color:var(--ink-soft); border-radius:999px; padding:1px 8px; margin-left:6px; }
+  .count-badge.ok{ background:#DDEBDD; color:#2E6B45; }
+  .count-badge.warn{ background:#F5E6D0; color:#8A5A12; }
   .field-row{ display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .form-actions{ display: flex; gap: 10px; margin-top: 18px; }
   .hint{ font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; }
@@ -184,34 +187,56 @@
     <div class="panel">
       <h3 id="formTitle" style="font-size:15px;">새 칼럼 작성</h3>
       <form id="colForm">
-        <label for="title">제목</label>
-        <input type="text" id="title" required>
+        <div class="field-row">
+          <div>
+            <label for="title">제목 *</label>
+            <input type="text" id="title" required>
+          </div>
+          <div>
+            <label for="slug">슬러그(URL) *</label>
+            <input type="text" id="slug" placeholder="lumbar-disc-acupuncture" required>
+            <div class="hint" id="slugHint">글 주소가 됩니다. 영문·숫자·하이픈 권장. 발행 후에는 바꾸지 마세요.</div>
+          </div>
+        </div>
 
         <div class="field-row">
           <div>
-            <label for="category">카테고리</label>
+            <label for="category">관련 진료</label>
             <select id="category"></select>
           </div>
+          <div>
+            <label for="author">작성자</label>
+            <select id="author">
+              <option value="권오경 원장">권오경 원장</option>
+              <option value="__custom__">직접 입력…</option>
+            </select>
+            <input type="text" id="authorCustom" placeholder="작성자 이름 (예: 홍길동 원장)" style="display:none; margin-top:6px;">
+          </div>
+        </div>
+
+        <div class="field-row">
           <div>
             <label for="date">날짜</label>
             <input type="date" id="date" required>
           </div>
+          <div></div>
         </div>
+
+        <label for="teaser">요약 (목록/검색결과에 노출)</label>
+        <textarea id="teaser" style="min-height:70px;"></textarea>
 
         <div class="field-row">
           <div>
-            <label for="author">작성자</label>
-            <input type="text" id="author" value="권오경 원장">
+            <label for="metaDesc">메타 설명 (SEO, 120~160자) <span class="count-badge" id="metaCount">0</span></label>
+            <input type="text" id="metaDesc" placeholder="검색결과에 표시되는 설명. 핵심 키워드를 자연스럽게 포함하세요.">
+          </div>
+          <div>
+            <label for="tags">SEO 키워드 (쉼표로 구분)</label>
+            <input type="text" id="tags" placeholder="남양주 한의원, 허리디스크, 약침">
           </div>
         </div>
 
-        <label for="teaser">한 줄 요약 (목록/검색 노출용, 선택)</label>
-        <textarea id="teaser"></textarea>
-
-        <label for="tags">태그 (쉼표로 구분, 선택. 예: 허리디스크, 봉약침, 남양주한의원)</label>
-        <input type="text" id="tags">
-
-        <label for="thumbnail">썸네일 이미지 (선택, 목록 페이지에 작게 표시됩니다)</label>
+        <label for="thumbnail">대표 썸네일 (SNS 공유·OG 이미지로도 사용)</label>
         <div class="thumb-drop">
           <div class="thumb-empty" id="thumbEmpty">이미지 없음</div>
           <img class="thumb-preview-img" id="thumbPreviewImg" style="display:none;">
@@ -363,6 +388,11 @@
   var titleEl = document.getElementById('title');
   var dateEl = document.getElementById('date');
   var authorEl = document.getElementById('author');
+  var authorCustomEl = document.getElementById('authorCustom');
+  var slugEl = document.getElementById('slug');
+  var metaDescEl = document.getElementById('metaDesc');
+  var metaCountEl = document.getElementById('metaCount');
+  var slugTouched = false; // 직접 고친 뒤에는 제목을 바꿔도 슬러그를 덮어쓰지 않습니다
   var teaserEl = document.getElementById('teaser');
   var tagsEl = document.getElementById('tags');
   var thumbnailInput = document.getElementById('thumbnailInput');
@@ -403,11 +433,49 @@
     }
   }
 
+  function getAuthor(){
+    if (authorEl.value === '__custom__') return authorCustomEl.value.trim() || '권오경 원장';
+    return authorEl.value;
+  }
+  function setAuthor(name){
+    name = name || '권오경 원장';
+    var found = false;
+    Array.prototype.forEach.call(authorEl.options, function(o){ if (o.value === name) found = true; });
+    if (!found){
+      var opt = document.createElement('option');
+      opt.value = name; opt.textContent = name;
+      authorEl.insertBefore(opt, authorEl.querySelector('option[value="__custom__"]'));
+    }
+    authorEl.value = name;
+    authorCustomEl.style.display = 'none';
+    authorCustomEl.value = '';
+  }
+  authorEl.addEventListener('change', function(){
+    var custom = authorEl.value === '__custom__';
+    authorCustomEl.style.display = custom ? '' : 'none';
+    if (custom) authorCustomEl.focus();
+  });
+
+  function updateMetaCount(){
+    var n = metaDescEl.value.length;
+    metaCountEl.textContent = n;
+    metaCountEl.className = 'count-badge' + (n === 0 ? '' : (n >= 120 && n <= 160 ? ' ok' : ' warn'));
+  }
+  metaDescEl.addEventListener('input', updateMetaCount);
+
+  // 새 글에서는 제목을 쓰면 슬러그가 자동으로 채워집니다(직접 고치면 멈춤).
+  titleEl.addEventListener('input', function(){
+    if (editingIndex === null && !slugTouched) slugEl.value = slugifyTitle(titleEl.value);
+  });
+  slugEl.addEventListener('input', function(){ slugTouched = true; });
+
   function resetForm(){
     editingIndex = null;
     form.reset();
     dateEl.value = todayStr();
-    authorEl.value = '권오경 원장';
+    setAuthor('권오경 원장');
+    slugTouched = false;
+    updateMetaCount();
     formTitle.textContent = '새 칼럼 작성';
     submitBtn.textContent = '목록에 추가';
     cancelBtn.style.display = 'none';
@@ -422,7 +490,11 @@
     titleEl.value = item.title || '';
     categorySelect.value = item.category || 'philosophy';
     dateEl.value = item.date || todayStr();
-    authorEl.value = item.author || '권오경 원장';
+    setAuthor(item.author);
+    slugEl.value = item.slug || slugifyTitle(item.title);
+    slugTouched = true;
+    metaDescEl.value = item.metaDescription || '';
+    updateMetaCount();
     teaserEl.value = item.teaser || '';
     tagsEl.value = Array.isArray(item.tags) ? item.tags.join(', ') : '';
     thumbnailInput.value = '';
@@ -648,21 +720,29 @@
     var newItem = {
       title: titleEl.value.trim(),
       // 글 주소(slug): 한 번 정해지면 제목을 고쳐도 바뀌지 않습니다.
-      slug: existing ? (existing.slug || makeUniqueSlug(existing.title)) : makeUniqueSlug(titleEl.value.trim()),
+      slug: slugifyTitle(slugEl.value) || (existing ? (existing.slug || makeUniqueSlug(existing.title)) : makeUniqueSlug(titleEl.value.trim())),
       category: categorySelect.value,
       date: dateEl.value || todayStr(),
-      author: authorEl.value.trim() || '권오경 원장',
+      author: getAuthor(),
       teaser: teaserEl.value.trim(),
+      metaDescription: metaDescEl.value.trim(),
       tags: tagsEl.value.split(',').map(function(t){ return t.trim(); }).filter(Boolean),
       thumbnail: currentThumbnail || null,
       body: bodyEl.value.trim()
     };
+    if (!newItem.metaDescription) delete newItem.metaDescription;
     // 수정한 글은 실제 수정일을 남깁니다(검색엔진용 정보로 쓰입니다).
     if (existing){
       if (existing.modified) newItem.modified = existing.modified;
       var changed = existing.title !== newItem.title || existing.body !== newItem.body ||
         existing.teaser !== newItem.teaser || existing.category !== newItem.category;
       if (changed) newItem.modified = todayStr();
+    }
+    // 슬러그는 다른 글과 겹치면 안 됩니다(주소가 하나로 정해져야 하기 때문).
+    var dup = items.some(function(it, i){ return i !== editingIndex && it.slug && it.slug === newItem.slug; });
+    if (dup){
+      setStatus('슬러그(URL) "' + newItem.slug + '" 는 이미 다른 글에서 쓰고 있어요. 다른 주소로 바꿔주세요.', 'err');
+      return;
     }
     if (!newItem.title || !newItem.body){
       setStatus('제목과 본문은 반드시 입력해주세요.', 'err');

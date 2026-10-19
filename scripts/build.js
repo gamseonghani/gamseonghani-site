@@ -66,7 +66,7 @@ function slugify(title) {
 function dedupeSlugs(items) {
   const used = new Set();
   // 이미 slug 가 저장된 글을 먼저 확정하고, 없는 글은 제목으로 만들어 겹치지 않게 합니다.
-  items.forEach((it) => { if (it.slug) { it.slug = String(it.slug); used.add(it.slug); } });
+  items.forEach((it) => { if (it.slug) { it.slug = slugify(it.slug) || ''; if (it.slug) used.add(it.slug); } });
   items.forEach((it, i) => {
     if (it.slug) return;
     let base = slugify(it.title) || ('column-' + (i + 1));
@@ -107,7 +107,7 @@ function plainText(md) {
 }
 function readMinutes(md) { return Math.max(1, Math.ceil(plainText(md).length / 500)); }
 function description(item) {
-  const src = (item.teaser && item.teaser.trim()) || plainText(item.body);
+  const src = (item.metaDescription && item.metaDescription.trim()) || (item.teaser && item.teaser.trim()) || plainText(item.body);
   return src.length > 150 ? src.slice(0, 147).replace(/\s+\S*$/, '') + '...' : src;
 }
 const absUrl = (u) => (/^https?:/.test(u) ? u : SITE + (u.startsWith('/') ? '' : '/') + u);
@@ -221,6 +221,7 @@ function main() {
     const head =
       '<title>' + esc(title) + '</title>\n' +
       '<meta name="description" content="' + esc(desc) + '">\n' +
+      (Array.isArray(item.tags) && item.tags.length ? '<meta name="keywords" content="' + esc(item.tags.join(', ')) + '">\n' : '') +
       '<link rel="canonical" href="' + esc(url) + '">\n' +
       '<meta property="og:type" content="article">\n' +
       '<meta property="og:site_name" content="' + SITE_NAME + '">\n' +
