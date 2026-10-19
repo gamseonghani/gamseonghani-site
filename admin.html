@@ -91,6 +91,20 @@
   textarea{ resize: vertical; }
   #teaser{ height: 60px; }
   #body{ height: 260px; line-height: 1.6; }
+  .alt-panel{ margin-top:10px; padding:12px 14px; background:var(--bg-raised); border:1px solid var(--line); border-radius:8px; }
+  .alt-panel h4{ margin:0 0 4px; font-size:13.5px; }
+  .alt-row{ display:flex; gap:10px; align-items:center; margin-top:8px; }
+  .alt-row img{ width:54px; height:40px; object-fit:cover; border-radius:4px; border:1px solid var(--line); flex:none; background:#fff; }
+  .alt-row input{ flex:1; margin:0; }
+  .alt-row .alt-no{ font-size:12px; color:var(--ink-soft); width:22px; flex:none; }
+  .seo-check{ margin-top:16px; padding:14px 16px; border:1px solid var(--line); border-radius:8px; background:#fff; }
+  .seo-check h4{ margin:0 0 8px; font-size:14px; }
+  .seo-check ul{ list-style:none; margin:0; padding:0; font-size:13px; }
+  .seo-check li{ padding:3px 0; color:var(--ink-soft); }
+  .seo-check li.ok::before{ content:'✓ '; color:#2E6B45; font-weight:700; }
+  .seo-check li.warn::before{ content:'! '; color:#B3761A; font-weight:700; }
+  .seo-check li.warn{ color:var(--ink); }
+  .seo-sum{ font-size:12.5px; color:var(--ink-soft); margin-top:8px; }
   .count-badge{ display:inline-block; min-width:22px; text-align:center; font-size:11.5px; font-weight:700; background:var(--bg-raised); color:var(--ink-soft); border-radius:999px; padding:1px 8px; margin-left:6px; }
   .count-badge.ok{ background:#DDEBDD; color:#2E6B45; }
   .count-badge.warn{ background:#F5E6D0; color:#8A5A12; }
@@ -261,9 +275,21 @@
         <textarea id="body" required></textarea>
         <div class="hint">서식 버튼으로 선택한 글자를 꾸미거나, 직접 마크다운 문법을 입력해도 됩니다. "사진 삽입"으로 여러 장을 한 번에 고르거나, 사진을 복사해서 본문에 바로 붙여넣기(Ctrl+V)도 됩니다. 아래 미리보기에서 실제로 어떻게 보이는지 확인할 수 있습니다.</div>
 
+        <div class="alt-panel" id="altPanel" hidden>
+          <h4>이미지 설명 (alt 텍스트)</h4>
+          <div class="hint" style="margin:0;">사진이 무엇인지 한 문장으로 적어주세요. 시각장애인용 화면낭독과 검색엔진이 이미지를 이해하는 데 쓰입니다. 비워 두면 글 제목 기반 문구가 자동으로 들어갑니다.</div>
+          <div id="altList"></div>
+        </div>
+
         <div class="preview">
           <h3>미리보기</h3>
           <div class="body-render" id="previewBody"></div>
+        </div>
+
+        <div class="seo-check" id="seoCheck">
+          <h4>발행 전 SEO 점검</h4>
+          <ul id="seoList"></ul>
+          <div class="seo-sum" id="seoSum"></div>
         </div>
 
         <div class="form-actions">
@@ -421,6 +447,7 @@
 
   function setThumbnailPreview(dataUrl){
     currentThumbnail = dataUrl || null;
+    if (typeof updateSeo === 'function') updateSeo();
     if (currentThumbnail){
       thumbPreviewImg.src = currentThumbnail;
       thumbPreviewImg.style.display = '';
@@ -551,8 +578,82 @@
     } else {
       previewBody.innerHTML = '<p style="color:var(--ink-soft)">본문을 입력하면 여기에 미리보기가 표시됩니다.</p>';
     }
+    renderAltPanel();
+    updateSeo();
   }
   bodyEl.addEventListener('input', updatePreview);
+
+  // ---- 이미지 설명(alt) 입력 ----
+  var IMG_RE = /!\[([^\]]*)\]\(([^)\s]+)\)/g;
+  var altPanel = document.getElementById('altPanel');
+  var altList = document.getElementById('altList');
+  var altEditing = false; // 설명 칸에서 입력 중일 땐 칸을 다시 그리지 않습니다(커서 유지)
+  function bodyImages(){
+    var out = [], m, text = bodyEl.value || '';
+    IMG_RE.lastIndex = 0;
+    while ((m = IMG_RE.exec(text))) out.push({ alt: m[1], src: m[2] });
+    return out;
+  }
+  function renderAltPanel(){
+    if (altEditing) return;
+    var imgs = bodyImages();
+    altPanel.hidden = imgs.length === 0;
+    altList.innerHTML = '';
+    imgs.forEach(function(im, idx){
+      var row = document.createElement('div');
+      row.className = 'alt-row';
+      var no = document.createElement('span'); no.className = 'alt-no'; no.textContent = (idx + 1) + '.';
+      var th = document.createElement('img'); th.src = im.src; th.alt = '';
+      var input = document.createElement('input');
+      input.type = 'text'; input.value = im.alt; input.placeholder = '예: 요추 4-5번 디스크가 신경을 누르는 모습';
+      input.addEventListener('input', function(){
+        var n = 0, val = input.value.replace(/[\[\]\n]/g, ' ');
+        altEditing = true;
+        bodyEl.value = bodyEl.value.replace(IMG_RE, function(m, alt, src){
+          return (n++ === idx) ? '![' + val + '](' + src + ')' : m;
+        });
+        updatePreview();
+        altEditing = false;
+      });
+      row.appendChild(no); row.appendChild(th); row.appendChild(input);
+      altList.appendChild(row);
+    });
+  }
+
+  // ---- 발행 전 SEO 점검 ----
+  var seoList = document.getElementById('seoList');
+  var seoSum = document.getElementById('seoSum');
+  function updateSeo(){
+    var body = bodyEl.value || '';
+    var imgs = bodyImages();
+    var noAlt = imgs.filter(function(i){ return !i.alt.trim(); }).length;
+    var meta = metaDescEl.value.trim().length;
+    var slug = slugEl.value.trim();
+    var checks = [
+      [!!titleEl.value.trim(), '제목을 입력했어요', '제목이 비어 있어요'],
+      [!!slug, '슬러그(URL)가 있어요', '슬러그(URL)를 입력해주세요'],
+      [/^[a-z0-9-]+$/.test(slug), '슬러그가 영문·숫자·하이픈이에요(공유할 때 깔끔)', '슬러그가 한글이에요. 영문(예: lumbar-disc-acupuncture)이 주소 공유에 더 깔끔해요'],
+      [meta >= 120 && meta <= 160, '메타 설명 길이가 120~160자예요 (' + meta + '자)', '메타 설명이 ' + meta + '자예요. 120~160자를 권장해요'],
+      [!!teaserEl.value.trim(), '요약을 적었어요', '요약이 비어 있어요(목록에 보이는 글)'],
+      [tagsEl.value.split(',').some(function(t){ return t.trim(); }), 'SEO 키워드가 있어요', 'SEO 키워드를 1개 이상 적어주세요'],
+      [!!currentThumbnail, '대표 썸네일이 있어요(공유 이미지로 쓰여요)', '대표 썸네일이 없어요. 공유 미리보기가 기본 이미지로 나가요'],
+      [/^##\s/m.test(body), '소제목(##)으로 글이 나뉘어 있어요', '본문에 소제목(##)이 없어요. 소제목으로 나누면 읽기·검색에 유리해요'],
+      [!/^#\s/m.test(body), '본문에 큰 제목(#)이 없어요', '본문에 큰 제목(#)이 있어요. 글 제목과 겹쳐서 자동으로 소제목으로 낮춰져요'],
+      [noAlt === 0, imgs.length ? '모든 이미지에 설명이 있어요' : '본문 이미지가 없어요', '이미지 ' + noAlt + '장에 설명이 비어 있어요(위 "이미지 설명" 칸에 적어주세요)'],
+      [/의료법/.test(body), '의료법 준수 문구가 들어 있어요', '글 맨 아래에 의료법 준수 문구가 없어요']
+    ];
+    var warn = 0;
+    seoList.innerHTML = '';
+    checks.forEach(function(c){
+      var li = document.createElement('li');
+      li.className = c[0] ? 'ok' : 'warn';
+      li.textContent = c[0] ? c[1] : c[2];
+      if (!c[0]) warn++;
+      seoList.appendChild(li);
+    });
+    seoSum.textContent = warn ? ('권장 항목 ' + warn + '개를 확인해보세요. 그래도 발행은 할 수 있어요.') : '모든 점검을 통과했어요.';
+  }
+  [titleEl, slugEl, metaDescEl, teaserEl, tagsEl].forEach(function(el){ el.addEventListener('input', updateSeo); });
 
   function htmlToMarkdownish(html){
     var container = document.createElement('div');
