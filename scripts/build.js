@@ -200,12 +200,9 @@ function main() {
     let bodyHtml = marked.parse((bodies[slug] || '').replace(/(?<!~)~(?!~)/g, '\\~'));
     // 글 제목이 이미 h1 이므로, 본문 안의 h1 은 h2 로 낮춥니다(페이지당 h1 하나).
     bodyHtml = bodyHtml.replace(/<h1(\b[^>]*)>([\s\S]*?)<\/h1>/g, '<h2$1>$2</h2>');
-    // 이미지: 대체 텍스트가 비어 있으면 글 제목 기반 문구를 넣고, 화면 밖 이미지는 늦게 불러옵니다.
-    let imgNo = 0;
+    // 이미지: 화면 밖 이미지는 늦게 불러옵니다. 대체 텍스트(alt)는 글쓴이가 적은 것만 그대로 씁니다.
     bodyHtml = bodyHtml.replace(/<img\b([^>]*?)\s*\/?>/g, (m, attrs) => {
-      imgNo++;
-      attrs = attrs.replace(/\s*alt=""/, '');
-      if (!/\balt=/.test(attrs)) attrs += ' alt="' + esc(item.title) + ' 관련 이미지 ' + imgNo + '"';
+      if (!/\balt=/.test(attrs)) attrs += ' alt=""';
       return '<img' + attrs + ' loading="lazy" decoding="async">';
     });
     const dates = esc(item.date || '') + (item.modified && item.modified !== item.date ? ' · 수정 ' + esc(item.modified) : '');
