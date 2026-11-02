@@ -51,7 +51,7 @@ const CATEGORY_ICONS = {
   pediatric: '<circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/>',
   special: '<path d="M12 21c-5-4-8-7.5-8-11a5 5 0 0 1 8-4 5 5 0 0 1 8 4c0 3.5-3 7-8 11z"/>'
 };
-const STATIC_PAGES = ['index.html', 'accident.html', 'diet.html', 'pediatric.html', 'sports.html', 'column.html'];
+const STATIC_PAGES = ['index.html', 'accident.html', 'diet.html', 'pediatric.html', 'sports.html', 'foot.html', 'column.html'];
 
 const read = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
 const write = (p, s) => { fs.mkdirSync(path.dirname(path.join(ROOT, p)), { recursive: true }); fs.writeFileSync(path.join(ROOT, p), s); };
