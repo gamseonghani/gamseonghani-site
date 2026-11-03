@@ -304,7 +304,13 @@
     .site-nav .submenu a{ display: block; padding: 9px 14px; border-radius: 6px; white-space: nowrap; }
     .site-nav .submenu a::after{ display: none; }
     .site-nav .submenu a:hover, .site-nav .submenu a:focus-visible{ background: var(--bg-raised); color: var(--teal); }
+    /* 진료과목: 항목이 많아 두 줄 칸으로 */
+    .site-nav .submenu.wide{ grid-template-columns: repeat(2, minmax(0, 1fr)); min-width: 400px; }
+    .site-nav .has-sub:hover > .submenu.wide,
+    .site-nav .has-sub:focus-within > .submenu.wide{ display: grid; }
   }
+  /* 모바일 펼친 메뉴에서는 진료과목 하위 목록을 숨기고, 누르면 진료과목 칸으로 이동 */
+  @media (max-width: 759px){ .site-nav .submenu.wide{ display: none; } }
 
   /* hero */
   .hero{
@@ -886,7 +892,21 @@
             <li><a href="#process">진료 과정</a></li>
           </ul>
         </li>
-        <li><a href="#subjects">진료과목</a></li>
+        <li class="has-sub">
+          <a href="#subjects" aria-haspopup="true">진료과목<span class="caret" aria-hidden="true">▾</span></a>
+          <ul class="submenu wide">
+            <li><a href="#cat-headache">두통 · 어지러움</a></li>
+            <li><a href="#cat-jaw">턱관절</a></li>
+            <li><a href="accident.html">교통사고</a></li>
+            <li><a href="#cat-sensory">감각기관 · 신경계</a></li>
+            <li><a href="#cat-spine">척추 · 근골격</a></li>
+            <li><a href="sports.html">스포츠 손상 · 힘줄 질환</a></li>
+            <li><a href="foot.html">발 · 발목 질환</a></li>
+            <li><a href="#cat-internal">내과 질환</a></li>
+            <li><a href="pediatric.html">소아 클리닉</a></li>
+            <li><a href="diet.html">다이어트 클리닉</a></li>
+          </ul>
+        </li>
         <li><a href="column.html">원장칼럼</a></li>
         <li><a href="#visit">오시는 길</a></li>
       </ul>
