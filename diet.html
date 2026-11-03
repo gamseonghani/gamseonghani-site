@@ -69,7 +69,12 @@
   .main-nav > a:hover, .menu-btn:hover{ color:var(--teal); }
   .menu-btn.current{ color:var(--teal); }
   .dd{ position:relative; }
-  .dd-panel{ position:absolute; top:calc(100% + 12px); left:-18px; min-width:200px; background:var(--bg); border:1px solid var(--line); border-radius:10px; box-shadow:0 12px 30px rgba(0,0,0,.08); padding:8px; display:grid; }
+  [hidden]{ display:none !important; }
+  /* 드롭다운: 마우스를 올리거나(데스크톱) 버튼을 누르면 열림 */
+  .dd-panel{ position:absolute; top:calc(100% + 12px); left:-18px; min-width:200px; background:var(--bg); border:1px solid var(--line); border-radius:10px; box-shadow:0 12px 30px rgba(0,0,0,.08); padding:8px; display:none; z-index:60; }
+  .dd-panel::before{ content:""; position:absolute; left:0; right:0; top:-14px; height:14px; }
+  .dd.open .dd-panel{ display:grid; }
+  @media (hover:hover){ .dd:not(.picked):hover .dd-panel{ display:grid; } }
   .dd-panel a{ display:block; padding:10px 14px; border-radius:6px; font-size:.92rem; text-decoration:none; color:var(--ink-soft); }
   .dd-panel a:hover, .dd-panel a[aria-current="page"]{ background:var(--bg-raised); color:var(--teal); font-weight:500; }
   .btn-pill{ display:inline-flex; align-items:center; justify-content:center; background:var(--teal); color:#FFFFFF; font-size:.9rem; font-weight:700; line-height:1; padding:12px 20px; border-radius:999px; text-decoration:none; white-space:nowrap; }
@@ -258,9 +263,9 @@
     <nav class="main-nav" aria-label="주 메뉴">
       <a href="https://gamseonghani.com/#philosophy">한의원 소개</a>
       <a href="https://gamseonghani.com/#subjects">통증 진료</a>
-      <div class="dd">
+      <div class="dd" id="dd">
         <button class="menu-btn current" id="ddBtn" type="button" aria-expanded="false" aria-controls="ddPanel">다이어트클리닉 ▾</button>
-        <div class="dd-panel" id="ddPanel" hidden>
+        <div class="dd-panel" id="ddPanel">
           <a href="#overview">다이어트 개요</a>
           <a href="#lean">린다이어트 개요</a>
           <a href="#obesity">비만·체중관리</a>
@@ -702,16 +707,22 @@
   route(false);
 
   /* ---- 다이어트클리닉 드롭다운 ---- */
+  const dd = document.getElementById("dd");
   const ddBtn = document.getElementById("ddBtn");
-  const ddPanel = document.getElementById("ddPanel");
-  function closeDD() { ddPanel.hidden = true; ddBtn.setAttribute("aria-expanded", "false"); }
+  function closeDD() { dd.classList.remove("open"); ddBtn.setAttribute("aria-expanded", "false"); }
   ddBtn.addEventListener("click", (e) => {
     e.stopPropagation();
-    const open = ddPanel.hidden;
-    ddPanel.hidden = !open;
+    const open = !dd.classList.contains("open");
+    dd.classList.toggle("open", open);
     ddBtn.setAttribute("aria-expanded", String(open));
   });
-  document.addEventListener("click", (e) => { if (!ddPanel.contains(e.target)) closeDD(); });
+  document.addEventListener("click", (e) => { if (!dd.contains(e.target)) closeDD(); });
+  document.querySelectorAll(".dd-panel a").forEach(a => a.addEventListener("click", () => {
+    closeDD();
+    dd.classList.add("picked");   // 클릭 직후 마우스가 메뉴 위에 있어도 닫히도록
+    a.blur();
+  }));
+  dd.addEventListener("mouseleave", () => dd.classList.remove("picked"));
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDD(); });
 
   /* ---- 8단계 사다리 ---- */
