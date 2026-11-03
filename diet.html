@@ -146,7 +146,8 @@
   .faq-list summary::-webkit-details-marker{ display:none; }
   .faq-list summary::after{ content:"+"; color:var(--amber); font-family:var(--sans); font-weight:500; }
   .faq-list details[open] summary::after{ content:"−"; }
-  .faq-list details p{ margin-top:12px; color:var(--ink-soft); max-width:680px; }
+  .faq-list details p{ margin-top:12px; color:var(--ink-soft); }
+  .faq-list details p + p{ margin-top:1.6em; }
 
   /* overview: phases */
   .phases{ margin-top:44px; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; }
@@ -457,8 +458,8 @@
         <h2>시작 전에 많이 물어보십니다</h2>
         <div class="faq-list">
           <details><summary>누구나 복용할 수 있나요?</summary><p>체질과 건강 상태에 따라 다릅니다. 린다이어트 한약은 의약품이라 한의사 진료 후에만 처방합니다. 복용 중인 약이나 지병이 있으면 진료 때 꼭 알려 주세요.</p></details>
-          <details><summary>내원하지 않아도 되나요?</summary><p>내원이 어려우시면 전화로 진료한 뒤 한약을 택배로 보내드립니다. 이후 관리는 앱 기록으로 이어집니다.</p></details>
-          <details><summary>복용 중 불편한 증상이 생기면요?</summary><p>가슴 두근거림 같은 증상이 나타날 수 있습니다. 불편하시면 앱에 기록하시거나 한의원으로 바로 연락해 주세요. 원장이 확인하고 처방을 조정합니다.</p></details>
+          <details><summary>내원하지 않아도 되나요?</summary><p>내원이 어려우시면 전화로 진료한 뒤 한약을 택배로 보내드립니다.</p><p>이후 관리는 앱 기록으로 이어집니다.</p></details>
+          <details><summary>복용 중 불편한 증상이 생기면요?</summary><p>가슴 두근거림 같은 증상이 나타날 수 있습니다.</p><p>불편하시면 앱에 기록하시거나 한의원으로 바로 연락해 주세요. 원장이 확인하고 처방을 조정합니다.</p></details>
           <details><summary>기간은 얼마나 걸리나요?</summary><p>프로그램에 따라 7일부터 24주까지이며, 목표와 현재 상태에 따라 다릅니다. 진료 때 예상 기간을 함께 정합니다.</p></details>
         </div>
       </div>
