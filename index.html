@@ -124,9 +124,10 @@
     position: relative;
   }
   .wordmark{
-    font-family: "Noto Serif KR", serif;
+    font-family: "Noto Sans KR", -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
     font-size: 1.3rem;
     font-weight: 700;
+    letter-spacing: -0.02em;
     color: var(--teal);
     text-decoration: none;
   }
@@ -229,7 +230,7 @@
   }
   .site-nav a{
     text-decoration: none;
-    font-size: 0.95rem;
+    font-size: 1.08rem;
     font-weight: 700;
     color: var(--ink-soft);
     position: relative;
@@ -283,6 +284,34 @@
     .site-nav .header-actions{ display: flex; margin-left: auto; }
   }
 
+  /* 한의원 소개 하위 메뉴 (데스크톱: 마우스를 올리면 열림 / 모바일: 펼친 메뉴 안에 들여쓰기로 표시) */
+  .site-nav .has-sub{ position: relative; }
+  .site-nav .has-sub .caret{ font-size: 0.7em; margin-left: 4px; }
+  .site-nav .submenu{ list-style: none; margin: 12px 0 0; padding: 0 0 0 14px; display: flex; flex-direction: column; gap: 12px; }
+  .site-nav .submenu a{ font-weight: 500; }
+  @media (min-width: 760px){
+    .site-nav .submenu{
+      display: none;
+      position: absolute; top: calc(100% + 14px); left: -16px;
+      min-width: 160px; margin: 0; padding: 8px; gap: 0;
+      background: var(--bg); border: 1px solid var(--line); border-radius: 10px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+      z-index: 60;
+    }
+    .site-nav .submenu::before{ content: ""; position: absolute; left: 0; right: 0; top: -16px; height: 16px; }
+    .site-nav .has-sub:hover > .submenu,
+    .site-nav .has-sub:focus-within > .submenu{ display: flex; }
+    .site-nav .submenu a{ display: block; padding: 9px 14px; border-radius: 6px; white-space: nowrap; }
+    .site-nav .submenu a::after{ display: none; }
+    .site-nav .submenu a:hover, .site-nav .submenu a:focus-visible{ background: var(--bg-raised); color: var(--teal); }
+    /* 진료과목: 항목이 많아 두 줄 칸으로 */
+    .site-nav .submenu.wide{ grid-template-columns: repeat(2, minmax(0, 1fr)); min-width: 400px; }
+    .site-nav .has-sub:hover > .submenu.wide,
+    .site-nav .has-sub:focus-within > .submenu.wide{ display: grid; }
+  }
+  /* 모바일 펼친 메뉴에서는 진료과목 하위 목록을 숨기고, 누르면 진료과목 칸으로 이동 */
+  @media (max-width: 759px){ .site-nav .submenu.wide{ display: none; } }
+
   /* hero */
   .hero{
     padding: 96px 0 84px;
@@ -314,8 +343,9 @@
     color: var(--ink-soft);
   }
   .hero .desc{
-    margin-top: 20px;
-    font-size: 1.02rem;
+    margin-top: 22px;
+    font-size: 1.15rem;
+    font-weight: 700;
     line-height: 1.8;
     color: var(--ink-soft);
     max-width: 580px;
@@ -837,7 +867,8 @@
     .hero{ animation: none; opacity: 1; transform: none; }
     html{ scroll-behavior: auto; }
   }
-</style>
+
+  .site-nav .ext-icon{ width: 0.8em; height: 0.8em; margin-left: 5px; vertical-align: -0.05em; opacity: 0.6; }</style>
 </head>
 <body>
 
@@ -855,10 +886,35 @@
     <button class="nav-toggle" aria-expanded="false" aria-controls="mainNav" id="navToggle">메뉴</button>
     <nav class="site-nav" id="mainNav">
       <ul>
-        <li><a href="#philosophy">한의원 소개</a></li>
-        <li><a href="#process">진료 과정</a></li>
-        <li><a href="#subjects">진료과목</a></li>
-        <li><a href="column.html">원장칼럼</a></li>
+        <li class="has-sub">
+          <a href="#philosophy" aria-haspopup="true">한의원 소개<span class="caret" aria-hidden="true">▾</span></a>
+          <ul class="submenu">
+            <li><a href="#philosophy">한의원 소개</a></li>
+            <li><a href="#process">진료 과정</a></li>
+          </ul>
+        </li>
+        <li class="has-sub">
+          <a href="#subjects" aria-haspopup="true">진료과목<span class="caret" aria-hidden="true">▾</span></a>
+          <ul class="submenu wide">
+            <li><a href="#cat-headache">두통 · 어지러움</a></li>
+            <li><a href="#cat-jaw">턱관절</a></li>
+            <li><a href="accident.html">교통사고</a></li>
+            <li><a href="#cat-sensory">감각기관 · 신경계</a></li>
+            <li><a href="#cat-spine">척추 · 근골격</a></li>
+            <li><a href="sports.html">스포츠 손상 · 힘줄 질환</a></li>
+            <li><a href="foot.html">발 · 발목 질환</a></li>
+            <li><a href="#cat-internal">내과 질환</a></li>
+            <li><a href="pediatric.html">소아 클리닉</a></li>
+            <li><a href="diet.html">다이어트 클리닉</a></li>
+          </ul>
+        </li>
+        <li class="has-sub">
+          <a href="column.html" aria-haspopup="true">건강 이야기<span class="caret" aria-hidden="true">▾</span></a>
+          <ul class="submenu">
+            <li><a href="column.html">원장칼럼</a></li>
+            <li><a href="https://blog.naver.com/breezer-dr" target="_blank" rel="noopener">블로그<svg class="ext-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M9 3h4v4M13 3L7 9M11 9.5V13H3V5h3.5"/></svg></a></li>
+          </ul>
+        </li>
         <li><a href="#visit">오시는 길</a></li>
       </ul>
       <div class="header-actions">
@@ -882,7 +938,6 @@
     <div class="wrap hero-grid">
       <div>
         <h1>당신의 아픈 통증,<br>원인부터 바르게 치료합니다.</h1>
-        <p class="sub">마음까지 편안해지는 감성한의원 맞춤 진료</p>
         <p class="desc">턱, 발, 척추, 뇌와 전신 경락의 균형을 함께 살펴 통증의 원인부터&nbsp;찾습니다.<br>겉으로 드러난 증상뿐만 아니라, 그 사람의 삶을 들여다보는 진료를&nbsp;지향합니다.</p>
         <div class="feature-tags">
           <span>1:1 예약제 진료</span>
@@ -907,6 +962,7 @@
         <li><a href="#cat-sensory">감각기관 · 신경계</a></li>
         <li><a href="#cat-spine">척추 · 근골격</a></li>
         <li><a href="#cat-accident">교통사고</a></li>
+        <li><a href="#cat-ankle">발목관절</a></li>
         <li><a href="#cat-internal">내과 질환</a></li>
         <li><a href="#cat-pediatric">소아 클리닉</a></li>
         <li><a href="#cat-special">다이어트 클리닉</a></li>
@@ -1060,6 +1116,20 @@
           <p>디스크, 협착, 만성통증 · 저림, 떨림, 감각이상</p>
         </div>
 
+        <a class="subject-card" id="cat-sports" href="sports.html">
+          <span class="cat-tag">통증</span>
+          <h3>스포츠 손상 · 힘줄 질환</h3>
+          <p>종아리 근육 파열(테니스 레그) · 드퀘르뱅 증후군 · 테니스 엘보우 · 골프 엘보우</p>
+          <span class="card-more">자세히 보기 →</span>
+        </a>
+
+        <a class="subject-card" id="cat-ankle" href="foot.html">
+          <span class="cat-tag">통증</span>
+          <h3>발 · 발목 질환</h3>
+          <p>평발 · 족저근막염 · 발목 염좌 후유증 · 족근관 증후군 · 지간신경종 · 종자골염 · 무지외반 · X자 다리 · 소아 평발</p>
+          <span class="card-more">자세히 보기 →</span>
+        </a>
+
         <div class="subject-card" id="cat-internal">
           <span class="cat-tag">내과</span>
           <h3>내과 질환</h3>
@@ -1089,16 +1159,10 @@
       <p class="lead">진료실에서 나누는 깊이 있는 건강 이야기</p>
 
       <div class="column-teaser-grid" id="columnTeaserGrid">
-        <a class="column-teaser" href="column.html">
-          <span class="cat-tag">원장 이야기</span>
-          <h3>13년 차 한의사가 매일 진료실 문을 열며 품는 생각</h3>
-          <p>같은 증상도 사람마다 낫는 속도가 다른 이유를 고민하며, 몸이 아니라 삶 전체를 들여다보게 된 과정을 담은 원장의 진료 철학 이야기.</p>
-        </a>
-        <a class="column-teaser" href="column.html">
-          <span class="cat-tag">턱관절·감각기관</span>
-          <h3>삼차신경통, 왜 얼굴 한쪽만 아픈가요? 치료 정리</h3>
-          <p>세수나 양치 같은 가벼운 자극에도 얼굴 한쪽이 발작적으로 아픈 삼차신경통의 특징과, 턱관절·경추와의 연관성, 약침·추나·한약이 각각 맡는 역할을 정리했습니다.</p>
-        </a>
+<!--TEASERS_START-->
+        <a class="column-teaser" href="/column/healthy-walking-foot-exercises/"><span class="cat-tag">발목관절</span><h3>걸을수록 발이 아프다면? 발을 지키는 바른 걷기와 발 운동 다섯 가지</h3><p>같은 길을 걸어도 어떻게 걷느냐에 따라 발이 받는 부담은 달라집니다. 바른 걸음의 세 단계, 집에서 내 걸음을 확인하는 방법, 발 운동만으로 충분한지, 집에서 하는 발 운동 다섯 가지를 정리했습니다.</p></a>
+        <a class="column-teaser" href="/column/cough-lasting-weeks-how-long-to-wait/"><span class="cat-tag">원장 이야기</span><h3>기침이 몇 주째 안 멈춰요, 언제까지 기다려야 하나요? 도농역에서 자주 듣는 질문</h3><p>감기는 나았는데 기침만 몇 주째 남았다면 언제까지 기다려도 될까요? 3주·8주 기준으로 기침을 나누는 법, 검사가 먼저 필요한 신호, 마른기침과 가래 기침에 따라 달라지는 한의원 치료를 정리했습니다.</p></a>
+<!--TEASERS_END-->
       </div>
 
       <a class="btn btn-line" href="column.html" style="margin-top:32px; display:inline-block;">전체 칼럼 보기</a>
@@ -1199,6 +1263,7 @@
     a.addEventListener('click', function(){
       nav.classList.remove('open');
       toggle.setAttribute('aria-expanded', 'false');
+      a.blur();
     });
   });
 
@@ -1327,51 +1392,6 @@
     }
   })();
 
-  /* 원장칼럼 미리보기 - 관리자 페이지에서 발행한 최신 칼럼 반영 */
-  (function(){
-    var CATEGORY_LABELS = {
-      philosophy: '원장 이야기',
-      headache: '두통 · 어지러움',
-      jaw: '턱관절',
-      sensory: '감각기관 · 신경계',
-      spine: '척추 · 근골격',
-      internal: '내과 질환',
-      pediatric: '소아 클리닉',
-      special: '다이어트 클리닉'
-    };
-
-    function slugify(title){
-      return (title || '').trim().replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-+|-+$/g, '').toLowerCase();
-    }
-
-    function renderTeasers(items){
-      var grid = document.getElementById('columnTeaserGrid');
-      if (!grid || !items || !items.length) return;
-      var sorted = items.map(function(item, i){ return { item: item, i: i }; })
-        .sort(function(a, b){
-          var d = (b.item.date || '').localeCompare(a.item.date || '');
-          return d !== 0 ? d : (b.i - a.i);
-        })
-        .map(function(x){ return x.item; });
-      var top = sorted.slice(0, 2);
-      grid.innerHTML = top.map(function(item){
-        return '<a class="column-teaser" href="column.html?c=' + encodeURIComponent(slugify(item.title)) + '">' +
-          '<span class="cat-tag">' + (CATEGORY_LABELS[item.category] || item.category || '') + '</span>' +
-          '<h3>' + (item.title || '') + '</h3>' +
-          '<p>' + (item.teaser || '') + '</p>' +
-        '</a>';
-      }).join('');
-    }
-
-    fetch('content/columns.json', { cache: 'no-store' })
-      .then(function(res){ return res.ok ? res.json() : null; })
-      .then(function(data){
-        if (data && Array.isArray(data.items) && data.items.length){
-          renderTeasers(data.items);
-        }
-      })
-      .catch(function(){ /* 기본으로 보이는 카드 2개만 유지해도 문제 없음 */ });
-  })();
 </script>
 
 </body>
