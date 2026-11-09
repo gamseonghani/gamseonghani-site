@@ -634,7 +634,8 @@
     .site-nav .has-sub:hover > .submenu.wide,
     .site-nav .has-sub:focus-within > .submenu.wide{ display: grid; }
   }
-  @media (max-width: 759px){ .site-nav .submenu.wide{ display: none; } }</style>
+  @media (max-width: 759px){ .site-nav .submenu.wide{ display: none; } }
+  .site-nav .ext-icon{ width: 0.8em; height: 0.8em; margin-left: 5px; vertical-align: -0.05em; opacity: 0.6; }</style>
 </head>
 <body>
 
@@ -674,7 +675,13 @@
             <li><a href="diet.html">다이어트 클리닉</a></li>
           </ul>
         </li>
-        <li><a href="column.html">원장칼럼</a></li>
+        <li class="has-sub">
+          <a href="column.html" aria-haspopup="true">건강 이야기<span class="caret" aria-hidden="true">▾</span></a>
+          <ul class="submenu">
+            <li><a href="column.html">원장칼럼</a></li>
+            <li><a href="https://blog.naver.com/breezer-dr" target="_blank" rel="noopener">블로그<svg class="ext-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M9 3h4v4M13 3L7 9M11 9.5V13H3V5h3.5"/></svg></a></li>
+          </ul>
+        </li>
         <li><a href="index.html#visit">오시는 길</a></li>
       </ul>
       <div class="header-actions">

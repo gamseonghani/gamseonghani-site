@@ -63,9 +63,9 @@
   /* header */
   .site-header{ position:sticky; top:env(safe-area-inset-top,0px); z-index:50; background:var(--bg); border-bottom:1px solid var(--line); }
   .site-header .bar{ display:flex; align-items:center; justify-content:space-between; gap:16px; height:68px; }
-  .wordmark{ font-family:var(--serif); font-size:1.25rem; font-weight:700; color:var(--teal); text-decoration:none; white-space:nowrap; }
-  .main-nav{ display:flex; align-items:center; gap:28px; margin-left:40px; flex:1; }
-  .main-nav > a, .menu-btn{ font-size:.93rem; font-weight:700; color:var(--ink-soft); text-decoration:none; background:none; border:0; padding:6px 0; cursor:pointer; font-family:var(--sans); }
+  .wordmark{ font-family:var(--serif); font-size:1.3rem; font-weight:700; letter-spacing:-0.02em; color:var(--teal); text-decoration:none; white-space:nowrap; }
+  .main-nav{ display:flex; align-items:center; gap:34px; margin-left:40px; flex:1; }
+  .main-nav > a, .menu-btn{ font-size:1.08rem; font-weight:700; color:var(--ink-soft); text-decoration:none; background:none; border:0; padding:6px 0; cursor:pointer; font-family:var(--sans); }
   .main-nav > a:hover, .menu-btn:hover{ color:var(--teal); }
   .menu-btn.current{ color:var(--teal); }
   .dd{ position:relative; }
@@ -73,9 +73,11 @@
   /* 드롭다운: 마우스를 올리거나(데스크톱) 버튼을 누르면 열림 */
   .dd-panel{ position:absolute; top:calc(100% + 12px); left:-18px; min-width:200px; background:var(--bg); border:1px solid var(--line); border-radius:10px; box-shadow:0 12px 30px rgba(0,0,0,.08); padding:8px; display:none; z-index:60; }
   .dd-panel::before{ content:""; position:absolute; left:0; right:0; top:-14px; height:14px; }
-  .dd.open .dd-panel{ display:grid; }
-  @media (hover:hover){ .dd:not(.picked):hover .dd-panel{ display:grid; } }
-  .dd-panel a{ display:block; padding:10px 14px; border-radius:6px; font-size:.92rem; text-decoration:none; color:var(--ink-soft); }
+  .dd:not(.picked):hover .dd-panel, .dd:not(.picked):focus-within .dd-panel{ display:grid; }
+  .dd-panel.wide{ grid-template-columns:repeat(2, minmax(0,1fr)); min-width:400px; }
+  .menu-btn .caret{ font-size:.7em; margin-left:4px; }
+  .dd-panel .ext-icon{ width:.8em; height:.8em; margin-left:5px; vertical-align:-.05em; opacity:.6; }
+  .dd-panel a{ display:block; padding:9px 14px; border-radius:6px; font-size:.95rem; font-weight:500; white-space:nowrap; text-decoration:none; color:var(--ink-soft); }
   .dd-panel a:hover, .dd-panel a[aria-current="page"]{ background:var(--bg-raised); color:var(--teal); font-weight:500; }
   .btn-pill{ display:inline-flex; align-items:center; justify-content:center; background:var(--teal); color:#FFFFFF; font-size:.9rem; font-weight:700; line-height:1; padding:12px 20px; border-radius:999px; text-decoration:none; white-space:nowrap; }
   .btn-pill:hover{ background:var(--teal-deep); }
@@ -262,20 +264,36 @@
   <div class="wrap bar">
     <a class="wordmark" href="https://gamseonghani.com/">감성한의원</a>
     <nav class="main-nav" aria-label="주 메뉴">
-      <a href="https://gamseonghani.com/#philosophy">한의원 소개</a>
-      <a href="https://gamseonghani.com/#subjects">통증 진료</a>
-      <div class="dd" id="dd">
-        <button class="menu-btn current" id="ddBtn" type="button" aria-expanded="false" aria-controls="ddPanel">다이어트클리닉 ▾</button>
-        <div class="dd-panel" id="ddPanel">
-          <a href="#overview">다이어트 개요</a>
-          <a href="#lean">린다이어트 개요</a>
-          <a href="#obesity">비만·체중관리</a>
-          <a href="#partial">부분비만 관리</a>
-          <a href="#column">다이어트 칼럼</a>
-          <a href="#review">다이어트 후기</a>
+      <div class="dd">
+        <a class="menu-btn" href="index.html#philosophy" aria-haspopup="true">한의원 소개<span class="caret" aria-hidden="true">▾</span></a>
+        <div class="dd-panel">
+          <a href="index.html#philosophy">한의원 소개</a>
+          <a href="index.html#process">진료 과정</a>
         </div>
       </div>
-      <a href="https://gamseonghani.com/#visit">오시는 길</a>
+      <div class="dd">
+        <a class="menu-btn current" href="index.html#subjects" aria-haspopup="true">진료과목<span class="caret" aria-hidden="true">▾</span></a>
+        <div class="dd-panel wide">
+          <a href="index.html#cat-headache">두통 · 어지러움</a>
+          <a href="index.html#cat-jaw">턱관절</a>
+          <a href="accident.html">교통사고</a>
+          <a href="index.html#cat-sensory">감각기관 · 신경계</a>
+          <a href="index.html#cat-spine">척추 · 근골격</a>
+          <a href="sports.html">스포츠 손상 · 힘줄 질환</a>
+          <a href="foot.html">발 · 발목 질환</a>
+          <a href="index.html#cat-internal">내과 질환</a>
+          <a href="pediatric.html">소아 클리닉</a>
+          <a href="#overview">다이어트 클리닉</a>
+        </div>
+      </div>
+      <div class="dd">
+        <a class="menu-btn" href="column.html" aria-haspopup="true">건강 이야기<span class="caret" aria-hidden="true">▾</span></a>
+        <div class="dd-panel">
+          <a href="column.html">원장칼럼</a>
+          <a href="https://blog.naver.com/breezer-dr" target="_blank" rel="noopener">블로그<svg class="ext-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M9 3h4v4M13 3L7 9M11 9.5V13H3V5h3.5"/></svg></a>
+        </div>
+      </div>
+      <a href="index.html#visit">오시는 길</a>
     </nav>
     <a class="btn-pill" href="https://leandiet.co.kr/@gamseong" target="_blank" rel="noopener">진료 받기</a>
   </div>
@@ -684,7 +702,7 @@
   const PAGES = ["overview","lean","obesity","partial","column","review"];
   const pages = {};
   PAGES.forEach(id => pages[id] = document.getElementById("p-" + id));
-  const links = document.querySelectorAll('.subnav a, .dd-panel a');
+  const links = document.querySelectorAll('.subnav a');
 
   function route(scroll) {
     let id = (location.hash || "").slice(1);
@@ -704,27 +722,18 @@
       else window.scrollTo(0, 0);
     }
   }
-  window.addEventListener("hashchange", () => { closeDD(); route(true); });
+  window.addEventListener("hashchange", () => route(true));
   route(false);
 
-  /* ---- 다이어트클리닉 드롭다운 ---- */
-  const dd = document.getElementById("dd");
-  const ddBtn = document.getElementById("ddBtn");
-  function closeDD() { dd.classList.remove("open"); ddBtn.setAttribute("aria-expanded", "false"); }
-  ddBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    const open = !dd.classList.contains("open");
-    dd.classList.toggle("open", open);
-    ddBtn.setAttribute("aria-expanded", String(open));
+  /* ---- 상단 드롭다운: 마우스를 올리면 열리고, 항목을 누르면 닫힘 ---- */
+  document.querySelectorAll(".dd").forEach(dd => {
+    dd.querySelectorAll(".dd-panel a").forEach(a => a.addEventListener("click", () => {
+      dd.classList.add("picked");   // 클릭 직후 마우스가 메뉴 위에 있어도 닫히도록
+      a.blur();
+    }));
+    dd.addEventListener("mouseleave", () => dd.classList.remove("picked"));
   });
-  document.addEventListener("click", (e) => { if (!dd.contains(e.target)) closeDD(); });
-  document.querySelectorAll(".dd-panel a").forEach(a => a.addEventListener("click", () => {
-    closeDD();
-    dd.classList.add("picked");   // 클릭 직후 마우스가 메뉴 위에 있어도 닫히도록
-    a.blur();
-  }));
-  dd.addEventListener("mouseleave", () => dd.classList.remove("picked"));
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDD(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && document.activeElement) document.activeElement.blur(); });
 
   /* ---- 8단계 사다리 ---- */
   const bars = document.getElementById("ladderBars");
