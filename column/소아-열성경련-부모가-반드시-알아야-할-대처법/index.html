@@ -132,7 +132,7 @@
     position: relative;
   }
   .wordmark{
-    font-family: "Noto Serif KR", serif;
+    font-family: "Noto Sans KR", -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; letter-spacing: -0.02em;
     font-size: 1.3rem;
     font-weight: 700;
     color: var(--teal);
@@ -237,7 +237,7 @@
   }
   .site-nav a{
     text-decoration: none;
-    font-size: 0.95rem;
+    font-size: 1.08rem;
     font-weight: 700;
     color: var(--ink-soft);
     position: relative;
@@ -1125,6 +1125,33 @@
   }
   .column-body td{ color: var(--ink-soft); }
 
+
+  /* 한의원 소개 · 진료과목 하위 메뉴 (데스크톱: 마우스를 올리면 열림 / 모바일: 펼친 메뉴 안에 들여쓰기로 표시) */
+  .site-nav .has-sub{ position: relative; }
+  .site-nav .has-sub .caret{ font-size: 0.7em; margin-left: 4px; }
+  .site-nav .submenu{ list-style: none; margin: 12px 0 0; padding: 0 0 0 14px; display: flex; flex-direction: column; gap: 12px; }
+  .site-nav .submenu a{ font-weight: 500; }
+  @media (min-width: 760px){
+    .site-nav .submenu{
+      display: none;
+      position: absolute; top: calc(100% + 14px); left: -16px;
+      min-width: 160px; margin: 0; padding: 8px; gap: 0;
+      background: var(--bg); border: 1px solid var(--line); border-radius: 10px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+      z-index: 60;
+    }
+    .site-nav .submenu::before{ content: ""; position: absolute; left: 0; right: 0; top: -16px; height: 16px; }
+    .site-nav .has-sub:hover > .submenu,
+    .site-nav .has-sub:focus-within > .submenu{ display: flex; }
+    .site-nav .submenu a{ display: block; padding: 9px 14px; border-radius: 6px; white-space: nowrap; }
+    .site-nav .submenu a::after{ display: none; }
+    .site-nav .submenu a:hover, .site-nav .submenu a:focus-visible{ background: var(--bg-raised); color: var(--teal); }
+    .site-nav .submenu.wide{ grid-template-columns: repeat(2, minmax(0, 1fr)); min-width: 400px; }
+    .site-nav .has-sub:hover > .submenu.wide,
+    .site-nav .has-sub:focus-within > .submenu.wide{ display: grid; }
+  }
+  @media (max-width: 759px){ .site-nav .submenu.wide{ display: none; } }
+  .site-nav .ext-icon{ width: 0.8em; height: 0.8em; margin-left: 5px; vertical-align: -0.05em; opacity: 0.6; }
 </style>
 </head>
 <body>
@@ -1143,10 +1170,35 @@
     <button class="nav-toggle" aria-expanded="false" aria-controls="mainNav" id="navToggle">메뉴</button>
     <nav class="site-nav" id="mainNav">
       <ul>
-        <li><a href="/index.html#philosophy">한의원 소개</a></li>
-        <li><a href="/index.html#process">진료 과정</a></li>
-        <li><a href="/index.html#subjects">진료과목</a></li>
-        <li><a href="/column.html">원장칼럼</a></li>
+        <li class="has-sub">
+          <a href="/index.html#philosophy" aria-haspopup="true">한의원 소개<span class="caret" aria-hidden="true">▾</span></a>
+          <ul class="submenu">
+            <li><a href="/index.html#philosophy">한의원 소개</a></li>
+            <li><a href="/index.html#process">진료 과정</a></li>
+          </ul>
+        </li>
+        <li class="has-sub">
+          <a href="/index.html#subjects" aria-haspopup="true">진료과목<span class="caret" aria-hidden="true">▾</span></a>
+          <ul class="submenu wide">
+            <li><a href="/index.html#cat-headache">두통 · 어지러움</a></li>
+            <li><a href="/index.html#cat-jaw">턱관절</a></li>
+            <li><a href="/accident.html">교통사고</a></li>
+            <li><a href="/index.html#cat-sensory">감각기관 · 신경계</a></li>
+            <li><a href="/index.html#cat-spine">척추 · 근골격</a></li>
+            <li><a href="/sports.html">스포츠 손상 · 힘줄 질환</a></li>
+            <li><a href="/foot.html">발 · 발목 질환</a></li>
+            <li><a href="/index.html#cat-internal">내과 질환</a></li>
+            <li><a href="/pediatric.html">소아 클리닉</a></li>
+            <li><a href="/diet.html">다이어트 클리닉</a></li>
+          </ul>
+        </li>
+        <li class="has-sub">
+          <a href="/column.html" aria-haspopup="true">건강 이야기<span class="caret" aria-hidden="true">▾</span></a>
+          <ul class="submenu">
+            <li><a href="/column.html">원장칼럼</a></li>
+            <li><a href="https://blog.naver.com/breezer-dr" target="_blank" rel="noopener">블로그<svg class="ext-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M9 3h4v4M13 3L7 9M11 9.5V13H3V5h3.5"/></svg></a></li>
+          </ul>
+        </li>
         <li><a href="/index.html#visit">오시는 길</a></li>
       </ul>
       <div class="header-actions">
@@ -1325,6 +1377,7 @@
     a.addEventListener('click', function(){
       nav.classList.remove('open');
       toggle.setAttribute('aria-expanded', 'false');
+      a.blur();
     });
   });
 
