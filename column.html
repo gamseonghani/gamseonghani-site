@@ -1224,6 +1224,7 @@
         <button type="button" data-filter="spine">척추·근골격</button>
         <button type="button" data-filter="ankle">발목관절</button>
         <button type="button" data-filter="internal">내과 질환</button>
+        <button type="button" data-filter="gyn">부인과</button>
         <button type="button" data-filter="pediatric">소아 클리닉</button>
         <button type="button" data-filter="special">다이어트 클리닉</button>
       </div>
@@ -1238,7 +1239,7 @@
         <a class="column-card" href="/column/arm-numbness-from-neck/" data-category="spine"><div class="thumb"><img src="/column/arm-numbness-from-neck/thumb-6a59e9a0.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">척추 · 근골격</span><h3>목에서 팔로 뻗치는 저림, 목디스크와 목 옆 근육 구분하기</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-11-24</p></div></a>
         <a class="column-card" href="/column/pillow-height-and-neck/" data-category="spine"><div class="thumb"><img src="/column/pillow-height-and-neck/thumb-4630fc6f.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">척추 · 근골격</span><h3>베개 높이와 목, 아침마다 목이 뻐근한 이유</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-11-24</p></div></a>
         <a class="column-card" href="/column/straight-neck-cause-or-result/" data-category="spine"><div class="thumb"><img src="/column/straight-neck-cause-or-result/thumb-37096ec9.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">척추 · 근골격</span><h3>일자목은 원인일까 결과일까, 사진 속 목뼈와 뒷목 근육</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-11-23</p></div></a>
-        <a class="column-card" href="/column/period-cramps-ankle-acupressure-really-work/" data-category="internal"><div class="thumb"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M9 10c0 3 1 5 3 5s3-2 3-5"/></svg></div><div class="card-body"><span class="cat-tag">내과 질환</span><h3>생리통 때 발목 안쪽 누르라던데, 진짜 효과 있나요? 다산동한의원에서 자주 받는 질문</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-11-23</p></div></a>
+        <a class="column-card" href="/column/period-cramps-ankle-acupressure-really-work/" data-category="gyn"><div class="thumb"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="M12 14v7M9 18h6"/></svg></div><div class="card-body"><span class="cat-tag">부인과</span><h3>생리통 때 발목 안쪽 누르라던데, 진짜 효과 있나요? 다산동한의원에서 자주 받는 질문</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-11-23</p></div></a>
         <a class="column-card" href="/column/hallux-valgus-knee-back-pain-connection/" data-category="ankle"><div class="thumb"><img src="/column/hallux-valgus-knee-back-pain-connection/thumb-b17fb7c4.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">발목관절</span><h3>무지외반이 있으면 무릎이나 허리도 아파지나요?</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-11-22</p></div></a>
         <a class="column-card" href="/column/stiff-neck-after-sleep/" data-category="spine"><div class="thumb"><img src="/column/stiff-neck-after-sleep/thumb-53e681f5.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">척추 · 근골격</span><h3>자고 일어났더니 고개가 안 돌아가는 이유, 담 걸린 목과 견갑거근</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-11-20</p></div></a>
         <a class="column-card" href="/column/ankle-sprain-chuna-fibula-hip/" data-category="ankle"><div class="thumb"><img src="/column/ankle-sprain-chuna-fibula-hip/thumb-284ee901.jpg" alt="" loading="lazy"></div><div class="card-body"><span class="cat-tag">발목관절</span><h3>삔 발목, 왜 종아리와 고관절까지 볼까요? 발목 염좌와 추나</h3><p class="meta">권오경 원장<span class="dot">·</span>2026-11-19</p></div></a>
@@ -1512,6 +1513,7 @@
     spine: '척추 · 근골격',
     ankle: '발목관절',
     internal: '내과 질환',
+    gyn: '부인과',
     pediatric: '소아 클리닉',
     special: '다이어트 클리닉'
   };
@@ -1524,6 +1526,7 @@
     spine: 'cat-spine',
     ankle: 'cat-ankle',
     internal: 'cat-internal',
+    gyn: 'cat-gyn',
     pediatric: 'cat-pediatric',
     special: 'cat-special'
   };
@@ -1541,6 +1544,7 @@
     spine: '<path d="M12 2.5v19"/><path d="M7.5 6h9M7.5 10h9M7.5 14h9M7.5 18h9"/>',
     ankle: '<path d="M9 3v9l-4 4c-1 1-.5 3 1.5 3H18c1.5 0 2-1.5 1-2.5l-3.5-2.5V3"/><path d="M9 12h6"/>',
     internal: '<circle cx="12" cy="12" r="8"/><path d="M9 10c0 3 1 5 3 5s3-2 3-5"/>',
+    gyn: '<circle cx="12" cy="9" r="5"/><path d="M12 14v7M9 18h6"/>',
     pediatric: '<circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/>',
     special: '<path d="M12 21c-5-4-8-7.5-8-11a5 5 0 0 1 8-4 5 5 0 0 1 8 4c0 3.5-3 7-8 11z"/>'
   };
