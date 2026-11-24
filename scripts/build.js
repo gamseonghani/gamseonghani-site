@@ -53,7 +53,7 @@ const CATEGORY_ICONS = {
   pediatric: '<circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3-7 7-7s7 3 7 7"/>',
   special: '<path d="M12 21c-5-4-8-7.5-8-11a5 5 0 0 1 8-4 5 5 0 0 1 8 4c0 3.5-3 7-8 11z"/>'
 };
-const STATIC_PAGES = ['index.html', 'accident.html', 'diet.html', 'pediatric.html', 'gyn.html', 'sports.html', 'foot.html', 'column.html'];
+const STATIC_PAGES = ['index.html', 'accident.html', 'diet.html', 'pediatric.html', 'gyn.html', 'sports.html', 'foot.html', 'column.html', 'video.html'];
 
 const read = (p) => fs.readFileSync(path.join(ROOT, p), 'utf8');
 const write = (p, s) => { fs.mkdirSync(path.dirname(path.join(ROOT, p)), { recursive: true }); fs.writeFileSync(path.join(ROOT, p), s); };
@@ -292,4 +292,30 @@ function main() {
   console.log('칼럼 페이지 ' + pageCount + '개, 이미지 ' + imgCounter.n + '개, 사이트맵 URL ' + urls.length + '개 생성');
 }
 
-main();
+// ---- 영상 페이지: content/videos.json 의 영상 카드와 구조화 데이터(VideoObject)를 채웁니다 ----
+function buildVideos(store) {
+  if (!fs.existsSync(path.join(ROOT, 'video.html'))) return;
+  const items = (store && store.items) || [];
+  const fmt = (d) => { const m = String(d || '').match(/^(\d{4})-(\d{2})-(\d{2})/); return m ? m[1] + '.' + m[2] + '.' + m[3] : ''; };
+  const cards = items.length ? items.map((v) => {
+    const href = 'https://www.youtube.com/watch?v=' + encodeURIComponent(v.id);
+    return '        <a class="video-card" href="' + esc(href) + '" target="_blank" rel="noopener">\n' +
+      '          <span class="video-thumb"><img src="https://i.ytimg.com/vi/' + esc(v.id) + '/hqdefault.jpg" alt="' + esc(v.title) + ' 영상 썸네일" loading="lazy" decoding="async"><span class="video-play" aria-hidden="true"></span></span>\n' +
+      '          <span class="video-body"><h3>' + esc(v.title) + '</h3><p>' + esc(fmt(v.published)) + '</p></span>\n' +
+      '        </a>';
+  }).join('\n') : '        <p class="video-empty">영상 목록을 준비 중입니다. 유튜브 채널에서 바로 보실 수 있습니다.</p>';
+  const ld = items.length ? '<script type="application/ld+json">' + JSON.stringify({
+    '@context': 'https://schema.org', '@graph': items.slice(0, 30).map((v) => ({
+      '@type': 'VideoObject', name: v.title, description: (v.description || v.title).slice(0, 300),
+      thumbnailUrl: 'https://i.ytimg.com/vi/' + v.id + '/hqdefault.jpg', uploadDate: v.published || undefined,
+      embedUrl: 'https://www.youtube.com/embed/' + v.id, contentUrl: 'https://www.youtube.com/watch?v=' + v.id,
+    })),
+  }).replace(/</g, '\\u003c') + '</script>' : '';
+  let html = read('video.html');
+  html = replaceBetween(html, '<!--VIDEOS_START-->', '<!--VIDEOS_END-->', cards);
+  html = replaceBetween(html, '<!--VIDEO_LD_START-->', '<!--VIDEO_LD_END-->', ld);
+  write('video.html', html);
+  console.log('영상 페이지: ' + items.length + '개');
+}
+
+require('./fetch-videos').main().then((store) => { main(); buildVideos(store); });
