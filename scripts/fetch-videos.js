@@ -17,6 +17,30 @@ const decode = (s) => String(s || '')
   .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'")
   .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(+n)).replace(/&amp;/g, '&');
 
+const LINKS = path.resolve(__dirname, '..', 'content', 'video-links.txt');
+
+// content/video-links.txt : 한 줄에 영상 하나. "주소" 또는 "주소 | 제목 | 2026-01-31"(제목·날짜는 생략 가능)
+function readLinks() {
+  let txt = '';
+  try { txt = fs.readFileSync(LINKS, 'utf8'); } catch (e) { return []; }
+  const out = [];
+  txt.split(/\r?\n/).forEach((line) => {
+    line = line.trim();
+    if (!line || line[0] === '#') return;
+    const [url, title, date] = line.split('|').map((x) => x.trim());
+    const m = String(url).match(/(?:v=|youtu\.be\/|shorts\/|embed\/)([\w-]{11})/);
+    if (m) out.push({ id: m[1], title: title || '', published: date ? date.slice(0, 10) : '' });
+  });
+  return out;
+}
+
+async function oembedTitle(id) {
+  try {
+    const j = JSON.parse(await get('https://www.youtube.com/oembed?format=json&url=' + encodeURIComponent('https://www.youtube.com/watch?v=' + id)));
+    return String(j.title || '').trim();
+  } catch (e) { return ''; }
+}
+
 function load() {
   try { return JSON.parse(fs.readFileSync(FILE, 'utf8')); } catch (e) { return { channel: {}, items: [] }; }
 }
@@ -71,6 +95,24 @@ async function main() {
     console.log('영상: 채널에서 ' + feed.items.length + '개를 읽어 총 ' + store.items.length + '개 보관');
   } catch (e) {
     console.log('영상: 유튜브에서 가져오지 못해 저장된 ' + (store.items || []).length + '개를 사용합니다 (' + e.message + ')');
+  }
+  // 직접 적어 둔 예전 영상(content/video-links.txt)을 합칩니다. 채널 피드에 이미 있는 영상은 그쪽 정보를 우선합니다.
+  const links = readLinks();
+  if (links.length) {
+    store.items = store.items || [];
+    const have = new Map(store.items.map((v) => [v.id, v]));
+    for (const l of links) {
+      const cur = have.get(l.id);
+      if (cur && cur.title && !cur.titleMissing) { if (!l.title || !cur.manual) continue; }
+      let title = l.title || (cur && !cur.titleMissing && cur.title) || await oembedTitle(l.id);
+      const item = Object.assign({}, cur || {}, { id: l.id, title: title || '권오경 원장 영상', published: (cur && cur.published) || l.published || '', manual: true });
+      if (!title) item.titleMissing = true; else delete item.titleMissing;
+      if (cur) Object.assign(cur, item); else { store.items.push(item); have.set(l.id, item); }
+    }
+    const rank = (v) => (v.published ? 0 : 1);
+    store.items = store.items.map((v, i) => [v, i]).sort((a, b) => rank(a[0]) - rank(b[0]) || (rank(a[0]) === 0 ? String(b[0].published).localeCompare(String(a[0].published)) : a[1] - b[1])).map((x) => x[0]);
+    try { fs.mkdirSync(path.dirname(FILE), { recursive: true }); fs.writeFileSync(FILE, JSON.stringify(store, null, 2) + '\n'); } catch (e) {}
+    console.log('영상: 직접 적은 링크 ' + links.length + '개 반영');
   }
   return store;
 }
