@@ -162,8 +162,9 @@ function main() {
 
   const teasers = newest.slice(0, 2).map((it) =>
     '        <a class="column-teaser" href="/column/' + esc(encodeURIComponent(it.slug)) + '/">' +
-    '<span class="cat-tag">' + esc(CATEGORY_LABELS[it.category] || it.category || '') + '</span>' +
-    '<h3>' + esc(it.title) + '</h3><p>' + esc(it.teaser || description(it)) + '</p></a>').join('\n');
+    (thumbUrls[it.slug] ? '<span class="teaser-thumb"><img src="' + esc(thumbUrls[it.slug]) + '" alt="" loading="lazy" decoding="async"></span>' : '') +
+    '<span class="teaser-body"><span class="cat-tag">' + esc(CATEGORY_LABELS[it.category] || it.category || '') + '</span>' +
+    '<h3>' + esc(it.title) + '</h3><p>' + esc(it.teaser || description(it)) + '</p></span></a>').join('\n');
   write('index.html', replaceBetween(read('index.html'), '<!--TEASERS_START-->', '<!--TEASERS_END-->', teasers));
 
   // ---- 글별 페이지 ----

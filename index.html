@@ -604,10 +604,14 @@
     text-decoration: none;
     border: 1px solid var(--line);
     border-radius: 4px;
-    padding: 28px;
+    overflow: hidden;
     transition: border-color .2s ease;
   }
   .column-teaser:hover{ border-color: var(--teal); }
+  .column-teaser .teaser-thumb{ display: block; aspect-ratio: 16 / 9; background: #ece8dc; overflow: hidden; }
+  .column-teaser .teaser-thumb img{ width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s ease; }
+  .column-teaser:hover .teaser-thumb img{ transform: scale(1.03); }
+  .column-teaser .teaser-body{ display: block; padding: 24px 28px 28px; }
   .column-teaser .cat-tag{
     display: inline-block;
     font-size: 0.78rem;
@@ -1128,8 +1132,8 @@
 
       <div class="column-teaser-grid" id="columnTeaserGrid">
 <!--TEASERS_START-->
-        <a class="column-teaser" href="/column/tension-headache-suboccipital/"><span class="cat-tag">두통 · 어지러움</span><h3>뒤통수에서 시작되는 두통, 머리를 띠처럼 조이는 이유</h3><p>머리를 띠로 두른 듯 조이고 오후마다 뒤통수가 묵직해지는 두통은 뒤통수 아래 근육에서 시작되는 경우가 많습니다. 두통이 시작되는 목의 자리와 오후에 심해지는 이유, 진료에서 살펴보는 내용을 정리했습니다.</p></a>
-        <a class="column-teaser" href="/column/whiplash-delayed-neck-pain/"><span class="cat-tag">척추 · 근골격</span><h3>교통사고 뒤 목 통증이 며칠 뒤에 나타나는 이유</h3><p>교통사고 당일에는 괜찮았는데 며칠 뒤 목이 뻣뻣해지는 경우가 많습니다. 충돌 순간 목 앞뒤 근육에 생기는 일과 통증이 늦게 나타나는 이유, 원래 자세를 함께 봐야 하는 까닭을 정리했습니다.</p></a>
+        <a class="column-teaser" href="/column/tension-headache-suboccipital/"><span class="teaser-thumb"><img src="/column/tension-headache-suboccipital/thumb-c6e6cd26.jpg" alt="" loading="lazy" decoding="async"></span><span class="teaser-body"><span class="cat-tag">두통 · 어지러움</span><h3>뒤통수에서 시작되는 두통, 머리를 띠처럼 조이는 이유</h3><p>머리를 띠로 두른 듯 조이고 오후마다 뒤통수가 묵직해지는 두통은 뒤통수 아래 근육에서 시작되는 경우가 많습니다. 두통이 시작되는 목의 자리와 오후에 심해지는 이유, 진료에서 살펴보는 내용을 정리했습니다.</p></span></a>
+        <a class="column-teaser" href="/column/whiplash-delayed-neck-pain/"><span class="teaser-thumb"><img src="/column/whiplash-delayed-neck-pain/thumb-87a801b6.jpg" alt="" loading="lazy" decoding="async"></span><span class="teaser-body"><span class="cat-tag">척추 · 근골격</span><h3>교통사고 뒤 목 통증이 며칠 뒤에 나타나는 이유</h3><p>교통사고 당일에는 괜찮았는데 며칠 뒤 목이 뻣뻣해지는 경우가 많습니다. 충돌 순간 목 앞뒤 근육에 생기는 일과 통증이 늦게 나타나는 이유, 원래 자세를 함께 봐야 하는 까닭을 정리했습니다.</p></span></a>
 <!--TEASERS_END-->
       </div>
 
