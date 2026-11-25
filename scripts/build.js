@@ -300,14 +300,15 @@ function buildVideos(store) {
   const items = (store && store.items) || [];
   let sums = {}; try { sums = JSON.parse(fs.readFileSync(path.join(ROOT, 'content/video-summaries.json'), 'utf8')); } catch (e) {}
   const fmt = (d) => { const m = String(d || '').match(/^(\d{4})-(\d{2})-(\d{2})/); return m ? m[1] + '.' + m[2] + '.' + m[3] : ''; };
-  const cards = items.length ? items.map((v) => {
+  const card = (v) => {
     const href = 'https://www.youtube.com/watch?v=' + encodeURIComponent(v.id);
     const sum = sums[v.id] || '';
     return '        <a class="video-card" href="' + esc(href) + '" target="_blank" rel="noopener">\n' +
       '          <span class="video-thumb"><img src="https://i.ytimg.com/vi/' + esc(v.id) + '/maxresdefault.jpg" alt="' + esc(v.title) + ' 영상 썸네일" loading="lazy" decoding="async" onerror="this.onerror=null;this.src=\'https://i.ytimg.com/vi/' + esc(v.id) + '/hqdefault.jpg\';this.classList.add(\'zoom\')"><span class="video-play" aria-hidden="true"></span></span>\n' +
       '          <span class="video-body"><h3>' + esc(v.title) + '</h3>' + (sum ? '<span class="video-sum">' + esc(sum) + '</span>' : '') + '<span class="video-ch">' + YTICON + '출처 · YouTube 「통증 잡는 한의사 권오경」' + (fmt(v.published) ? ' · ' + esc(fmt(v.published)) : '') + '</span></span>\n' +
       '        </a>';
-  }).join('\n') : '        <p class="video-empty">영상 목록을 준비 중입니다. 유튜브 채널에서 바로 보실 수 있습니다.</p>';
+  };
+  const cards = items.length ? items.map(card).join('\n') : '        <p class="video-empty">영상 목록을 준비 중입니다. 유튜브 채널에서 바로 보실 수 있습니다.</p>';
   const ld = items.length ? '<script type="application/ld+json">' + JSON.stringify({
     '@context': 'https://schema.org', '@graph': items.slice(0, 30).map((v) => ({
       '@type': 'VideoObject', name: v.title, description: (v.description || v.title).slice(0, 300),
@@ -319,6 +320,9 @@ function buildVideos(store) {
   html = replaceBetween(html, '<!--VIDEOS_START-->', '<!--VIDEOS_END-->', cards);
   html = replaceBetween(html, '<!--VIDEO_LD_START-->', '<!--VIDEO_LD_END-->', ld);
   write('video.html', html);
+  if (items.length && fs.existsSync(path.join(ROOT, 'index.html'))) {
+    write('index.html', replaceBetween(read('index.html'), '<!--HOMEVIDEOS_START-->', '<!--HOMEVIDEOS_END-->', items.slice(0, 2).map(card).join('\n')));
+  }
   console.log('영상 페이지: ' + items.length + '개');
 }
 
