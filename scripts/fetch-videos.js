@@ -27,9 +27,14 @@ function readLinks() {
   txt.split(/\r?\n/).forEach((line) => {
     line = line.trim();
     if (!line || line[0] === '#') return;
-    const [url, title, date] = line.split('|').map((x) => x.trim());
+    const parts = line.split('|').map((x) => x.trim());
+    const url = parts.shift();
+    // 맨 끝 칸이 2026-01-31 같은 날짜면 날짜로, 나머지는 (제목 안에 | 가 있어도) 제목으로 씁니다.
+    let date = '';
+    if (parts.length && /^\d{4}-\d{2}-\d{2}$/.test(parts[parts.length - 1])) date = parts.pop();
+    const title = parts.join(' | ');
     const m = String(url).match(/(?:v=|youtu\.be\/|shorts\/|embed\/)([\w-]{11})/);
-    if (m) out.push({ id: m[1], title: title || '', published: date ? date.slice(0, 10) : '' });
+    if (m) out.push({ id: m[1], title: title || '', published: date });
   });
   return out;
 }
