@@ -294,6 +294,7 @@ function main() {
 }
 
 // ---- 영상 페이지: content/videos.json 의 영상 카드와 구조화 데이터(VideoObject)를 채웁니다 ----
+const YTICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="6" fill="#ff0000"/><path d="M9.5 7.8v8.4l7-4.2z" fill="#fff"/></svg>';
 function buildVideos(store) {
   if (!fs.existsSync(path.join(ROOT, 'video.html'))) return;
   const items = (store && store.items) || [];
@@ -302,7 +303,7 @@ function buildVideos(store) {
     const href = 'https://www.youtube.com/watch?v=' + encodeURIComponent(v.id);
     return '        <a class="video-card" href="' + esc(href) + '" target="_blank" rel="noopener">\n' +
       '          <span class="video-thumb"><img src="https://i.ytimg.com/vi/' + esc(v.id) + '/hqdefault.jpg" alt="' + esc(v.title) + ' 영상 썸네일" loading="lazy" decoding="async"><span class="video-play" aria-hidden="true"></span></span>\n' +
-      '          <span class="video-body"><h3>' + esc(v.title) + '</h3><p>' + esc(fmt(v.published)) + '</p></span>\n' +
+      '          <span class="video-body"><h3>' + esc(v.title) + '</h3>' + (fmt(v.published) ? '<p>' + esc(fmt(v.published)) + '</p>' : '') + '<span class="video-ch">'+YTICON+'통증 잡는 한의사 권오경</span></span>\n' +
       '        </a>';
   }).join('\n') : '        <p class="video-empty">영상 목록을 준비 중입니다. 유튜브 채널에서 바로 보실 수 있습니다.</p>';
   const ld = items.length ? '<script type="application/ld+json">' + JSON.stringify({
